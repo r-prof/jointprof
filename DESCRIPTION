@@ -11,3 +11,5 @@ Date: 2016-11-15
 BugReports: https://github.com/krlmlr/gprofiler/issues
 URL: https://github.com/krlmlr/gprofiler, http://krlmlr.github.io/gprofiler
 Roxygen: list(markdown = TRUE)
+LinkingTo: Rcpp
+Imports: Rcpp
