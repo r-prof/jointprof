@@ -1,0 +1,10 @@
+PKG_CPPFLAGS = -I.
+PKG_LIBS = -lprofiler
+
+all: $(SHLIB)
+
+# This file exists only for R CMD INSTALL, is created as empty file
+# for building from source archive
+Makevars.local:
+	touch "$@"
+include Makevars.local
