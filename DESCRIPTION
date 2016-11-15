@@ -13,3 +13,4 @@ URL: https://github.com/krlmlr/gprofiler, http://krlmlr.github.io/gprofiler
 Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
 Imports: Rcpp
+RoxygenNote: 5.0.1.9000

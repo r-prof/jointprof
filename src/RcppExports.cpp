@@ -5,22 +5,22 @@
 
 using namespace Rcpp;
 
-// start_profiler
-void start_profiler(CharacterVector path);
-RcppExport SEXP gprofiler_start_profiler(SEXP pathSEXP) {
+// start_profiler_impl
+void start_profiler_impl(CharacterVector path);
+RcppExport SEXP gprofiler_start_profiler_impl(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type path(pathSEXP);
-    start_profiler(path);
+    start_profiler_impl(path);
     return R_NilValue;
 END_RCPP
 }
-// stop_profiler
-void stop_profiler();
-RcppExport SEXP gprofiler_stop_profiler() {
+// stop_profiler_impl
+void stop_profiler_impl();
+RcppExport SEXP gprofiler_stop_profiler_impl() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    stop_profiler();
+    stop_profiler_impl();
     return R_NilValue;
 END_RCPP
 }
