@@ -1,0 +1,13 @@
+Package: gprofiler
+Title: What the Package Does (one line, title case)
+Version: 0.0-0
+Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
+Description: What the package does (one paragraph).
+Depends: R (>= 3.3.2)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Date: 2016-11-15
+BugReports: https://github.com/krlmlr/gprofiler/issues
+URL: https://github.com/krlmlr/gprofiler, http://krlmlr.github.io/gprofiler
+Roxygen: list(markdown = TRUE)
