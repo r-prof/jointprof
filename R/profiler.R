@@ -1,5 +1,5 @@
 #' @export
-start_profiler <- function(path) {
+start_profiler <- function(path = "1.prof") {
   start_profiler_impl(path)
 }
 
@@ -9,7 +9,7 @@ stop_profiler <- function() {
 }
 
 #' @export
-show_profiler_pdf <- function(path, focus = NULL) {
+show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
   pprof_exit_code <- system2(
     "google-pprof",
     c("--lines", "--evince", shQuote(file.path(R.home("bin"), "exec/R")),
