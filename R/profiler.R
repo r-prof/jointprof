@@ -1,11 +1,13 @@
 #' @export
 start_profiler <- function(path = "1.prof") {
+  Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
   start_profiler_impl(path)
 }
 
 #' @export
 stop_profiler <- function() {
   stop_profiler_impl()
+  Rprof(NULL)
 }
 
 #' @export
