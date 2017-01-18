@@ -2,6 +2,8 @@
 
 #include "profiler.h"
 
+#include <gperftools/profiler.h>
+
 ProfilerDaisyChain::ProfilerDaisyChain() {
 }
 
@@ -11,6 +13,7 @@ void ProfilerDaisyChain::start(const std::string& path) {
     Rcpp::stop("oops");
   }
 
+  ProfilerOptions options;
   options.filter_in_thread = &filter_in_thread;
   options.filter_in_thread_arg = reinterpret_cast<void*>(this);
   ProfilerStartWithOptions(path.c_str(), &options);

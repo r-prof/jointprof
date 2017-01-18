@@ -1,7 +1,6 @@
 #ifndef __GPROFILER_PROFILER_H
 #define __GPROFILER_PROFILER_H
 
-#include <gperftools/profiler.h>
 #include <signal.h>
 
 class ProfilerDaisyChain {
@@ -16,7 +15,6 @@ private:
   int filter_in_thread();
 
 private:
-  ProfilerOptions options;
   struct sigaction oldact;
 };
 
