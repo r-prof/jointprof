@@ -2,14 +2,22 @@
 
 #include "profiler.h"
 
+#include <signal.h>
 #include <gperftools/profiler.h>
 
-ProfilerDaisyChain::ProfilerDaisyChain() {
+struct ProfilerDaisyChain::Impl {
+  struct sigaction oldact;
+};
+
+ProfilerDaisyChain::ProfilerDaisyChain() : impl(new Impl) {
+}
+
+ProfilerDaisyChain::~ProfilerDaisyChain() {
 }
 
 void ProfilerDaisyChain::start(const std::string& path) {
-  sigaction(SIGPROF, NULL, &oldact);
-  if (oldact.sa_flags & SA_SIGINFO) {
+  sigaction(SIGPROF, NULL, &impl->oldact);
+  if (impl->oldact.sa_flags & SA_SIGINFO) {
     Rcpp::stop("oops");
   }
 
@@ -31,8 +39,8 @@ int ProfilerDaisyChain::filter_in_thread(void* this_) {
 int ProfilerDaisyChain::filter_in_thread() {
   struct sigaction myact;
   sigaction(SIGPROF, NULL, &myact);
-  if (oldact.sa_handler != SIG_DFL && oldact.sa_handler != SIG_IGN) {
-    oldact.sa_handler(SIGPROF);
+  if (impl->oldact.sa_handler != SIG_DFL && impl->oldact.sa_handler != SIG_IGN) {
+    impl->oldact.sa_handler(SIGPROF);
   }
   sigaction(SIGPROF, &myact, NULL);
   return 1;
