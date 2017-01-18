@@ -38,8 +38,7 @@ get_profiler_traces <- function(path = "1.prof") {
 show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
   pprof_exit_code <- system2(
     get_pprof_path(),
-    c("-lines", "-evince", shQuote(file.path(R.home("bin"), "exec", "R")),
-      if (!is.null(focus)) paste0("-focus=", focus),
+    c("-lines", "-evince", if (!is.null(focus)) paste0("-focus=", focus),
       shQuote(path)),
     wait = FALSE)
   if (pprof_exit_code != 0) {
