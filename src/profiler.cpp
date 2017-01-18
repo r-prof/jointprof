@@ -11,6 +11,14 @@ ProfilerDaisyChain::ProfilerDaisyChain() {
   }
 }
 
+void ProfilerDaisyChain::start(const std::string& path) {
+  ProfilerStartWithOptions(path.c_str(), &get_options());
+}
+
+void ProfilerDaisyChain::stop() {
+  ProfilerStop();
+}
+
 const ProfilerOptions& ProfilerDaisyChain::get_options() const {
   return options;
 }
@@ -28,12 +36,4 @@ int ProfilerDaisyChain::filter_in_thread() {
   }
   sigaction(SIGPROF, &myact, NULL);
   return 1;
-}
-
-void ProfilerDaisyChain::start(const std::string& path) {
-  ProfilerStartWithOptions(path.c_str(), &get_options());
-}
-
-void ProfilerDaisyChain::stop() {
-  ProfilerStop();
 }

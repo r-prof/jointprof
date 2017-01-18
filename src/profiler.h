@@ -11,12 +11,10 @@ public:
   void start(const std::string& path);
   void stop();
 
-public:
+private:
   const ProfilerOptions& get_options() const;
 
   static int filter_in_thread(void* this_);
-
-private:
   int filter_in_thread();
 
 private:
