@@ -8,7 +8,8 @@ start_profiler <- function(path = "1.prof") {
 
 #' @export
 stop_profiler <- function() {
-  stop_profiler_impl()
+  on.exit(.my_env$prof_data <- NULL, add = TRUE)
+  stop_profiler_impl(.my_env$prof_data)
   Rprof(NULL)
 }
 

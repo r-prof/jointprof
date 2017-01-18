@@ -35,6 +35,10 @@ void ProfilerDaisyChain::start(const std::string& path) {
   ProfilerStartWithOptions(path.c_str(), &get_options());
 }
 
+void ProfilerDaisyChain::stop() {
+  ProfilerStop();
+}
+
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -47,6 +51,8 @@ List start_profiler_impl(CharacterVector path) {
 }
 
 // [[Rcpp::export]]
-void stop_profiler_impl() {
-  ProfilerStop();
+void stop_profiler_impl(List ldc) {
+  XPtr<ProfilerDaisyChain> pdc = ldc[0];
+  ProfilerDaisyChain* dc = pdc.get();
+  dc->stop();
 }

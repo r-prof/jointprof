@@ -18,11 +18,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // stop_profiler_impl
-void stop_profiler_impl();
-RcppExport SEXP gprofiler_stop_profiler_impl() {
+void stop_profiler_impl(List ldc);
+RcppExport SEXP gprofiler_stop_profiler_impl(SEXP ldcSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    stop_profiler_impl();
+    Rcpp::traits::input_parameter< List >::type ldc(ldcSEXP);
+    stop_profiler_impl(ldc);
     return R_NilValue;
 END_RCPP
 }

@@ -5,7 +5,7 @@ start_profiler_impl <- function(path) {
     .Call('gprofiler_start_profiler_impl', PACKAGE = 'gprofiler', path)
 }
 
-stop_profiler_impl <- function() {
-    invisible(.Call('gprofiler_stop_profiler_impl', PACKAGE = 'gprofiler'))
+stop_profiler_impl <- function(ldc) {
+    invisible(.Call('gprofiler_stop_profiler_impl', PACKAGE = 'gprofiler', ldc))
 }
 

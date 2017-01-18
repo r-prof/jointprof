@@ -9,6 +9,7 @@ public:
   ProfilerDaisyChain();
 
   void start(const std::string& path);
+  void stop();
 
 public:
   const ProfilerOptions& get_options() const;
