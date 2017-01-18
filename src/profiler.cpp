@@ -31,6 +31,10 @@ int ProfilerDaisyChain::filter_in_thread() {
   return 1;
 }
 
+void ProfilerDaisyChain::start(const std::string& path) {
+  ProfilerStartWithOptions(path.c_str(), &get_options());
+}
+
 using namespace Rcpp;
 
 // [[Rcpp::export]]
@@ -38,7 +42,7 @@ void start_profiler_impl(CharacterVector path) {
   if (path.length() != 1)
     stop("start_profiler() expects scalar path");
   ProfilerDaisyChain* dc = new ProfilerDaisyChain();
-  ProfilerStartWithOptions(path[0], &dc->get_options());
+  dc->start(std::string(path[0]));
 }
 
 // [[Rcpp::export]]

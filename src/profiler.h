@@ -8,6 +8,8 @@ class ProfilerDaisyChain {
 public:
   ProfilerDaisyChain();
 
+  void start(const std::string& path);
+
 public:
   const ProfilerOptions& get_options() const;
 
