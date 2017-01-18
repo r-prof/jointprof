@@ -1,8 +1,9 @@
 Package: gprofiler
-Title: What the Package Does (one line, title case)
+Title: Joint Native and R Profiling
 Version: 0.0-0
 Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
-Description: What the package does (one paragraph).
+Description: Simultaneously collects profiling output using 'Rprof' and 'gprofiler'
+    and provides a unified view of profiling data. Work in progress.
 SystemDependencies: C++11
 License: GPL-3
 Encoding: UTF-8
