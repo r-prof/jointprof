@@ -16,9 +16,16 @@ stop_profiler <- function() {
 #' @export
 show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
   pprof_exit_code <- system2(
-    "google-pprof",
-    c("--lines", "--evince", shQuote(file.path(R.home("bin"), "exec/R")),
-      if (!is.null(focus)) paste0("--focus=", focus),
+    get_pprof_path(),
+    c("-lines", "-evince", shQuote(file.path(R.home("bin"), "exec", "R")),
+      if (!is.null(focus)) paste0("-focus=", focus),
       shQuote(path)),
     wait = FALSE)
+  if (pprof_exit_code != 0) {
+    warning("pprof exited with ", pprof_exit_code)
+  }
+}
+
+get_pprof_path <- function() {
+  system.file("bin", "pprof", package = utils::packageName())
 }
