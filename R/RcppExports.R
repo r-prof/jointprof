@@ -2,7 +2,7 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 start_profiler_impl <- function(path) {
-    invisible(.Call('gprofiler_start_profiler_impl', PACKAGE = 'gprofiler', path))
+    .Call('gprofiler_start_profiler_impl', PACKAGE = 'gprofiler', path)
 }
 
 stop_profiler_impl <- function() {

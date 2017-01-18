@@ -38,11 +38,12 @@ void ProfilerDaisyChain::start(const std::string& path) {
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-void start_profiler_impl(CharacterVector path) {
+List start_profiler_impl(CharacterVector path) {
   if (path.length() != 1)
     stop("start_profiler() expects scalar path");
   ProfilerDaisyChain* dc = new ProfilerDaisyChain();
   dc->start(std::string(path[0]));
+  return List::create(XPtr<ProfilerDaisyChain>(dc));
 }
 
 // [[Rcpp::export]]

@@ -1,7 +1,9 @@
+.my_env <- new.env(parent = emptyenv())
+
 #' @export
 start_profiler <- function(path = "1.prof") {
   Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
-  start_profiler_impl(path)
+  .my_env$prof_data <- start_profiler_impl(path)
 }
 
 #' @export

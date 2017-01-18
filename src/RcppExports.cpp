@@ -7,13 +7,14 @@
 using namespace Rcpp;
 
 // start_profiler_impl
-void start_profiler_impl(CharacterVector path);
+List start_profiler_impl(CharacterVector path);
 RcppExport SEXP gprofiler_start_profiler_impl(SEXP pathSEXP) {
 BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type path(pathSEXP);
-    start_profiler_impl(path);
-    return R_NilValue;
+    rcpp_result_gen = Rcpp::wrap(start_profiler_impl(path));
+    return rcpp_result_gen;
 END_RCPP
 }
 // stop_profiler_impl
