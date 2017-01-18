@@ -12,8 +12,6 @@ public:
   void stop();
 
 private:
-  const ProfilerOptions& get_options() const;
-
   static int filter_in_thread(void* this_);
   int filter_in_thread();
 

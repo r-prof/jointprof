@@ -6,21 +6,18 @@ ProfilerDaisyChain::ProfilerDaisyChain() {
 }
 
 void ProfilerDaisyChain::start(const std::string& path) {
-  options.filter_in_thread = &filter_in_thread;
-  options.filter_in_thread_arg = reinterpret_cast<void*>(this);
   sigaction(SIGPROF, NULL, &oldact);
   if (oldact.sa_flags & SA_SIGINFO) {
     Rcpp::stop("oops");
   }
-  ProfilerStartWithOptions(path.c_str(), &get_options());
+
+  options.filter_in_thread = &filter_in_thread;
+  options.filter_in_thread_arg = reinterpret_cast<void*>(this);
+  ProfilerStartWithOptions(path.c_str(), &options);
 }
 
 void ProfilerDaisyChain::stop() {
   ProfilerStop();
-}
-
-const ProfilerOptions& ProfilerDaisyChain::get_options() const {
-  return options;
 }
 
 int ProfilerDaisyChain::filter_in_thread(void* this_) {
