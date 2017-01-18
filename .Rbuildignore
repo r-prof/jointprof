@@ -6,3 +6,5 @@
 ^clion-test\.R$
 ^.*\.prof$
 ^.*\.prof\.out$
+^README\.Rmd$
+^README-.*\.png$
