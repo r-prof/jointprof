@@ -4,3 +4,5 @@
 ^CMakeLists\.txt$
 ^cmake-build-debug$
 ^clion-test\.R$
+^.*\.prof$
+^.*\.prof\.out$
