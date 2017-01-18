@@ -13,6 +13,7 @@ stop_profiler <- function() {
   Rprof(NULL)
 }
 
+#' @importFrom tidyr %>%
 #' @export
 get_profiler_traces <- function(path = "1.prof") {
   traces <- system2(
