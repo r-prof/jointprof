@@ -1,5 +1,5 @@
 Package: gprofiler
-Title: Joint Native and R Profiling
+Title: Joint Profiling of Native and R Code
 Version: 0.0-1
 Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
 Description: Simultaneously collects profiling data at both R and native levels
