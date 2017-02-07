@@ -6,6 +6,33 @@
 
 using namespace Rcpp;
 
+// callback1_cpp
+void callback1_cpp();
+RcppExport SEXP gprofiler_callback1_cpp() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    callback1_cpp();
+    return R_NilValue;
+END_RCPP
+}
+// callback2_cpp
+void callback2_cpp();
+RcppExport SEXP gprofiler_callback2_cpp() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    callback2_cpp();
+    return R_NilValue;
+END_RCPP
+}
+// callback3_cpp
+void callback3_cpp();
+RcppExport SEXP gprofiler_callback3_cpp() {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    callback3_cpp();
+    return R_NilValue;
+END_RCPP
+}
 // start_profiler_impl
 List start_profiler_impl(CharacterVector path);
 RcppExport SEXP gprofiler_start_profiler_impl(SEXP pathSEXP) {
