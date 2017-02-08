@@ -42,4 +42,14 @@ A unified view is created with `get_profiler_traces()`. Currently this returns a
 gprofiler::get_profiler_traces()
 ```
 
+
+Below is another example where an R function calls a C++ function that calls back into R.
+
+```{r}
+gprofiler::start_profiler()
+gprofiler::callback2_r()
+gprofiler::stop_profiler()
+gprofiler::get_profiler_traces()
+```
+
 Eventually, the result will be an `Rprof`-compatible data format which can be consumed by `profvis` and other existing packages.
