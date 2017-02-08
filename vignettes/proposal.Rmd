@@ -9,3 +9,40 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+# The Problem
+
+## What problem do you want to solve?
+
+## Why is it a problem?
+
+## Who does it affect?
+
+## What will solving the problem enable?
+
+## Hints
+
+This section should include a brief summary of existing work, such as R packages that may be relevant. If you are proposing a change to R itself, you must include a letter of support from a member of R core.
+
+# The Plan
+
+## How are you going to solve the problem?
+
+## Hints
+
+Include the concrete actions you will take and an estimated timeline. What are likely failure modes and how will you recover from them?
+
+# How Can The ISC Help
+
+## Please describe how you think the ISC can help.
+
+## Hints
+
+If you are looking for a cash grant include a detailed itemised budget and spending plan. We expect that most of the budget will be allocated for people, but we will consider funding travel, equipment and services, such as cloud computing resources with good justification. Also describe how you think the ISC can we help promote your project.
+
+# Dissemination
+
+## How will you ensure that your work is available to the widest number of people?
+
+## Hints
+
+Please specify the open source license will you use, how you will host your code so that others can contribute, and how you will publicise your work. We encourage you to plan at least two blog posts to the R consortium blog: one to announce the project, and one to write up what you achieved.
