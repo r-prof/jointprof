@@ -2,15 +2,18 @@
 
 // [[Rcpp::export]]
 void callback1_cpp() {
-  Rcpp::Function("callback1_r", Rcpp::Environment::namespace_env("gprofiler")) ();
+  static Rcpp::Function cb("callback1_r", Rcpp::Environment::namespace_env("gprofiler"));
+  cb();
 }
 
 // [[Rcpp::export]]
 void callback2_cpp() {
-  Rcpp::Function("callback2_r", Rcpp::Environment::namespace_env("gprofiler")) ();
+  static Rcpp::Function cb("callback2_r", Rcpp::Environment::namespace_env("gprofiler"));
+  cb();
 }
 
 // [[Rcpp::export]]
 void callback3_cpp() {
-  Rcpp::Function("callback3_r", Rcpp::Environment::namespace_env("gprofiler")) ();
+  static Rcpp::Function cb("callback3_r", Rcpp::Environment::namespace_env("gprofiler"));
+  cb();
 }
