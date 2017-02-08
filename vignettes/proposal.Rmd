@@ -164,16 +164,40 @@ This project, if awarded, can then start right after that.
 
 # How Can The ISC Help
 
-## Please describe how you think the ISC can help.
+I’d like to ask for financial support for the implementation of the project and for attending one conference to present the results. Only open-source libraries will be considered, licensing fees are not an issue.
 
-## Hints
+Based on the timeline and the feature description, I’d like to ask for USD 10’000 to cover the implementation costs.
+I will provide the equipment, backup funds are available to cover potential costs for replacement/repair.
+It would be great to present the work at useR! 2017, I’d also like to ask for reimbursement of the conference fee, accomodation, and transportation (approx. USD 1’000).
 
-If you are looking for a cash grant include a detailed itemised budget and spending plan. We expect that most of the budget will be allocated for people, but we will consider funding travel, equipment and services, such as cloud computing resources with good justification. Also describe how you think the ISC can we help promote your project.
 
 # Dissemination
 
-## How will you ensure that your work is available to the widest number of people?
+The work will be continuously uploaded to GitHub, tested on r-hub, Travis-CI, and AppVeyor, and released to CRAN at the end of the project.
+GitHub seems to be very popular in the R community, its pull request mechanism allows contribution and code review in a very simple and convenient way.
+Maintainers of related packages (`profvis`, `aprof`, `proftools`, `GUIProfiler`, ...) will be contacted and involved in a very early stage of the project.
+Design questions will be discussed on GitHub.
 
-## Hints
+The newly implemented packages will be licensed under the MIT license to simplify their use for commercial purposes,
+except where linked or imported code requires a different licensing model.
 
-Please specify the open source license will you use, how you will host your code so that others can contribute, and how you will publicise your work. We encourage you to plan at least two blog posts to the R consortium blog: one to announce the project, and one to write up what you achieved.
+
+# Acknowledgements
+
+I would like to thank Hadley Wickham, who suggested to investigate joint profiling of R and native code and gave feedback on an earlier version of the proposal, and to Winston Chang for supporting the extraction of code from his `profvis` package.
+
+
+# About the author
+
+I have a background in computer science, with more than 20 years of programming experience (mostly C++).
+I am currently working as a scientific assistant at the IVT, ETH Zurich, and as freelance IT consultant.
+I am using R for data processing and statistical modeling since 2012.
+During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own, most notably the `DBItest` package for testing DBI backends.
+Among others, I am maintaining the `tibble` package and contributing to the `dplyr` package.
+My *r-appveyor* script helps automated testing of R packages on Windows.
+I am about to complete the "Improving DBI" project, courteously awarded by the R Consortium.
+
+
+# Questions
+
+- MIT license for profvis code?
