@@ -9,9 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-# The Problem
-
-## What problem do you want to solve?
+# The problem
 
 The [three rules of software optimization](http://www.moscowcoffeereview.com/programming/the-3-rules-of-optimization/) are:
 
@@ -23,7 +21,7 @@ This proposal aims at simplifying the application of these rules for R code that
 
 ## Why is it a problem?
 
-R has excellent facilities for profiling R code: the main entry point is the [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof) function that starts an execution mode that periodically samples the R call stack (optionally at source line level) and writes it to a file.
+R has excellent facilities for profiling R code: the main entry point is the [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof) function that starts an execution mode where the R call stack is sampled periodically, optionally at source line level, and written to a file.
 Optionally, memory usage can also be collected.
 The results of a profiling run can be analyzed with `summaryRprof()`, or visualized using the `profvis`, `aprof`, or `GUIProfiler` packages.
 
@@ -43,10 +41,10 @@ Calling native code from R is done mostly for one or both of the following reaso
     - `curl` wraps libcurl
     - `RSQLite` wraps SQLite
 2. An implementation of a particular functionality in R is too slow for its application and is substituted by a faster native variant. Examples:
+    - Sparse matrix (and other) algorithms in `Matrix`
     - Converting a matrix to a data frame in `tibble`
     - Fast computation of groupwise aggregates in `dplyr` and `data.table`
     - Graph algorithms in `igraph`
-    - ...
 
 Calls to native code from R packages are widespread:
 More than 500 CRAN packages consist mostly of C code, according to a [GitHub search](https://github.com/search?q=org%3Acran+language%3Ac&ref=searchresults&type=Repositories&utf8=%E2%9C%93).
@@ -58,15 +56,12 @@ Furthermore, it is very easy to create a one-off C++ function for use in an anal
 Improved profiling facilities will greatly simplify the analysis and elimination of run time and memory bottlenecks in such code.[^rsqlite-slow] Over time, faster and less memory-hungry implementations will save computational resources or allow tackling larger problems.
 
 [^rsqlite-slow]:
-For example, a performance regression in a development version of `RSQLite` turned out to be due to unexpectedly slow processing of R code, and not by a problem in the native code.
-The R profiling results seemed inconclusive, because the extra run time was being spent during the evaluation of a promise.
-The C++ profiling results have indicated that time was spent evaluating R code, but of course not which particular R  code.
+For example, with a performance regression in a development version of `RSQLite`, the R profiling results seemed inconclusive, because the extra run time was being spent during the evaluation of a promise.
+The C++ profiling results have indicated that time was spent evaluating R code, but of course not which particular R code.
 With unified profiling data, the problem would have been spotted much easier.
 
 
-# The Plan
-
-## How are you going to solve the problem?
+# The plan
 
 A joint R/native profiler can be implemented based on the following outline:
 
@@ -158,17 +153,17 @@ Even with the encouraging results shown in the proof of concept, some open quest
 1. Some modes of operation, such as profiling of ad-hoc native functions created by `Rcpp::cppFunction()`, may not be fully supported.
 1. Integrated memory profiling is a desirable extra, but may not be achievable as part of the project.
 
-I expect to finish the "Improving DBI" project, funded by the R Consortium, by end of April.
+I expect to finish the "Improving DBI" project, funded by the ISC, by end of April.
 This project, if awarded, can then start right after that.
 
 
-# How Can The ISC Help
+# How can the ISC help?
 
-I’d like to ask for financial support for the implementation of the project and for attending one conference to present the results. Only open-source libraries will be considered, licensing fees are not an issue.
+I would like to ask for financial support for the implementation of the project and for attending one conference to present the results. Only open-source libraries will be considered, licensing fees are not an issue.
 
-Based on the timeline and the feature description, I’d like to ask for USD 10’000 to cover the implementation costs.
+Based on the timeline and the feature description, I would like to ask for USD 10’000 to cover the implementation costs.
 I will provide the equipment, backup funds are available to cover potential costs for replacement/repair.
-It would be great to present the work at useR! 2017, I’d also like to ask for reimbursement of the conference fee, accomodation, and transportation (approx. USD 1’000).
+It would be great to present the work at useR!2017, I would also like to ask for reimbursement of the conference fee, accomodation, and transportation (approx. USD 1’000).
 
 
 # Dissemination
@@ -178,8 +173,7 @@ GitHub seems to be very popular in the R community, its pull request mechanism a
 Maintainers of related packages (`profvis`, `aprof`, `proftools`, `GUIProfiler`, ...) will be contacted and involved in a very early stage of the project.
 Design questions will be discussed on GitHub.
 
-The newly implemented packages will be licensed under the MIT license to simplify their use for commercial purposes,
-except where linked or imported code requires a different licensing model.
+The newly implemented packages will be licensed under the MIT license to simplify their use for commercial purposes, except where linked or imported code requires a different licensing model.
 
 
 # Acknowledgements
@@ -191,14 +185,9 @@ I would like to thank Hadley Wickham, who suggested to investigate joint profili
 
 I have a background in computer science, with more than 20 years of programming experience (mostly C++).
 I am currently working as a freelance IT consultant, and as a scientific assistant at the IVT, ETH Zurich.
-Among others, I am currently maintaining the `tibble` package and contributing to the `dplyr` package.
-I am about to complete the "Improving DBI" project, courteously awarded by the R Consortium.
+I am about to complete the "Improving DBI" project, courteously awarded by the ISC.
+Furthermore, I am currently maintaining the `tibble` package and contributing to the `dplyr` and other *tidyverse* packages.
 
 I have been using R for data processing and statistical modeling since 2012.
 During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own, most notably the `DBItest` package for testing DBI backends.
 My *r-appveyor* script helps automated testing of R packages on Windows.
-
-
-# Questions
-
-- MIT license for profvis code?
