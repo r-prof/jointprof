@@ -6,3 +6,4 @@ clion-test.R
 cmake-build-debug
 *.prof
 *.prof.out
+inst/doc

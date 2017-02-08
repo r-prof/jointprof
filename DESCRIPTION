@@ -15,3 +15,6 @@ Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
 Imports: Rcpp
 RoxygenNote: 5.0.1.9000
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr
