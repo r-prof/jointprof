@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 The goal of gprofiler is to assist profiling R packages that include native code (C++, C, Fortran, ...).
 It collects profiling output simultaneously using [Rprof](https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof) and [gperftools](https://github.com/gperftools/gperftools) and provides a unified view of profiling data.
-At present this is but a feasibility study.
+At present this is but a feasibility study: it requires Ubuntu Linux 64-bit and the `libgoogle-perftools-dev` package.
 
 
 ## Example
