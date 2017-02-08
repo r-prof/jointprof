@@ -190,12 +190,13 @@ I would like to thank Hadley Wickham, who suggested to investigate joint profili
 # About the author
 
 I have a background in computer science, with more than 20 years of programming experience (mostly C++).
-I am currently working as a scientific assistant at the IVT, ETH Zurich, and as freelance IT consultant.
-I am using R for data processing and statistical modeling since 2012.
-During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own, most notably the `DBItest` package for testing DBI backends.
-Among others, I am maintaining the `tibble` package and contributing to the `dplyr` package.
-My *r-appveyor* script helps automated testing of R packages on Windows.
+I am currently working as a freelance IT consultant, and as a scientific assistant at the IVT, ETH Zurich.
+Among others, I am currently maintaining the `tibble` package and contributing to the `dplyr` package.
 I am about to complete the "Improving DBI" project, courteously awarded by the R Consortium.
+
+I have been using R for data processing and statistical modeling since 2012.
+During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own, most notably the `DBItest` package for testing DBI backends.
+My *r-appveyor* script helps automated testing of R packages on Windows.
 
 
 # Questions
