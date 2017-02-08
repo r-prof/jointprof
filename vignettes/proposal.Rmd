@@ -50,7 +50,7 @@ Calling native code from R is done mostly for one or both of the following reaso
 
 Calls to native code from R packages are widespread:
 More than 500 CRAN packages consist mostly of C code, according to a [GitHub search](https://github.com/search?q=org%3Acran+language%3Ac&ref=searchresults&type=Repositories&utf8=%E2%9C%93).
-The [`Rcpp` package](https://cran.r-project.org/package=Rcpp), which makes it trivial to embed C++ code into a package, is currently used by over 900 CRAN packages.
+The [`Rcpp` package](https://cran.r-project.org/package=Rcpp), which makes it trivial to embed C++ code in a package, is currently used by over 900 CRAN packages.
 Furthermore, it is very easy to create a one-off C++ function for use in an analysis script with the help of `Rcpp::cppFunction()`.
 
 ## What will solving the problem enable?
@@ -68,9 +68,99 @@ With unified profiling data, the problem would have been spotted much easier.
 
 ## How are you going to solve the problem?
 
-## Hints
+A joint R/native profiler can be implemented based on the following outline:
 
-Include the concrete actions you will take and an estimated timeline. What are likely failure modes and how will you recover from them?
+1. Sample stack traces simultaneously at both R and the native levels.
+1. Locate native calls (if available) in the R stack traces.
+1. Replace these by the relevant parts of the native stack traces.
+
+The `gprofiler` package, available on GitHub at https://github.com/krlmlr/gprofiler, is a working proof of concept (currently only 64-bit Ubuntu Linux)
+for the seemingly tricky first step.[^daisy-chain]
+No change to base R is necessary to achieve this.
+As a result, a data frame of samples is returned where each row contains both R and native stack traces (separately in two columns).
+
+The native stack traces are currently generated using the `gperftools` library because it was easiest to get started with.
+The ultimate choice of native profiler will depend on other factors, such as platform interoperability (in particular Windows compatibility) and ease of integration.
+Regardless of this choice, the joint R/native profiler will create an `.Rprof` file compatible with those created by `Rprof()`, so that existing tools in the R ecosystem can be used to further analyze and visualize profiling results.
+For interoperability, the `proftools` package already offers a way to convert an `.Rprof` file to the format created by `callgrind` and understood by a number of tools outside the R ecosystem.
+
+
+[^daisy-chain]:
+Technically, it works by calling `Rprof()`, which installs a `SIGPROF` signal handler, and then replacing this handler by one that captures the native stack trace (using the `gperftools` library) and then records the R stack trace (by invoking the handler originally installed by `Rprof()`).
+
+
+The project includes the development of three R packages, see also the `gprofiler` [issue tracker](https://github.com/krlmlr/gprofiler/issues) on GitHub:
+
+1. A profiler package with the `Rprof()` drop-in replacement, based on the technique demonstrated in `gprofiler`.
+    - Reading the output of the native profiler (`*.prof` files for `gperftools`).
+    - Merge R and native call stacks.
+    - New feature: suspend and resume profiling.
+1. A wrapper package around the native profiling library to simplify installation on Windows (and perhaps other OS-es).
+1. A helper I/O package for reading, manipulating, and writing R profiler data.
+
+Splitting the work in smaller packages helps code reuse and allows better testing of the individual components.
+In particular, the I/O package can then be used by other packages or code without having to include a potentially heavy dependency.
+The code and intermediate format currently used by the `profvis` package can be used as a starting point, the maintainer Winston Chang has indicated [consent](https://github.com/rstudio/profvis/issues/74#issuecomment-264495380).
+
+Best practices such as version control, continuous integration, and clean code, will be used throughout the project to ensure quality and maintainability.
+
+
+## Timeline
+
+The project's timeline corresponds to a full-time workload and does not reflect actual completion times.
+I expect the project to be completed in roughly four months after acceptance, and to present final results at useR!2017 in Brussels.
+
+
+### Week 1
+
+- Initial blog post.
+- Review of other profiling libraries.
+- Test platform interoperability.
+- Wrapper package for profiling library.
+
+
+### Week 2
+
+- Read output of native profiler.
+
+
+### Week 3
+
+- Read, manipulate, and write output of R profiler.
+
+
+### Week 4
+
+- Merge R and native profiler data.
+
+
+### Week 5
+
+- Profiling of roundtrips from R to native and back to R.
+- Further testing on Linux, OS X, and Windows.
+- Profiling of ad-hoc functions.
+- Memory profiling.
+
+
+### Week 6
+
+- Finalization, documentation.
+- Final blog post.
+- useR!2017 presentation.
+
+
+## Potential pitfalls
+
+Even with the encouraging results shown in the proof of concept, some open questions can only be answered as part of the project:
+
+1. Roundtrips from R to native code and then back to R currently are not recorded correctly by the native profiler. Additional investigation is necessary, it may be necessary to use specific compiler switches or even a specific compiler, or to patch the profiler library. In the worst case the profiler will assign all time spent in the native code to the R code that contains the native call.
+1. It is unclear if `gperftools` or other sampling profilers can be used successfully on non-Linux operating systems, in particular on Windows.  Reasonable efforts will be made to establish cross-platform compatibility, however in the worst case support for particular platforms may be restricted, and users will be instructed to use virtualization solutions.
+1. Some modes of operation, such as profiling of ad-hoc native functions created by `Rcpp::cppFunction()`, may not be fully supported.
+1. Integrated memory profiling is a desirable extra, but may not be achievable as part of the project.
+
+I expect to finish the "Improving DBI" project, funded by the R Consortium, by end of April.
+This project, if awarded, can then start right after that.
+
 
 # How Can The ISC Help
 
