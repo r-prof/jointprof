@@ -166,7 +166,7 @@ I would like to ask for financial support for the implementation of the project 
 
 Based on the timeline and the feature description, I would like to ask for USD 10’000 to cover the implementation costs.
 I will provide the equipment, backup funds are available to cover potential costs for replacement/repair.
-It would be great to present the work at useR!2017, I would also like to ask for reimbursement of the conference fee, accomodation, and transportation (approx. USD 1’000).
+It would be great to present the work at useR!2017, I would also like to ask for reimbursement of the conference fee, accommodation, and transportation (approx. USD 1’000).
 
 
 # Dissemination
@@ -179,7 +179,7 @@ Design questions will be discussed on GitHub.
 The newly implemented packages will be licensed under the MIT license to simplify their use for commercial purposes, except where linked or imported code requires a different licensing model.
 
 
-# Acknowledgements
+# Acknowledgments
 
 I would like to thank Hadley Wickham, who suggested to investigate joint profiling of R and native code, and also to Romain François who both gave feedback on an earlier version of the proposal.
 Thanks also to Winston Chang for supporting the extraction of code from his `profvis` package.
