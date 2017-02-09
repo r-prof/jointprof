@@ -22,7 +22,7 @@ This proposal aims at simplifying the application of these rules for R code that
 ## Why is it a problem?
 
 R has excellent facilities for profiling R code: the main entry point is the [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof) function that starts an execution mode where the R call stack is sampled periodically, optionally at source line level, and written to a file.
-Optionally, memory usage can also be collected.
+Memory usage can also be collected.
 The results of a profiling run can be analyzed with `summaryRprof()`, or visualized using the `profvis`, `aprof`, or `GUIProfiler` packages.
 
 With `Rprof()`, the execution time of native code is only available as a bulk, without detailed source information.
@@ -37,12 +37,16 @@ This project aims at bridging this gap with a drop-in replacement to `Rprof()` t
 Calling native code from R is done mostly for one or both of the following reasons:
 
 1. A particular algorithm or library is implemented in C/C++/Fortran/..., the R code is mostly a wrapper around the native code. Examples:
-    - `randomForest` has C and Fortran code at its core
-    - `curl` wraps libcurl
-    - `RSQLite` wraps SQLite
+    - `RCurl` and `curl` wrap libcurl
+    - Database drivers such as `RSQLite` and `RMySQL` usually wrap native libraries
+    - `haven` wraps ReadStat, which reads foreign data formats
+    - `RcppCCTZ` wraps CCTZ, a modern library for handling time zones
+    - `RcppTOML` wraps cpptoml, a library to parse configuration files in the TOML language
 2. An implementation of a particular functionality in R is too slow for its application and is substituted by a faster native variant. Examples:
+    - `randomForest` has C and Fortran code at its core
     - Sparse matrix (and other) algorithms in `Matrix`
     - Converting a matrix to a data frame in `tibble`
+    - Fast reading of CSV and text files in `readr` and `data.table`
     - Fast computation of groupwise aggregates in `dplyr` and `data.table`
     - Graph algorithms in `igraph`
 
@@ -74,20 +78,19 @@ for the seemingly tricky first step.[^daisy-chain]
 No change to base R is necessary to achieve this.
 As a result, a data frame of samples is returned where each row contains both R and native stack traces (separately in two columns).
 
+[^daisy-chain]:
+Technically, it works by calling `Rprof()`, which installs a `SIGPROF` signal handler, and then replacing this handler by one that captures the native stack trace (using the `gperftools` library) and then records the R stack trace (by invoking the handler originally installed by `Rprof()`).
+
 The native stack traces are currently generated using the `gperftools` library because it was easiest to get started with.
 The ultimate choice of native profiler will depend on other factors, such as platform interoperability (in particular Windows compatibility) and ease of integration.
 Regardless of this choice, the joint R/native profiler will create an `.Rprof` file compatible with those created by `Rprof()`, so that existing tools in the R ecosystem can be used to further analyze and visualize profiling results.
 For interoperability, the `proftools` package already offers a way to convert an `.Rprof` file to the format created by `callgrind` and understood by a number of tools outside the R ecosystem.
 
 
-[^daisy-chain]:
-Technically, it works by calling `Rprof()`, which installs a `SIGPROF` signal handler, and then replacing this handler by one that captures the native stack trace (using the `gperftools` library) and then records the R stack trace (by invoking the handler originally installed by `Rprof()`).
-
-
 The project includes the development of three R packages, see also the `gprofiler` [issue tracker](https://github.com/krlmlr/gprofiler/issues) on GitHub:
 
 1. A profiler package with the `Rprof()` drop-in replacement, based on the technique demonstrated in `gprofiler`.
-    - Reading the output of the native profiler (`*.prof` files for `gperftools`).
+    - Read the output of the native profiler (`*.prof` files for `gperftools`).
     - Merge R and native call stacks.
     - New feature: suspend and resume profiling.
 1. A wrapper package around the native profiling library to simplify installation on Windows (and perhaps other OS-es).
@@ -95,15 +98,15 @@ The project includes the development of three R packages, see also the `gprofile
 
 Splitting the work in smaller packages helps code reuse and allows better testing of the individual components.
 In particular, the I/O package can then be used by other packages or code without having to include a potentially heavy dependency.
-The code and intermediate format currently used by the `profvis` package can be used as a starting point, the maintainer Winston Chang has indicated [consent](https://github.com/rstudio/profvis/issues/74#issuecomment-264495380).
+The code and intermediate format currently used by the `profvis` package can be used as a starting point, its maintainer Winston Chang has indicated [consent](https://github.com/rstudio/profvis/issues/74#issuecomment-264495380).
 
-Best practices such as version control, continuous integration, and clean code, will be used throughout the project to ensure quality and maintainability.
+Best practices, such as version control, continuous integration, and clean code, will be used throughout the project to ensure quality and maintainability.
 
 
 ## Timeline
 
 The project's timeline corresponds to a full-time workload and does not reflect actual completion times.
-I expect the project to be completed in roughly four months after acceptance, and to present final results at useR!2017 in Brussels.
+I expect to complete the project in roughly four months after acceptance, and to present final results at useR!2017 in Brussels.
 
 
 ### Week 1
@@ -178,7 +181,8 @@ The newly implemented packages will be licensed under the MIT license to simplif
 
 # Acknowledgements
 
-I would like to thank Hadley Wickham, who suggested to investigate joint profiling of R and native code and gave feedback on an earlier version of the proposal, and to Winston Chang for supporting the extraction of code from his `profvis` package.
+I would like to thank Hadley Wickham, who suggested to investigate joint profiling of R and native code, and also to Romain François who both gave feedback on an earlier version of the proposal.
+Thanks also to Winston Chang for supporting the extraction of code from his `profvis` package.
 
 
 # About the author
@@ -189,5 +193,5 @@ I am about to complete the "Improving DBI" project, courteously awarded by the I
 Furthermore, I am currently maintaining the `tibble` package and contributing to the `dplyr` and other *tidyverse* packages.
 
 I have been using R for data processing and statistical modeling since 2012.
-During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own, most notably the `DBItest` package for testing DBI backends.
+During this time I contributed numerous patches to various R packages, co-maintained the `tikzDevice` and `ProjectTemplate` packages, and implemented a few of my own.
 My *r-appveyor* script helps automated testing of R packages on Windows.
