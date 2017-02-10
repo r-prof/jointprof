@@ -134,14 +134,10 @@ I expect to complete the project in roughly four months after acceptance, and to
 ### Week 3
 
 - Read, manipulate, and write output of R profiler.
-
-
-### Week 4
-
 - Merge R and native profiler data.
 
 
-### Week 5
+### Week 4
 
 - Profiling of roundtrips from R to native and back to R.
 - Further testing on Linux, OS X, and Windows.
@@ -149,7 +145,7 @@ I expect to complete the project in roughly four months after acceptance, and to
 - Memory profiling.
 
 
-### Week 6
+### Week 5
 
 - Finalization, documentation.
 - Final blog post.
