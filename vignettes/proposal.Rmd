@@ -146,6 +146,7 @@ I expect to complete the project in roughly four months after acceptance, and to
 - Multiple processes and threads.
 - Ad-hoc functions.
 - Memory profiling.
+- On-the-fly reading of profiler data for realtime preview.
 
 
 ### Week 5
