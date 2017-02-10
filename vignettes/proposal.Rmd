@@ -39,6 +39,7 @@ Conversely, when using a native code profiler such as [`gperftools`](https://gpe
 The same applies to memory usage information.
 
 This project aims at bridging this gap with a drop-in replacement to `Rprof()` that records call stacks and memory usage information at both R and native levels, and later commingles them to present a unified view to the user.
+This drop-in replacement can be designed with support for multiple processes or threads in mind, another shortcoming of the current implementation of R's profiler.
 
 
 ## Who does it affect?
@@ -66,7 +67,8 @@ Furthermore, it is very easy to create a one-off C++ function for use in an anal
 
 ## What will solving the problem enable?
 
-Improved profiling facilities will greatly simplify the analysis and elimination of run time and memory bottlenecks in such code.[^rsqlite-slow] Over time, faster and less memory-hungry implementations will save computational resources or allow tackling larger problems.
+Improved profiling facilities will greatly simplify the analysis and elimination of run time and memory bottlenecks in such code.[^rsqlite-slow]
+Over time, faster and less memory-hungry implementations will save computational resources or allow tackling larger problems.
 
 [^rsqlite-slow]:
 For example, with a performance regression in a development version of `RSQLite`, the R profiling results seemed inconclusive, because the extra run time was being spent during the evaluation of a promise.
@@ -139,9 +141,10 @@ I expect to complete the project in roughly four months after acceptance, and to
 
 ### Week 4
 
-- Profiling of roundtrips from R to native and back to R.
+- Roundtrips from R to native and back to R.
 - Further testing on Linux, OS X, and Windows.
-- Profiling of ad-hoc functions.
+- Multiple processes and threads.
+- Ad-hoc functions.
 - Memory profiling.
 
 
