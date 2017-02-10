@@ -167,6 +167,8 @@ Even with the encouraging results shown in the proof of concept, some open quest
 
 I expect to finish the "Improving DBI" project, funded by the ISC, by end of April.
 This project, if awarded, can then start right after that.
+I have submitted another proposal to the ISC, "Establishing DBI".
+Should both projects be accepted, I still expect to adhere to the estimated completion times.
 
 
 # How can the ISC help?
