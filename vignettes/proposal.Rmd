@@ -2,7 +2,16 @@
 title: "Joint profiling of native and R code"
 author: "Kirill Müller"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::pdf_document:
+    pandoc_args: "--variable=colorlinks"
+abstract: >
+  This proposal aims at simplifying the process of profiling for R code that calls into native code. Profiling maps run time and memory requirements to source code, and helps understand which parts of a program or script require most resources and can be optimized.
+  
+  R has excellent facilities for profiling R code, and analyzing the results of a profiler run. However, the execution time of native code is only available as a bulk, without detailed source information. Conversely, when using a native code profiler, the resulting profile does
+  not contain any link to the original R source code. The same applies to memory usage information.
+  
+  This project aims at bridging this gap with a profiling facility that records call stacks and memory usage information at both R and native levels, and later commingles them to present a unified view to the user.
 vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
