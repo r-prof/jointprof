@@ -4,17 +4,21 @@ Version: 0.0-1
 Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
 Description: Simultaneously collects profiling data at both R and native levels
     (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
-SystemDependencies: C++11
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Date: 2017-01-18
 BugReports: https://github.com/krlmlr/gprofiler/issues
 URL: https://github.com/krlmlr/gprofiler, http://krlmlr.github.io/gprofiler
-Roxygen: list(markdown = TRUE)
 LinkingTo: Rcpp
-Imports: Rcpp
-RoxygenNote: 6.0.1
+Imports:
+    dplyr,
+    profvis,
+    tidyr,
+    Rcpp
+SystemDependencies: C++11
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.0.1

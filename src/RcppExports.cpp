@@ -34,12 +34,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // start_profiler_impl
-List start_profiler_impl(CharacterVector path);
+List start_profiler_impl(std::string path);
 RcppExport SEXP gprofiler_start_profiler_impl(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type path(pathSEXP);
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
     rcpp_result_gen = Rcpp::wrap(start_profiler_impl(path));
     return rcpp_result_gen;
 END_RCPP

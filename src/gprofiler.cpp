@@ -6,11 +6,9 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List start_profiler_impl(CharacterVector path) {
-  if (path.length() != 1)
-    stop("start_profiler() expects scalar path");
+List start_profiler_impl(std::string path) {
   ProfilerDaisyChain* dc = new ProfilerDaisyChain();
-  dc->start(std::string(path[0]));
+  dc->start(std::string(path));
   return List::create(XPtr<ProfilerDaisyChain>(dc));
 }
 
