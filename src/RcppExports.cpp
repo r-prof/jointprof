@@ -54,3 +54,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+
+static const R_CallMethodDef CallEntries[] = {
+    {"gprofiler_callback1_cpp", (DL_FUNC) &gprofiler_callback1_cpp, 0},
+    {"gprofiler_callback2_cpp", (DL_FUNC) &gprofiler_callback2_cpp, 0},
+    {"gprofiler_callback3_cpp", (DL_FUNC) &gprofiler_callback3_cpp, 0},
+    {"gprofiler_start_profiler_impl", (DL_FUNC) &gprofiler_start_profiler_impl, 1},
+    {"gprofiler_stop_profiler_impl", (DL_FUNC) &gprofiler_stop_profiler_impl, 1},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_gprofiler(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
+}

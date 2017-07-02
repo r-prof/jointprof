@@ -4,6 +4,6 @@
 #' @docType package
 NULL
 
-#' @useDynLib gprofiler
+#' @useDynLib gprofiler,.registration = TRUE
 #' @importFrom Rcpp sourceCpp
 NULL

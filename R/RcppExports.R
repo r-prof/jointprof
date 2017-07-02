@@ -2,22 +2,22 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 callback1_cpp <- function() {
-    invisible(.Call('gprofiler_callback1_cpp', PACKAGE = 'gprofiler'))
+    invisible(.Call(gprofiler_callback1_cpp))
 }
 
 callback2_cpp <- function() {
-    invisible(.Call('gprofiler_callback2_cpp', PACKAGE = 'gprofiler'))
+    invisible(.Call(gprofiler_callback2_cpp))
 }
 
 callback3_cpp <- function() {
-    invisible(.Call('gprofiler_callback3_cpp', PACKAGE = 'gprofiler'))
+    invisible(.Call(gprofiler_callback3_cpp))
 }
 
 start_profiler_impl <- function(path) {
-    .Call('gprofiler_start_profiler_impl', PACKAGE = 'gprofiler', path)
+    .Call(gprofiler_start_profiler_impl, path)
 }
 
 stop_profiler_impl <- function(ldc) {
-    invisible(.Call('gprofiler_stop_profiler_impl', PACKAGE = 'gprofiler', ldc))
+    invisible(.Call(gprofiler_stop_profiler_impl, ldc))
 }
 
