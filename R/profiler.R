@@ -24,12 +24,12 @@ get_profiler_traces <- function(path = "1.prof") {
   pprof_nested <-
     strsplit(paste(traces, collapse = "\n"), "\n-+[+]-+\n")[[1L]][-1L] %>%
     tibble::enframe(name = "index", value = "gprofiler") %>%
-    dplyr::mutate_(count = ~as.numeric(sub("^ +([0-9]+).*$", "\\1", gprofiler)) / 10000) %>%
+    dplyr::mutate(count = as.numeric(sub("^ +([0-9]+).*$", "\\1", gprofiler)) / 10000) %>%
     dplyr::slice(., rep(seq_len(nrow(.)), count)) %>%
-    dplyr::transmute_(time = ~seq_along(gprofiler), gprofiler = ~as.list(gprofiler))
+    dplyr::transmute(time = seq_along(gprofiler), gprofiler = as.list(gprofiler))
 
   rprof_nested <- profvis:::parse_rprof(paste0(path, ".out"))$prof %>%
-    tibble::as_tibble %>%
+    tibble::as_tibble() %>%
     tidyr::nest(-time, .key = rprof)
 
   stopifnot(pprof_nested$time == rprof_nested$time)
