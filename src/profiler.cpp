@@ -6,6 +6,7 @@
 #include <gperftools/profiler.h>
 
 struct ProfilerDaisyChain::Impl {
+  Impl() : oldact() {}
   struct sigaction oldact;
 };
 
@@ -17,14 +18,20 @@ ProfilerDaisyChain::~ProfilerDaisyChain() {
 
 void ProfilerDaisyChain::start(const std::string& path) {
   sigaction(SIGPROF, NULL, &impl->oldact);
+
+  // Check that the handler requires three arguments
   if (impl->oldact.sa_flags & SA_SIGINFO) {
     Rcpp::stop("oops");
   }
 
   ProfilerOptions options;
+  memset(&options, 0, sizeof(options));
   options.filter_in_thread = &filter_in_thread;
   options.filter_in_thread_arg = reinterpret_cast<void*>(this);
-  ProfilerStartWithOptions(path.c_str(), &options);
+  int ret = ProfilerStartWithOptions(path.c_str(), &options);
+  if (!ret) {
+    Rcpp::stop("Error starting profiler");
+  }
 }
 
 void ProfilerDaisyChain::stop() {
