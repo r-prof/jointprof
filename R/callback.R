@@ -1,5 +1,5 @@
 sleep <- function() {
-  runif(5e7)
+  runif(2e7)
   NULL
 }
 
