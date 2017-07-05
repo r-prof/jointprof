@@ -66,3 +66,9 @@ gprofiler::get_profiler_traces()
 ```
 
 Eventually, the result will be an `Rprof`-compatible data format which can be consumed by `profvis` and other existing packages.
+
+### Acknowledgment
+
+This project is being realized with financial support from the
+
+<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="400">
