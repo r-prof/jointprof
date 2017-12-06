@@ -16,7 +16,7 @@ Imports:
     profvis,
     tidyr,
     Rcpp
-SystemDependencies: C++11
+SystemRequirements: C++11
 Suggests: knitr,
     rmarkdown
 VignetteBuilder: knitr
