@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // callback1_cpp
 void callback1_cpp();
-RcppExport SEXP gprofiler_callback1_cpp() {
+RcppExport SEXP _gprofiler_callback1_cpp() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     callback1_cpp();
@@ -17,7 +17,7 @@ END_RCPP
 }
 // callback2_cpp
 void callback2_cpp();
-RcppExport SEXP gprofiler_callback2_cpp() {
+RcppExport SEXP _gprofiler_callback2_cpp() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     callback2_cpp();
@@ -26,7 +26,7 @@ END_RCPP
 }
 // callback3_cpp
 void callback3_cpp();
-RcppExport SEXP gprofiler_callback3_cpp() {
+RcppExport SEXP _gprofiler_callback3_cpp() {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     callback3_cpp();
@@ -35,7 +35,7 @@ END_RCPP
 }
 // start_profiler_impl
 List start_profiler_impl(std::string path);
-RcppExport SEXP gprofiler_start_profiler_impl(SEXP pathSEXP) {
+RcppExport SEXP _gprofiler_start_profiler_impl(SEXP pathSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -46,7 +46,7 @@ END_RCPP
 }
 // stop_profiler_impl
 void stop_profiler_impl(List ldc);
-RcppExport SEXP gprofiler_stop_profiler_impl(SEXP ldcSEXP) {
+RcppExport SEXP _gprofiler_stop_profiler_impl(SEXP ldcSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< List >::type ldc(ldcSEXP);
@@ -56,11 +56,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"gprofiler_callback1_cpp", (DL_FUNC) &gprofiler_callback1_cpp, 0},
-    {"gprofiler_callback2_cpp", (DL_FUNC) &gprofiler_callback2_cpp, 0},
-    {"gprofiler_callback3_cpp", (DL_FUNC) &gprofiler_callback3_cpp, 0},
-    {"gprofiler_start_profiler_impl", (DL_FUNC) &gprofiler_start_profiler_impl, 1},
-    {"gprofiler_stop_profiler_impl", (DL_FUNC) &gprofiler_stop_profiler_impl, 1},
+    {"_gprofiler_callback1_cpp", (DL_FUNC) &_gprofiler_callback1_cpp, 0},
+    {"_gprofiler_callback2_cpp", (DL_FUNC) &_gprofiler_callback2_cpp, 0},
+    {"_gprofiler_callback3_cpp", (DL_FUNC) &_gprofiler_callback3_cpp, 0},
+    {"_gprofiler_start_profiler_impl", (DL_FUNC) &_gprofiler_start_profiler_impl, 1},
+    {"_gprofiler_stop_profiler_impl", (DL_FUNC) &_gprofiler_stop_profiler_impl, 1},
     {NULL, NULL, 0}
 };
 
