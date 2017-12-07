@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^src/Makevars\.*$
 ^CMakeLists\.txt$
 ^cmake-build-debug$
 ^clion-test\.R$
