@@ -29,16 +29,22 @@ dist: trusty
 cache: packages
 latex: true
 
-addons:
-  apt:
-    packages:
-    - libgoogle-perftools-dev
-
 #env
 env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
+
+jobs:
+  include:
+  - addons:
+      apt:
+        packages:
+        - libgoogle-perftools-dev
+    env:
+    - KIND=apt
+  - env:
+    - KIND=github
 
 #services
 services:
