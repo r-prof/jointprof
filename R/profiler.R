@@ -11,7 +11,7 @@
 start_profiler <- function(path = "1.prof") {
   prof_data <- init_profiler_impl()
   utils::Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
-  start_profiler_impl(prof_data, normalizePath(path, mustWork = TRUE))
+  start_profiler_impl(prof_data, path)
   .my_env$prof_data <- prof_data
 }
 
@@ -22,6 +22,7 @@ start_profiler <- function(path = "1.prof") {
 #' @rdname start_profiler
 stop_profiler <- function() {
   on.exit(.my_env$prof_data <- NULL, add = TRUE)
+
   utils::Rprof(NULL)
   stop_profiler_impl(.my_env$prof_data)
 }
