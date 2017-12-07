@@ -1,18 +1,35 @@
 .my_env <- new.env(parent = emptyenv())
 
+#' Starts and stops profiling
+#'
+#' `start_profiler()` initiates profiling.
+#'
+#' @param path Path to the output file. Other files based on this path
+#'   may be created.
+#'
 #' @export
 start_profiler <- function(path = "1.prof") {
   Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
   .my_env$prof_data <- start_profiler_impl(path)
 }
 
+#' `stop_profiler()` terminates profiling. The results are available with
+#' [get_profiler_traces()].
+#'
 #' @export
+#' @rdname start_profiler
 stop_profiler <- function() {
   on.exit(.my_env$prof_data <- NULL, add = TRUE)
   stop_profiler_impl(.my_env$prof_data)
   Rprof(NULL)
 }
 
+#' Parse profiler output
+#'
+#' Combines the profiler output obtained from [start_profiler()] into
+#' a nested tibble.
+#'
+#' @param path The path to the profiler output.
 #' @importFrom tidyr %>%
 #' @export
 get_profiler_traces <- function(path = "1.prof") {
