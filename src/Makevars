@@ -1,3 +1,2 @@
 PKG_CPPFLAGS = -I.
-PKG_CXXFLAGS = -std=c++11
 PKG_LIBS = -lprofiler
