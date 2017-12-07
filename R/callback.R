@@ -1,5 +1,5 @@
 sleep <- function() {
-  runif(2e7)
+  stats::runif(2e7)
   NULL
 }
 

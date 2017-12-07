@@ -9,7 +9,7 @@
 #'
 #' @export
 start_profiler <- function(path = "1.prof") {
-  Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
+  utils::Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
   .my_env$prof_data <- start_profiler_impl(path)
 }
 
@@ -21,7 +21,7 @@ start_profiler <- function(path = "1.prof") {
 stop_profiler <- function() {
   on.exit(.my_env$prof_data <- NULL, add = TRUE)
   stop_profiler_impl(.my_env$prof_data)
-  Rprof(NULL)
+  utils::Rprof(NULL)
 }
 
 #' Parse profiler output
