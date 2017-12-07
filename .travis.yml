@@ -44,8 +44,15 @@ jobs:
     env:
     - KIND=apt
     - BUILD_PKGDOWN=true
-  - env:
+  - addons:
+      apt:
+        packages:
+        - libunwind8-dev
+    env:
     - KIND=github
+    before_install:
+    - cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git
+    - cd /tmp/gperftools && ./autogen.sh && ./configure.sh --prefix=$HOME && make && make install
 
 #services
 services:
