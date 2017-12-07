@@ -13,8 +13,12 @@ callback3_cpp <- function() {
     invisible(.Call(`_gprofiler_callback3_cpp`))
 }
 
-start_profiler_impl <- function(path) {
-    .Call(`_gprofiler_start_profiler_impl`, path)
+init_profiler_impl <- function() {
+    .Call(`_gprofiler_init_profiler_impl`)
+}
+
+start_profiler_impl <- function(ldc, path) {
+    invisible(.Call(`_gprofiler_start_profiler_impl`, ldc, path))
 }
 
 stop_profiler_impl <- function(ldc) {

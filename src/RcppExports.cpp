@@ -33,15 +33,25 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// start_profiler_impl
-List start_profiler_impl(std::string path);
-RcppExport SEXP _gprofiler_start_profiler_impl(SEXP pathSEXP) {
+// init_profiler_impl
+List init_profiler_impl();
+RcppExport SEXP _gprofiler_init_profiler_impl() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
-    rcpp_result_gen = Rcpp::wrap(start_profiler_impl(path));
+    rcpp_result_gen = Rcpp::wrap(init_profiler_impl());
     return rcpp_result_gen;
+END_RCPP
+}
+// start_profiler_impl
+void start_profiler_impl(List ldc, std::string path);
+RcppExport SEXP _gprofiler_start_profiler_impl(SEXP ldcSEXP, SEXP pathSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type ldc(ldcSEXP);
+    Rcpp::traits::input_parameter< std::string >::type path(pathSEXP);
+    start_profiler_impl(ldc, path);
+    return R_NilValue;
 END_RCPP
 }
 // stop_profiler_impl
@@ -59,7 +69,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gprofiler_callback1_cpp", (DL_FUNC) &_gprofiler_callback1_cpp, 0},
     {"_gprofiler_callback2_cpp", (DL_FUNC) &_gprofiler_callback2_cpp, 0},
     {"_gprofiler_callback3_cpp", (DL_FUNC) &_gprofiler_callback3_cpp, 0},
-    {"_gprofiler_start_profiler_impl", (DL_FUNC) &_gprofiler_start_profiler_impl, 1},
+    {"_gprofiler_init_profiler_impl", (DL_FUNC) &_gprofiler_init_profiler_impl, 0},
+    {"_gprofiler_start_profiler_impl", (DL_FUNC) &_gprofiler_start_profiler_impl, 2},
     {"_gprofiler_stop_profiler_impl", (DL_FUNC) &_gprofiler_stop_profiler_impl, 1},
     {NULL, NULL, 0}
 };
