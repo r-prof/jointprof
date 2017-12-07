@@ -52,7 +52,7 @@ jobs:
     - KIND=github
     before_install:
     - cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git
-    - cd /tmp/gperftools && ./autogen.sh && ./configure.sh --prefix=$HOME && make && make install
+    - cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=$HOME && make && make install
 
 #services
 services:
