@@ -17,8 +17,12 @@ Imports:
     tidyr,
     Rcpp
 SystemRequirements: C++11
-Suggests: knitr,
-    rmarkdown
+Suggests: 
+    DBI,
+    knitr,
+    rmarkdown,
+    RSQLite,
+    testthat
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
