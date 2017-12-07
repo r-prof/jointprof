@@ -29,6 +29,11 @@ dist: trusty
 cache: packages
 latex: false
 
+addons:
+  apt:
+    packages:
+    - libgoogle-perftools-dev
+
 #env
 env:
   global:
