@@ -51,8 +51,13 @@ jobs:
     env:
     - KIND=github
     before_install:
-    - cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git
-    - cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=$HOME && make && make install
+    - ( cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git )
+    - ( cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=${HOME} && make && make install )
+    - mkdir -p ~/.R
+    - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
+    - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
+    - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
+    - echo "export LD_RUN_PATH" >> ~/.R/Makevars
 
 #services
 services:
