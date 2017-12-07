@@ -6,10 +6,16 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-List start_profiler_impl(std::string path) {
+List init_profiler_impl() {
   ProfilerDaisyChain* dc = new ProfilerDaisyChain();
-  dc->start(std::string(path));
   return List::create(XPtr<ProfilerDaisyChain>(dc));
+}
+
+// [[Rcpp::export]]
+void start_profiler_impl(List ldc, std::string path) {
+  XPtr<ProfilerDaisyChain> pdc = ldc[0];
+  ProfilerDaisyChain* dc = pdc.get();
+  dc->start(std::string(path));
 }
 
 // [[Rcpp::export]]

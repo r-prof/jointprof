@@ -6,11 +6,13 @@
 #include <gperftools/profiler.h>
 
 struct ProfilerDaisyChain::Impl {
-  Impl() : oldact() {}
+  Impl() : initact(), oldact() {}
+  struct sigaction initact;
   struct sigaction oldact;
 };
 
 ProfilerDaisyChain::ProfilerDaisyChain() : impl(new Impl) {
+  sigaction(SIGPROF, NULL, &impl->initact);
 }
 
 ProfilerDaisyChain::~ProfilerDaisyChain() {
@@ -32,10 +34,13 @@ void ProfilerDaisyChain::start(const std::string& path) {
   if (!ret) {
     Rcpp::stop("Error starting profiler");
   }
+
+  sigaction(SIGPROF, &impl->initact, NULL);
 }
 
 void ProfilerDaisyChain::stop() {
   ProfilerStop();
+  sigaction(SIGPROF, &impl->initact, NULL);
 }
 
 int ProfilerDaisyChain::filter_in_thread(void* this_) {
