@@ -43,6 +43,7 @@ jobs:
         - libgoogle-perftools-dev
     env:
     - KIND=apt
+    - BUILD_PKGDOWN=true
   - env:
     - KIND=github
 
