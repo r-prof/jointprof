@@ -7,3 +7,4 @@ cmake-build-debug
 *.prof
 *.prof.out
 inst/doc
+src/pprof
