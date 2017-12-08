@@ -5,8 +5,12 @@ CGO_CFLAGS = "$(ALL_CPPFLAGS)"
 CGO_LDFLAGS = "$(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR)"
 GOPATH = $(CURDIR)/go
 
-pprof:
+.PHONY: go
+
+all: $(SHLIB)
+
+go:
 	rm -f gotest.h
 	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
 
-$(SHLIB): pprof
+$(SHLIB): go
