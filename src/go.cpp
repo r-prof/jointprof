@@ -3,5 +3,10 @@
 
 // [[Rcpp::export]]
 int godouble(int x){
-  return DoubleIt(x);
+  return cgo_DoubleIt(x);
+}
+
+// [[Rcpp::export]]
+void run_pprof(){
+  cgo_run_pprof();
 }
