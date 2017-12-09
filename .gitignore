@@ -8,3 +8,5 @@ cmake-build-debug
 *.prof.out
 inst/doc
 src/pprof
+src/go/src/.idea/
+src/main.*
