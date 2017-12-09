@@ -1,17 +1,15 @@
 PKG_CPPFLAGS = -I.
 PKG_LIBS = -lprofiler main.a
 
-CGO_CFLAGS = "$(ALL_CPPFLAGS)"
-CGO_LDFLAGS = "$(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR)"
+CGO_CPPFLAGS = "$(ALL_CPPFLAGS)"
+CGO_CFLAGS = "$(ALL_CFLAGS)"
 GOPATH = $(CURDIR)/go
 
 .PHONY: go
 
 all: $(SHLIB)
 
-go:
+go.cpp:
 	rm -f gotest.h
-	GOPATH=$(GOPATH) go build -buildmode=c-archive R/main
+	CGO_CFLAGS=$(CGO_CFLAGS) CGO_CPPFLAGS=$(CGO_CPPFLAGS) GOPATH=$(GOPATH) go build -buildmode=c-archive -gcflags=-shared -asmflags=-shared -installsuffix=_shared -a -x R/main
 	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
-
-$(SHLIB): go
