@@ -9,7 +9,9 @@ GOPATH = $(CURDIR)/go
 
 all: $(SHLIB)
 
-go.cpp:
+go.cpp: go
+
+go:
 	rm -f gotest.h
 	CGO_CFLAGS=$(CGO_CFLAGS) CGO_CPPFLAGS=$(CGO_CPPFLAGS) GOPATH=$(GOPATH) go build -buildmode=c-archive -gcflags=-shared -asmflags=-shared -installsuffix=_shared -a -x R/main
 	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
