@@ -1,6 +1,8 @@
 PKG_CPPFLAGS = -I.
 PKG_LIBS = -lprofiler main.a
 
+#GO = /usr/lib/go-1.9/bin/go
+GO = go
 CGO_CPPFLAGS = "$(ALL_CPPFLAGS)"
 CGO_CFLAGS = "$(ALL_CFLAGS)"
 GOPATH = $(CURDIR)/go
@@ -13,5 +15,5 @@ go.cpp: go
 
 go:
 	rm -f gotest.h
-	CGO_CFLAGS=$(CGO_CFLAGS) GOPATH=$(GOPATH) go build -buildmode=c-archive -gcflags=-shared -asmflags=-shared -installsuffix=_shared -a -x R/main
-	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
+	CGO_CFLAGS=$(CGO_CFLAGS) GOPATH=$(GOPATH) $(GO) build -buildmode=c-archive -gcflags=-shared -asmflags=-shared -installsuffix=_shared -x R/main
+	GOPATH=$(GOPATH) $(GO) build github.com/google/pprof && cp pprof ../inst/bin/
