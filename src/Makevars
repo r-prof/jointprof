@@ -1,5 +1,5 @@
 PKG_CPPFLAGS = -I.
-PKG_LIBS = -lprofiler
+PKG_LIBS = -lprofiler main.a
 
 CGO_CFLAGS = "$(ALL_CPPFLAGS)"
 CGO_LDFLAGS = "$(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR)"
@@ -11,6 +11,7 @@ all: $(SHLIB)
 
 go:
 	rm -f gotest.h
+	GOPATH=$(GOPATH) go build -buildmode=c-archive R/main
 	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
 
 $(SHLIB): go

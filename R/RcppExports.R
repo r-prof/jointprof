@@ -13,6 +13,10 @@ callback3_cpp <- function() {
     invisible(.Call(`_gprofiler_callback3_cpp`))
 }
 
+godouble <- function(x) {
+    .Call(`_gprofiler_godouble`, x)
+}
+
 init_profiler_impl <- function() {
     .Call(`_gprofiler_init_profiler_impl`)
 }

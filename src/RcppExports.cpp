@@ -33,6 +33,17 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// godouble
+int godouble(int x);
+RcppExport SEXP _gprofiler_godouble(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(godouble(x));
+    return rcpp_result_gen;
+END_RCPP
+}
 // init_profiler_impl
 List init_profiler_impl();
 RcppExport SEXP _gprofiler_init_profiler_impl() {
@@ -69,6 +80,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_gprofiler_callback1_cpp", (DL_FUNC) &_gprofiler_callback1_cpp, 0},
     {"_gprofiler_callback2_cpp", (DL_FUNC) &_gprofiler_callback2_cpp, 0},
     {"_gprofiler_callback3_cpp", (DL_FUNC) &_gprofiler_callback3_cpp, 0},
+    {"_gprofiler_godouble", (DL_FUNC) &_gprofiler_godouble, 1},
     {"_gprofiler_init_profiler_impl", (DL_FUNC) &_gprofiler_init_profiler_impl, 0},
     {"_gprofiler_start_profiler_impl", (DL_FUNC) &_gprofiler_start_profiler_impl, 2},
     {"_gprofiler_stop_profiler_impl", (DL_FUNC) &_gprofiler_stop_profiler_impl, 1},
