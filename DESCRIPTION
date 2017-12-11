@@ -1,7 +1,10 @@
 Package: gprofiler
 Title: Joint Profiling of Native and R Code
 Version: 0.0-1
-Authors@R: person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org")
+Authors@R: c(
+      person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
+      person("Google, Inc.", role = "cph", comment = "Bundled pprof sources")
+    )
 Description: Simultaneously collects profiling data at both R and native levels
     (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
 License: GPL-3
