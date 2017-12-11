@@ -7,13 +7,13 @@ CGO_CPPFLAGS = "$(ALL_CPPFLAGS)"
 CGO_CFLAGS = "$(ALL_CFLAGS)"
 GOPATH = $(CURDIR)/go
 
-.PHONY: go
+-include Makevars.local
 
 all: $(SHLIB)
 
-go.cpp: go
+$(SHLIB): main.a
 
-go:
-	rm -f gotest.h
+main.a go.cpp: $(GO_SRC)
+	echo $(GO_SRC)
 	CGO_CFLAGS=$(CGO_CFLAGS) GOPATH=$(GOPATH) $(GO) build -buildmode=c-archive -gcflags=-shared -asmflags=-shared -installsuffix=_shared -x R/main
 	GOPATH=$(GOPATH) $(GO) build github.com/google/pprof && cp pprof ../inst/bin/
