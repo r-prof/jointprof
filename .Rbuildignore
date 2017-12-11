@@ -10,3 +10,8 @@
 ^\.travis\.yml$
 ^appveyor\.yml$
 ^tic\.R$
+^src/pprof$
+^src/go/src/github.com/google/pprof/internal/driver/testdata$
+^src/go/src/github.com/google/pprof/\.
+^src/go/src/\.idea$
+^src/main\..*$
