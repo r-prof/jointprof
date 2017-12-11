@@ -17,8 +17,8 @@ godouble <- function(x) {
     .Call(`_gprofiler_godouble`, x)
 }
 
-run_pprof <- function() {
-    invisible(.Call(`_gprofiler_run_pprof`))
+run_pprof <- function(path, target_path) {
+    .Call(`_gprofiler_run_pprof`, path, target_path)
 }
 
 init_profiler_impl <- function() {
