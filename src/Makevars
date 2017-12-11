@@ -5,12 +5,13 @@ CGO_CFLAGS = "$(ALL_CPPFLAGS)"
 CGO_LDFLAGS = "$(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR)"
 GOPATH = $(CURDIR)/go
 
-.PHONY: go
+-include Makevars.local
 
-all: $(SHLIB)
+all: $(SHLIB) ../inst/bin/pprof
 
-go:
+pprof: $(GO_SRC)
 	rm -f gotest.h
-	GOPATH=$(GOPATH) go build github.com/google/pprof && cp pprof ../inst/bin/
+	GOPATH=$(GOPATH) go build github.com/google/pprof
 
-$(SHLIB): go
+../inst/bin/pprof: pprof
+	cp $< $@

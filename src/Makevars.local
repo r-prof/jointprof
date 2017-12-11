@@ -1,0 +1,1 @@
+GO_SRC := $(shell find go -type f -name "*.go")
