@@ -8,11 +8,18 @@
 #'   may be created.
 #'
 #' @export
-start_profiler <- function(path = "1.prof") {
+start_profiler <- function(path = "1.out") {
+  pprof_path <- tempfile("gprofiler", fileext = ".prof")
+  rprof_path <- tempfile("gprofiler", fileext = ".out")
+  message("Temporary files: ", pprof_path, ", ", rprof_path)
+
   prof_data <- init_profiler_impl()
-  utils::Rprof(filename = paste0(path, ".out"), line.profiling = TRUE)
-  start_profiler_impl(prof_data, path)
+  utils::Rprof(filename = rprof_path, line.profiling = TRUE, gc.profiling = TRUE)
+  start_profiler_impl(prof_data, pprof_path)
   .my_env$prof_data <- prof_data
+  .my_env$path <- path
+  .my_env$pprof_path <- pprof_path
+  .my_env$rprof_path <- rprof_path
 }
 
 #' `stop_profiler()` terminates profiling. The results are available with
@@ -21,10 +28,14 @@ start_profiler <- function(path = "1.prof") {
 #' @export
 #' @rdname start_profiler
 stop_profiler <- function() {
-  on.exit(.my_env$prof_data <- NULL, add = TRUE)
+  on.exit(rm(list = ls(.my_env), pos = .my_env), add = TRUE)
 
   utils::Rprof(NULL)
   stop_profiler_impl(.my_env$prof_data)
+
+  combine_profiles(.my_env$path, .my_env$pprof_path, .my_env$rprof_path)
+  file.copy(.my_env$pprof_path, paste0(.my_env$path, ".prof"), overwrite = TRUE)
+  invisible(NULL)
 }
 
 #' Parse profiler output
@@ -35,10 +46,13 @@ stop_profiler <- function() {
 #' @param path The path to the profiler output.
 #' @importFrom tidyr %>%
 #' @export
-get_profiler_traces <- function(path = "1.prof") {
+get_profiler_traces <- function(path = "1.out") {
+  rprof_path <- path
+  pprof_path <- paste0(path, ".prof")
+
   traces <- system2(
     get_pprof_path(),
-    c("-unit", "us", "-lines", "-traces", shQuote(path)),
+    c("-unit", "us", "-lines", "-traces", shQuote(pprof_path)),
     stdout = TRUE)
 
   pprof_nested <-
@@ -49,7 +63,7 @@ get_profiler_traces <- function(path = "1.prof") {
     dplyr::transmute(time = seq_along(gprofiler), gprofiler = parse_pprof(gprofiler))
 
   rprof_nested <-
-    profvis:::parse_rprof(paste0(path, ".out"))$prof %>%
+    profvis:::parse_rprof(rprof_path)$prof %>%
     tibble::as_tibble() %>%
     tidyr::nest(-time, .key = rprof)
 
@@ -74,10 +88,15 @@ parse_pprof_one <- function(output_item) {
   }
 
   tibble::tibble(
-    label = gsub(rx, "\\1", output_lines),
-    filename = gsub(rx, "\\2", output_lines),
-    line = gsub(rx, "\\3", output_lines)
+    label = empty_to_na(gsub(rx, "\\1", output_lines)),
+    filename = empty_to_na(gsub(rx, "\\2", output_lines)),
+    line = empty_to_na(gsub(rx, "\\3", output_lines))
   )
+}
+
+empty_to_na <- function(x) {
+  x[x == ""] <- NA_character_
+  x
 }
 
 #' @export

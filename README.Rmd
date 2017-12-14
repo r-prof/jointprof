@@ -23,7 +23,7 @@ At present this is but a feasibility study: it requires Ubuntu Linux 64-bit and 
 ## Example
 
 The following example writes the `iris` data 100 times to an in-memory SQLite database and collects profiling data.
-By default, the profiling data are collected in two files, `1.prof` (native) and `1.prof.out` (R).
+By default, the profiling data are collected in two files, `1.out` (R) and `1.out.prof` (native).
 
 ```{r}
 library(DBI)

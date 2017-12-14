@@ -8,12 +8,13 @@ The goal of gprofiler is to assist profiling R packages that include native code
 Example
 -------
 
-The following example writes the `iris` data 100 times to an in-memory SQLite database and collects profiling data. By default, the profiling data are collected in two files, `1.prof` (native) and `1.prof.out` (R).
+The following example writes the `iris` data 100 times to an in-memory SQLite database and collects profiling data. By default, the profiling data are collected in two files, `1.out` (R) and `1.out.prof` (native).
 
 ``` r
 library(DBI)
 
 gprofiler::start_profiler()
+#> Temporary files: /tmp/Rtmp6ZWoiW/gprofiler4ac148b4ba91.prof, /tmp/Rtmp6ZWoiW/gprofiler4ac148376cf9.out
 con <- dbConnect(RSQLite::SQLite(), ":memory:")
 invisible(lapply(1:100, function(x)
   dbWriteTable(con, paste0("iris", x), iris)))
@@ -25,44 +26,45 @@ A unified view is created with `get_profiler_traces()`. Currently this returns a
 
 ``` r
 gprofiler::get_profiler_traces()
-#> # A tibble: 37 x 3
-#>     time gprofiler             rprof
-#>    <int>    <list>            <list>
-#>  1     1 <chr [1]> <tibble [38 x 7]>
-#>  2     2 <chr [1]> <tibble [35 x 7]>
-#>  3     3 <chr [1]> <tibble [40 x 7]>
-#>  4     4 <chr [1]> <tibble [41 x 7]>
-#>  5     5 <chr [1]> <tibble [30 x 7]>
-#>  6     6 <chr [1]> <tibble [36 x 7]>
-#>  7     7 <chr [1]> <tibble [34 x 7]>
-#>  8     8 <chr [1]> <tibble [38 x 7]>
-#>  9     9 <chr [1]> <tibble [49 x 7]>
-#> 10    10 <chr [1]> <tibble [35 x 7]>
-#> # ... with 27 more rows
+#> # A tibble: 79 x 3
+#>     time gprofiler         rprof            
+#>    <int> <list>            <list>           
+#>  1     1 <tibble [63 × 3]> <tibble [38 × 7]>
+#>  2     2 <tibble [63 × 3]> <tibble [38 × 7]>
+#>  3     3 <tibble [63 × 3]> <tibble [38 × 7]>
+#>  4     4 <tibble [63 × 3]> <tibble [36 × 7]>
+#>  5     5 <tibble [63 × 3]> <tibble [35 × 7]>
+#>  6     6 <tibble [63 × 3]> <tibble [36 × 7]>
+#>  7     7 <tibble [63 × 3]> <tibble [36 × 7]>
+#>  8     8 <tibble [63 × 3]> <tibble [36 × 7]>
+#>  9     9 <tibble [63 × 3]> <tibble [36 × 7]>
+#> 10    10 <tibble [64 × 3]> <tibble [35 × 7]>
+#> # ... with 69 more rows
 ```
 
 Below is another example where an R function calls a C++ function that calls back into R.
 
 ``` r
 gprofiler::start_profiler()
+#> Temporary files: /tmp/Rtmp6ZWoiW/gprofiler4ac1389eb0bc.prof, /tmp/Rtmp6ZWoiW/gprofiler4ac175e66ded.out
 gprofiler::callback2_r()
 #> NULL
 gprofiler::stop_profiler()
 gprofiler::get_profiler_traces()
-#> # A tibble: 84 x 3
-#>     time gprofiler             rprof
-#>    <int>    <list>            <list>
-#>  1     1 <chr [1]> <tibble [20 x 7]>
-#>  2     2 <chr [1]> <tibble [20 x 7]>
-#>  3     3 <chr [1]> <tibble [20 x 7]>
-#>  4     4 <chr [1]> <tibble [20 x 7]>
-#>  5     5 <chr [1]> <tibble [20 x 7]>
-#>  6     6 <chr [1]> <tibble [20 x 7]>
-#>  7     7 <chr [1]> <tibble [20 x 7]>
-#>  8     8 <chr [1]> <tibble [20 x 7]>
-#>  9     9 <chr [1]> <tibble [20 x 7]>
-#> 10    10 <chr [1]> <tibble [20 x 7]>
-#> # ... with 74 more rows
+#> # A tibble: 172 x 3
+#>     time gprofiler         rprof            
+#>    <int> <list>            <list>           
+#>  1     1 <tibble [63 × 3]> <tibble [21 × 7]>
+#>  2     2 <tibble [63 × 3]> <tibble [21 × 7]>
+#>  3     3 <tibble [63 × 3]> <tibble [21 × 7]>
+#>  4     4 <tibble [63 × 3]> <tibble [21 × 7]>
+#>  5     5 <tibble [63 × 3]> <tibble [21 × 7]>
+#>  6     6 <tibble [63 × 3]> <tibble [20 × 7]>
+#>  7     7 <tibble [63 × 3]> <tibble [20 × 7]>
+#>  8     8 <tibble [63 × 3]> <tibble [20 × 7]>
+#>  9     9 <tibble [63 × 3]> <tibble [20 × 7]>
+#> 10    10 <tibble [63 × 3]> <tibble [20 × 7]>
+#> # ... with 162 more rows
 ```
 
 Eventually, the result will be an `Rprof`-compatible data format which can be consumed by `profvis` and other existing packages.
