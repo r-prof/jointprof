@@ -11,8 +11,8 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Date: 2017-01-18
-BugReports: https://github.com/krlmlr/gprofiler/issues
-URL: https://github.com/krlmlr/gprofiler, http://krlmlr.github.io/gprofiler
+BugReports: https://github.com/r-prof/gprofiler/issues
+URL: https://github.com/r-prof/gprofiler, http://r-prof.github.io/gprofiler
 LinkingTo: Rcpp
 Imports:
     dplyr,

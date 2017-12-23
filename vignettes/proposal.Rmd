@@ -77,7 +77,7 @@ A joint R/native profiler can be implemented based on the following outline:
 1. Locate native calls (if available) in the R stack traces.
 1. Replace these by the relevant parts of the native stack traces.
 
-The `gprofiler` package, available on GitHub at https://github.com/krlmlr/gprofiler, is a working proof of concept (currently only 64-bit Ubuntu Linux)
+The `gprofiler` package, available on GitHub at https://github.com/r-prof/gprofiler, is a working proof of concept (currently only 64-bit Ubuntu Linux)
 for the seemingly tricky first step.[^daisy-chain]
 No change to base R is necessary to achieve this.
 As a result, a data frame of samples is returned where each row contains both R and native stack traces (separately in two columns).
@@ -91,7 +91,7 @@ Regardless of this choice, the joint R/native profiler will create an `.Rprof` f
 For interoperability, the `proftools` package already offers a way to convert an `.Rprof` file to the format created by `callgrind` and understood by a number of tools outside the R ecosystem.
 
 
-The project includes the development of three R packages, see also the `gprofiler` [issue tracker](https://github.com/krlmlr/gprofiler/issues) on GitHub:
+The project includes the development of three R packages, see also the `gprofiler` [issue tracker](https://github.com/r-prof/gprofiler/issues) on GitHub:
 
 1. A profiler package with the `Rprof()` drop-in replacement, based on the technique demonstrated in `gprofiler`.
     - Read the output of the native profiler (`*.prof` files for `gperftools`).

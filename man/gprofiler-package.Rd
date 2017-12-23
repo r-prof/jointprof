@@ -12,9 +12,9 @@ Simultaneously collects profiling data at both R and native levels
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/krlmlr/gprofiler}
-  \item \url{http://krlmlr.github.io/gprofiler}
-  \item Report bugs at \url{https://github.com/krlmlr/gprofiler/issues}
+  \item \url{https://github.com/r-prof/gprofiler}
+  \item \url{http://r-prof.github.io/gprofiler}
+  \item Report bugs at \url{https://github.com/r-prof/gprofiler/issues}
 }
 
 }
