@@ -21,4 +21,9 @@ Useful links:
 \author{
 \strong{Maintainer}: Kirill Müller \email{krlmlr+r@mailbox.org}
 
+Other contributors:
+\itemize{
+  \item Google, Inc. (Bundled pprof sources) [copyright holder]
+}
+
 }

@@ -4,7 +4,7 @@
 \alias{get_profiler_traces}
 \title{Parse profiler output}
 \usage{
-get_profiler_traces(path = "1.prof")
+get_profiler_traces(path = "1.out")
 }
 \arguments{
 \item{path}{The path to the profiler output.}
