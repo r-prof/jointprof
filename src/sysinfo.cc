@@ -61,8 +61,8 @@
 #endif
 #include "sysinfo.h"
 
-#define CHECK_LT(a, b) do a; while(0)
-#define CHECK_NE(a, b) do a; while(0)
+#define CHECK_LT(a, b) do (void)(a); while(0)
+#define CHECK_NE(a, b) do (void)(a); while(0)
 
 #ifdef PLATFORM_WINDOWS
 #ifdef MODULEENTRY32
@@ -118,6 +118,47 @@ static void ConstructFilename(const char* spec, pid_t pid,
 }
 #endif
 
+// A templatized helper function instantiated for Mach (OS X) only.
+// It can handle finding info for both 32 bits and 64 bits.
+// Returns true if it successfully handled the hdr, false else.
+#ifdef __MACH__          // Mac OS X, almost certainly
+template<uint32_t kMagic, uint32_t kLCSegment,
+         typename MachHeader, typename SegmentCommand>
+static bool NextExtMachHelper(const mach_header* hdr,
+                              int current_image, int current_load_cmd,
+                              uint64 *start, uint64 *end, char **flags,
+                              uint64 *offset, int64 *inode, char **filename,
+                              uint64 *file_mapping, uint64 *file_pages,
+                              uint64 *anon_mapping, uint64 *anon_pages,
+                              dev_t *dev) {
+  static char kDefaultPerms[5] = "r-xp";
+  if (hdr->magic != kMagic)
+    return false;
+  const char* lc = (const char *)hdr + sizeof(MachHeader);
+  // TODO(csilvers): make this not-quadradic (increment and hold state)
+  for (int j = 0; j < current_load_cmd; j++)  // advance to *our* load_cmd
+    lc += ((const load_command *)lc)->cmdsize;
+  if (((const load_command *)lc)->cmd == kLCSegment) {
+    const intptr_t dlloff = _dyld_get_image_vmaddr_slide(current_image);
+    const SegmentCommand* sc = (const SegmentCommand *)lc;
+    if (start) *start = sc->vmaddr + dlloff;
+    if (end) *end = sc->vmaddr + sc->vmsize + dlloff;
+    if (flags) *flags = kDefaultPerms;  // can we do better?
+    if (offset) *offset = sc->fileoff;
+    if (inode) *inode = 0;
+    if (filename)
+      *filename = const_cast<char*>(_dyld_get_image_name(current_image));
+    if (file_mapping) *file_mapping = 0;
+    if (file_pages) *file_pages = 0;   // could we use sc->filesize?
+    if (anon_mapping) *anon_mapping = 0;
+    if (anon_pages) *anon_pages = 0;
+    if (dev) *dev = 0;
+    return true;
+  }
+
+  return false;
+}
+#endif
 
 // Finds |c| in |text|, and assign '\0' at the found position.
 // The original character at the modified position should be |c|.
