@@ -94,7 +94,7 @@ patch_combined_ds <- function(ds_combined) {
   . <- tibble::as_tibble(.)
   locations_flat <- .
 
-  ds_combined$locations <- map2(
+  ds_combined$samples$locations <- map2(
     ds_combined$samples$.rprof_locations,
     ds_combined$samples$.pprof_locations,
     patch_locations,
@@ -112,9 +112,13 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
   rprof_locations_full <- .
   stopifnot(rprof_locations$location_id == rprof_locations_full$location_id)
 
-  if (all(rprof_locations_full$name != ".Call")) {
+  call_idx <- which(rprof_locations_full$name == ".Call")
+
+  if (length(call_idx) == 0) {
     return(rprof_locations)
   }
+
+  call_idx <- call_idx[[1]]
 
   . <- pprof_locations
   . <- tibble::rowid_to_column(., "pprof_id")
@@ -124,13 +128,26 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
   pprof_locations_full <- .
   stopifnot(pprof_locations$location_id == pprof_locations_full$location_id)
 
+  eval_idx <- which(pprof_locations_full$name == "Rf_eval")
+  if (length(eval_idx) == 0) {
+    eval_idx <- length(pprof_locations_full$name) + 1L
+  } else {
+    eval_idx <- eval_idx[[1L]] - 1L
+  }
 
-  browser()
-  # - construct new location_id sequence for every table
+  if (pprof_locations_full$name[[eval_idx]] == "<?>") eval_idx <- eval_idx - 1L
+
+  tibble::tibble(
+    location_id = c(
+      pprof_locations_full$location_id[seq2(1L, eval_idx - 1L)],
+      rprof_locations_full$location_id[seq2(call_idx + 1L, nrow(rprof_locations_full))]
+    )
+  )
 }
 
 prune_ds <- function(ds) {
-  # - prune unused locations and functions
+  # FIXME: prune unused locations and functions
+  ds
 }
 
 function() {
