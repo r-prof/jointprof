@@ -37,6 +37,8 @@
 #ifndef _SYSINFO_H_
 #define _SYSINFO_H_
 
+#include <config.h>
+
 #include <time.h>
 #if (defined(_WIN32) || defined(__MINGW32__)) && (!defined(__CYGWIN__) && !defined(__CYGWIN32__))
 #include <windows.h>   // for DWORD
@@ -47,6 +49,7 @@
 #endif
 #include <stddef.h>    // for size_t
 #include <limits.h>    // for PATH_MAX
+#include "basictypes.h"
 
 #ifndef SWIG  // SWIG doesn't like struct Buffer and variable arguments.
 
@@ -116,8 +119,8 @@ class ProcMapsIterator {
   // true, and only until the iterator is destroyed or Next() is
   // called again.  (Since filename, at least, points into CurrentLine.)
   static int FormatLine(char* buffer, int bufsize,
-                        uint64_t start, uint64_t end, const char *flags,
-                        uint64_t offset, int64_t inode, const char *filename,
+                        uint64 start, uint64 end, const char *flags,
+                        uint64 offset, int64 inode, const char *filename,
                         dev_t dev);
 
   // Find the next entry in /proc/maps; return true if found or false
@@ -132,19 +135,19 @@ class ProcMapsIterator {
   // modify the contents of these strings (up as far as the first NUL,
   // and only until the subsequent call to Next()) if desired.
 
-  // The offsets are all uint64_t in order to handle the case of a
+  // The offsets are all uint64 in order to handle the case of a
   // 32-bit process running on a 64-bit kernel
   //
   // IMPORTANT NOTE: see top-of-class notes for details about what
   // mapped regions Next() iterates over, depending on O/S.
   // TODO(csilvers): make flags and filename const.
-  bool Next(uint64_t *start, uint64_t *end, char **flags,
-            uint64_t *offset, int64_t *inode, char **filename);
+  bool Next(uint64 *start, uint64 *end, char **flags,
+            uint64 *offset, int64 *inode, char **filename);
 
-  bool NextExt(uint64_t *start, uint64_t *end, char **flags,
-               uint64_t *offset, int64_t *inode, char **filename,
-               uint64_t *file_mapping, uint64_t *file_pages,
-               uint64_t *anon_mapping, uint64_t *anon_pages,
+  bool NextExt(uint64 *start, uint64 *end, char **flags,
+               uint64 *offset, int64 *inode, char **filename,
+               uint64 *file_mapping, uint64 *file_pages,
+               uint64 *anon_mapping, uint64 *anon_pages,
                dev_t *dev);
 
   ~ProcMapsIterator();

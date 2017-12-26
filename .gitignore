@@ -9,3 +9,14 @@ src/pprof
 src/go/src/.idea/
 src/main.*
 /Rprof.out
+/config.log
+/autom4te.cache
+/aclocal.m4
+/ltmain.sh
+/compile
+/config.guess
+/config.sub
+/install-sh
+/missing
+/config.status
+/src/stamp-h1

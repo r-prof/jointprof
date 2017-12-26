@@ -4,11 +4,11 @@
 
 // Copyright (c) 2006, Google Inc.
 // All rights reserved.
-//
+// 
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are
 // met:
-//
+// 
 //     * Redistributions of source code must retain the above copyright
 // notice, this list of conditions and the following disclaimer.
 //     * Redistributions in binary form must reproduce the above
@@ -18,7 +18,7 @@
 //     * Neither the name of Google Inc. nor the names of its
 // contributors may be used to endorse or promote products derived from
 // this software without specific prior written permission.
-//
+// 
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
@@ -31,6 +31,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+#include <config.h>
 #if (defined(_WIN32) || defined(__MINGW32__)) && !defined(__CYGWIN__) && !defined(__CYGWIN32)
 # define PLATFORM_WINDOWS 1
 #endif
@@ -41,11 +42,9 @@
 #include <string.h>   // for memmove(), memchr(), etc.
 #include <fcntl.h>    // for open()
 #include <errno.h>    // for errno
-#include <inttypes.h> // for print and scan patterns
-#include <cstdint>
-#include "sysinfo.h"
-
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>   // for read()
+#endif
 #if defined __MACH__          // Mac OS X, almost certainly
 #include <mach-o/dyld.h>      // for iterating over dll's in ProcMapsIter
 #include <mach-o/loader.h>    // for iterating over dll's in ProcMapsIter
@@ -60,6 +59,10 @@
 #include <shlwapi.h>          // for SHGetValueA()
 #include <tlhelp32.h>         // for Module32First()
 #endif
+#include "sysinfo.h"
+
+#define CHECK_LT(a, b) do a; while(0)
+#define CHECK_NE(a, b) do a; while(0)
 
 #ifdef PLATFORM_WINDOWS
 #ifdef MODULEENTRY32
@@ -109,15 +112,20 @@
 #if defined __linux__ || defined __FreeBSD__ || defined __sun__ || defined __CYGWIN__ || defined __CYGWIN32__
 static void ConstructFilename(const char* spec, pid_t pid,
                               char* buf, int buf_size) {
-  snprintf(buf, buf_size, spec, static_cast<int>(pid ? pid : getpid()));
+  CHECK_LT(snprintf(buf, buf_size,
+                    spec,
+                    static_cast<int>(pid ? pid : getpid())), buf_size);
 }
 #endif
+
 
 // Finds |c| in |text|, and assign '\0' at the found position.
 // The original character at the modified position should be |c|.
 // A pointer to the modified position is stored in |endptr|.
 // |endptr| should not be NULL.
 static bool ExtractUntilChar(char *text, int c, char **endptr) {
+  CHECK_NE(text, NULL);
+  CHECK_NE(endptr, NULL);
   char *found;
   found = strchr(text, c);
   if (found == NULL) {
@@ -151,18 +159,19 @@ int StringToInteger<int>(char *text, char **endptr, int base) {
 }
 
 template<>
-int64_t StringToInteger<int64_t>(char *text, char **endptr, int base) {
+int64 StringToInteger<int64>(char *text, char **endptr, int base) {
   return strtoll(text, endptr, base);
 }
 
 template<>
-uint64_t StringToInteger<uint64_t>(char *text, char **endptr, int base) {
+uint64 StringToInteger<uint64>(char *text, char **endptr, int base) {
   return strtoull(text, endptr, base);
 }
 
 template<typename T>
 static T StringToIntegerUntilChar(
     char *text, int base, int c, char **endptr_result) {
+  CHECK_NE(endptr_result, NULL);
   *endptr_result = NULL;
 
   char *endptr_extract;
@@ -206,9 +215,9 @@ static bool StringToIntegerUntilCharWithCheck(
   return true;
 }
 
-static bool ParseProcMapsLine(char *text, uint64_t *start, uint64_t *end,
-                              char *flags, uint64_t *offset,
-                              int *major, int *minor, int64_t *inode,
+static bool ParseProcMapsLine(char *text, uint64 *start, uint64 *end,
+                              char *flags, uint64 *offset,
+                              int *major, int *minor, int64 *inode,
                               unsigned *filename_offset) {
 #if defined(__linux__)
   /*
@@ -345,8 +354,8 @@ bool ProcMapsIterator::Valid() const {
 #endif
 }
 
-bool ProcMapsIterator::Next(uint64_t *start, uint64_t *end, char **flags,
-                            uint64_t *offset, int64_t *inode, char **filename) {
+bool ProcMapsIterator::Next(uint64 *start, uint64 *end, char **flags,
+                            uint64 *offset, int64 *inode, char **filename) {
   return NextExt(start, end, flags, offset, inode, filename, NULL, NULL,
                  NULL, NULL, NULL);
 }
@@ -354,10 +363,10 @@ bool ProcMapsIterator::Next(uint64_t *start, uint64_t *end, char **flags,
 // This has too many arguments.  It should really be building
 // a map object and returning it.  The problem is that this is called
 // when the memory allocator state is undefined, hence the arguments.
-bool ProcMapsIterator::NextExt(uint64_t *start, uint64_t *end, char **flags,
-                               uint64_t *offset, int64_t *inode, char **filename,
-                               uint64_t *file_mapping, uint64_t *file_pages,
-                               uint64_t *anon_mapping, uint64_t *anon_pages,
+bool ProcMapsIterator::NextExt(uint64 *start, uint64 *end, char **flags,
+                               uint64 *offset, int64 *inode, char **filename,
+                               uint64 *file_mapping, uint64 *file_pages,
+                               uint64 *anon_mapping, uint64 *anon_pages,
                                dev_t *dev) {
 
 #if defined(__linux__) || defined(__FreeBSD__) || defined(__CYGWIN__) || defined(__CYGWIN32__)
@@ -396,8 +405,8 @@ bool ProcMapsIterator::NextExt(uint64_t *start, uint64_t *end, char **flags,
     *nextline_ = 0;                // turn newline into nul
     nextline_ += ((nextline_ < etext_)? 1 : 0);  // skip nul if not end of text
     // stext_ now points at a nul-terminated line
-    uint64_t tmpstart, tmpend, tmpoffset;
-    int64_t tmpinode;
+    uint64 tmpstart, tmpend, tmpoffset;
+    int64 tmpinode;
     int major, minor;
     unsigned filename_offset = 0;
 #if defined(__linux__)
@@ -472,10 +481,10 @@ bool ProcMapsIterator::NextExt(uint64_t *start, uint64_t *end, char **flags,
         if (*backing_ptr == '(') {
           ++paren_count;
           if (paren_count >= 2) {
-            uint64_t tmp_file_mapping;
-            uint64_t tmp_file_pages;
-            uint64_t tmp_anon_mapping;
-            uint64_t tmp_anon_pages;
+            uint64 tmp_file_mapping;
+            uint64 tmp_file_pages;
+            uint64 tmp_anon_mapping;
+            uint64 tmp_anon_pages;
 
             sscanf(backing_ptr+1, "F %" SCNx64 " %" SCNd64 ") (A %" SCNx64 " %" SCNd64 ")",
                    file_mapping ? file_mapping : &tmp_file_mapping,
@@ -605,8 +614,8 @@ bool ProcMapsIterator::NextExt(uint64_t *start, uint64_t *end, char **flags,
 }
 
 int ProcMapsIterator::FormatLine(char* buffer, int bufsize,
-                                 uint64_t start, uint64_t end, const char *flags,
-                                 uint64_t offset, int64_t inode,
+                                 uint64 start, uint64 end, const char *flags,
+                                 uint64 offset, int64 inode,
                                  const char *filename, dev_t dev) {
   // We assume 'flags' looks like 'rwxp' or 'rwx'.
   char r = (flags && flags[0] == 'r') ? 'r' : '-';

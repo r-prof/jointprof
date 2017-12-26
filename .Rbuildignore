@@ -15,3 +15,16 @@
 ^src/main\..*$
 ^_pkgdown\.yml$
 ^.*\.out$
+^configure\.ac$
+^m4$
+^config\.log$
+^autom4te\.cache$
+^aclocal\.m4$
+^ltmain\.sh$
+^compile$
+^config\.guess$
+^config\.sub$
+^install-sh$
+^missing$
+^config\.status$
+^src/stamp-h1$

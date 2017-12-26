@@ -47,6 +47,8 @@
 #ifndef BASE_GETPC_H_
 #define BASE_GETPC_H_
 
+#include "config.h"
+
 // On many linux systems, we may need _GNU_SOURCE to get access to
 // the defined constants that define the register we want to see (eg
 // REG_EIP).  Note this #define must come first!
@@ -184,7 +186,7 @@ inline void* GetPC(const ucontext_t& signal_ucontext) {
   // Mask out the AMODE31 bit from the PC recorded in the context.
   return (void*)((unsigned long)signal_ucontext.PC_FROM_UCONTEXT & 0x7fffffffUL);
 #else
-  return (void*)signal_ucontext.uc_mcontext.gregs[REG_RIP];
+  return (void*)signal_ucontext.PC_FROM_UCONTEXT;   // defined in config.h
 #endif
 }
 
