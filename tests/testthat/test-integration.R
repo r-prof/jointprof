@@ -11,4 +11,5 @@ test_that("simple integration test", {
   DBI::dbDisconnect(con)
 
   stop_profiler()
+  expect_true(TRUE)
 })
