@@ -22,8 +22,8 @@ At present this is but a feasibility study: it requires Ubuntu Linux 64-bit and 
 
 ## Example
 
-The following example writes the `iris` data 100 times to an in-memory SQLite database and collects profiling data.
-By default, the profiling data are collected in two files, `1.out` (R) and `1.out.prof` (native).
+The following example writes the `iris` data 100 times to an in-memory SQLite database. Profiling data are collected at both R and native levels, native stack traces are commingled with the R stack traces where appropriate.
+The results are written (to `1.out` by default) in an `Rprof`-compatible data format, which can be consumed by `profvis` and other existing packages.
 
 ```{r}
 library(DBI)
@@ -34,14 +34,9 @@ invisible(lapply(1:100, function(x)
   dbWriteTable(con, paste0("iris", x), iris)))
 dbDisconnect(con)
 gprofiler::stop_profiler()
+
+nrow(profile::read_rprof("1.out")$samples)
 ```
-
-A unified view is created with `get_profiler_traces()`. Currently this returns a nested data frame with two list columns, one for the native trace and one for the R trace. Each row represents one sample:
-
-```{r}
-gprofiler::get_profiler_traces()
-```
-
 
 Below is another example where an R function calls a C++ function that calls back into R.
 
@@ -49,10 +44,9 @@ Below is another example where an R function calls a C++ function that calls bac
 gprofiler::start_profiler()
 gprofiler::callback2_r()
 gprofiler::stop_profiler()
-gprofiler::get_profiler_traces()
-```
 
-Eventually, the result will be an `Rprof`-compatible data format which can be consumed by `profvis` and other existing packages.
+nrow(profile::read_rprof("1.out")$samples)
+```
 
 ### Acknowledgment
 

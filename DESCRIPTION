@@ -15,12 +15,10 @@ BugReports: https://github.com/r-prof/gprofiler/issues
 URL: https://github.com/r-prof/gprofiler, http://r-prof.github.io/gprofiler
 LinkingTo: Rcpp
 Imports:
-    dplyr,
     profile,
     profvis,
     rlang,
     tibble,
-    tidyr,
     Rcpp
 Remotes:
     r-prof/profile

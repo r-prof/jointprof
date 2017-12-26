@@ -11,6 +11,4 @@ test_that("simple integration test", {
   DBI::dbDisconnect(con)
 
   stop_profiler()
-
-  get_profiler_traces(path)
 })

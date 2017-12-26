@@ -23,7 +23,7 @@ Useful links:
 
 Other contributors:
 \itemize{
-  \item Google, Inc. (Bundled pprof sources) [copyright holder]
+  \item Google, Inc. (Bundled pprof sources, and code extracted from gperftools) [copyright holder]
 }
 
 }
