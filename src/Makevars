@@ -10,7 +10,6 @@ GOPATH = $(CURDIR)/go
 all: $(SHLIB) ../inst/bin/pprof
 
 pprof: $(GO_SRC)
-	rm -f gotest.h
 	GOPATH=$(GOPATH) go build github.com/google/pprof
 
 ../inst/bin/pprof: pprof
