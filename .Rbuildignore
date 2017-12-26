@@ -3,8 +3,6 @@
 ^CMakeLists\.txt$
 ^cmake-build-debug$
 ^clion-test\.R$
-^.*\.prof$
-^.*\.prof\.out$
 ^README\.Rmd$
 ^README-.*\.png$
 ^\.travis\.yml$
@@ -16,3 +14,4 @@
 ^src/go/src/\.idea$
 ^src/main\..*$
 ^_pkgdown\.yml$
+^.*\.out$

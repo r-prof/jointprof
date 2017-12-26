@@ -5,7 +5,7 @@
 \alias{stop_profiler}
 \title{Starts and stops profiling}
 \usage{
-start_profiler(path = "1.out")
+start_profiler(path = "Rprof.out")
 
 stop_profiler()
 }

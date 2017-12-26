@@ -8,7 +8,7 @@
 #'   may be created.
 #'
 #' @export
-start_profiler <- function(path = "1.out") {
+start_profiler <- function(path = "Rprof.out") {
   pprof_path <- tempfile("gprofiler", fileext = ".prof")
   rprof_path <- tempfile("gprofiler", fileext = ".out")
   message("Temporary files: ", pprof_path, ", ", rprof_path)

@@ -8,7 +8,7 @@ The goal of gprofiler is to assist profiling R packages that include native code
 Example
 -------
 
-The following example writes the `iris` data 100 times to an in-memory SQLite database. Profiling data are collected at both R and native levels, native stack traces are commingled with the R stack traces where appropriate. The results are written (to `1.out` by default) in an `Rprof`-compatible data format, which can be consumed by `profvis` and other existing packages.
+The following example writes the `iris` data 100 times to an in-memory SQLite database. Profiling data are collected at both R and native levels, native stack traces are commingled with the R stack traces where appropriate. The results are written (to `Rprof.out` by default) in an `Rprof()`-compatible data format, which can be consumed by `profvis` and other existing packages.
 
 ``` r
 library(DBI)
@@ -21,7 +21,7 @@ invisible(lapply(1:100, function(x)
 dbDisconnect(con)
 gprofiler::stop_profiler()
 
-nrow(profile::read_rprof("1.out")$samples)
+nrow(profile::read_rprof("Rprof.out")$samples)
 #> [1] 41
 ```
 
@@ -34,7 +34,7 @@ gprofiler::callback2_r()
 #> NULL
 gprofiler::stop_profiler()
 
-nrow(profile::read_rprof("1.out")$samples)
+nrow(profile::read_rprof("Rprof.out")$samples)
 #> [1] 89
 ```
 
