@@ -104,21 +104,6 @@ void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info, void* uconte
   sigaction(SIGPROF, &myact, NULL);
 }
 
-int ProfilerDaisyChain::filter_in_thread(void* this_) {
-  ProfilerDaisyChain* this_ptr = reinterpret_cast<ProfilerDaisyChain*>(this_);
-  return this_ptr->filter_in_thread();
-}
-
-int ProfilerDaisyChain::filter_in_thread() {
-  struct sigaction myact;
-  sigaction(SIGPROF, NULL, &myact);
-  if (impl->oldact.sa_handler != SIG_DFL && impl->oldact.sa_handler != SIG_IGN) {
-    impl->oldact.sa_handler(SIGPROF);
-  }
-  sigaction(SIGPROF, &myact, NULL);
-  return 1;
-}
-
 void ProfilerDaisyChain::Impl::write_header() {
   const int sampling_period = 20000;
   intptr_t header[5] = {0, 3, 0, sampling_period, 0 };
