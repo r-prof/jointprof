@@ -41,6 +41,9 @@ jobs:
       apt:
         packages:
         - libgoogle-perftools-dev
+        - libprotoc-dev
+        - libprotobuf-dev
+        - protobuf-compiler
     env:
     - KIND=apt
     - BUILD_PKGDOWN=true
@@ -48,6 +51,9 @@ jobs:
       apt:
         packages:
         - libunwind8-dev
+        - libprotoc-dev
+        - libprotobuf-dev
+        - protobuf-compiler
     env:
     - KIND=github
     before_install:
