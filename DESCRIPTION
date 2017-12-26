@@ -3,7 +3,7 @@ Title: Joint Profiling of Native and R Code
 Version: 0.0-1
 Authors@R: c(
       person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
-      person("Google, Inc.", role = "cph", comment = "Bundled pprof sources")
+      person("Google, Inc.", role = "cph", comment = "Bundled pprof sources, and code extracted from gperftools")
     )
 Description: Simultaneously collects profiling data at both R and native levels
     (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
@@ -22,7 +22,7 @@ Imports:
     tibble,
     tidyr,
     Rcpp
-SystemRequirements: C++11
+SystemRequirements: C++11, libprofiler (libgoogle-perftools-dev on Ubuntu)
 Suggests: 
     DBI,
     knitr,
