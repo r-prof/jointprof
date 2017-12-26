@@ -14,13 +14,17 @@ struct ProfilerDaisyChain::Impl {
   void start(const std::string& path);
   void stop();
 
-  static void handler(int signal, siginfo_t* info, void* this_);
-  void handler(int signal, siginfo_t* info);
+  static void static_handler(int signal, siginfo_t* info, void* ucontext);
+  void handler(int signal, siginfo_t* info, void* ucontext);
 
   void write_header();
   void write_stack_trace();
   void write_trailer();
+
+  static Impl* static_impl;
 };
+
+ProfilerDaisyChain::Impl* ProfilerDaisyChain::Impl::static_impl = NULL;
 
 ProfilerDaisyChain::ProfilerDaisyChain() : impl(new Impl) {
   // FIXME: Query value during init of the library, and not during init of the class
@@ -35,6 +39,10 @@ void ProfilerDaisyChain::start(const std::string& path) {
 }
 
 void ProfilerDaisyChain::Impl::start(const std::string& path) {
+  if (static_impl) {
+    Rcpp::stop("Profiler already running");
+  }
+
   sigaction(SIGPROF, NULL, &oldact);
 
   // Check that the handler requires three arguments
@@ -53,9 +61,11 @@ void ProfilerDaisyChain::Impl::start(const std::string& path) {
   struct sigaction myact;
   memset(&myact, 0, sizeof(myact));
 
-  myact.sa_sigaction = &handler;
+  myact.sa_sigaction = &static_handler;
   myact.sa_flags = SA_SIGINFO;
   sigaction(SIGPROF, &myact, NULL);
+
+  static_impl = this;
 }
 
 void ProfilerDaisyChain::stop() {
@@ -66,16 +76,18 @@ void ProfilerDaisyChain::Impl::stop() {
   // Before closing file, to avoid race condition
   sigaction(SIGPROF, &initact, NULL);
 
+  static_impl = NULL;
+
   write_trailer();
   ofs.close();
 }
 
-void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info, void* this_) {
-  Impl* this_ptr = reinterpret_cast<Impl*>(this_);
-  return this_ptr->handler(signal, info);
+void ProfilerDaisyChain::Impl::static_handler(int signal, siginfo_t* info, void* ucontext) {
+  if (!static_impl) return;
+  return static_impl->handler(signal, info, ucontext);
 }
 
-void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info) {
+void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info, void* ucontext) {
   if (signal != SIGPROF)
     return;
 
