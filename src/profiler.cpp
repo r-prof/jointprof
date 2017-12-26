@@ -3,12 +3,23 @@
 #include "profiler.h"
 
 #include <signal.h>
-#include <gperftools/profiler.h>
+#include <fstream>
 
 struct ProfilerDaisyChain::Impl {
   Impl() : initact(), oldact() {}
   struct sigaction initact;
   struct sigaction oldact;
+  std::ofstream ofs;
+
+  void start(const std::string& path);
+  void stop();
+
+  static void handler(int signal, siginfo_t* info, void* this_);
+  void handler(int signal, siginfo_t* info);
+
+  void write_header();
+  void write_stack_trace();
+  void write_trailer();
 };
 
 ProfilerDaisyChain::ProfilerDaisyChain() : impl(new Impl) {
@@ -20,38 +31,62 @@ ProfilerDaisyChain::~ProfilerDaisyChain() {
 }
 
 void ProfilerDaisyChain::start(const std::string& path) {
-  sigaction(SIGPROF, NULL, &impl->oldact);
+  impl->start(path);
+}
+
+void ProfilerDaisyChain::Impl::start(const std::string& path) {
+  sigaction(SIGPROF, NULL, &oldact);
 
   // Check that the handler requires three arguments
-  if (impl->oldact.sa_flags & SA_SIGINFO) {
+  if (oldact.sa_flags & SA_SIGINFO) {
     Rcpp::stop("oops");
   }
 
-  ProfilerOptions options;
-  memset(&options, 0, sizeof(options));
-  options.filter_in_thread = &filter_in_thread;
-  options.filter_in_thread_arg = reinterpret_cast<void*>(this);
-  int ret = ProfilerStartWithOptions(path.c_str(), &options);
-  if (!ret) {
-    Rcpp::stop("Error starting profiler");
+  ofs.open(path, std::ios::out | std::ios::binary);
+  if (ofs.fail()) {
+    ofs.clear();
+    Rcpp::stop("Can't create file %s", path.c_str());
   }
 
-  // Compatibility with gperftools <= 2.4:
-  // Older versions changed the signal handler when starting the profiler,
-  // as of gperftools 2.5 the signal handler is installed when the library is loaded.
-  // We check if starting the profiler has changed the signal handler; if not,
-  // we use the signal handler that was active when the library was loaded
-  struct sigaction newact;
-  sigaction(SIGPROF, NULL, &newact);
+  this->write_header();
 
-  if (newact.sa_handler == impl->oldact.sa_handler) {
-    sigaction(SIGPROF, &impl->initact, NULL);
-  }
+  struct sigaction myact;
+  memset(&myact, 0, sizeof(myact));
+
+  myact.sa_sigaction = &handler;
+  myact.sa_flags = SA_SIGINFO;
+  sigaction(SIGPROF, &myact, NULL);
 }
 
 void ProfilerDaisyChain::stop() {
-  ProfilerStop();
-  sigaction(SIGPROF, &impl->initact, NULL);
+  impl->stop();
+}
+
+void ProfilerDaisyChain::Impl::stop() {
+  // Before closing file, to avoid race condition
+  sigaction(SIGPROF, &initact, NULL);
+
+  write_trailer();
+  ofs.close();
+}
+
+void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info, void* this_) {
+  Impl* this_ptr = reinterpret_cast<Impl*>(this_);
+  return this_ptr->handler(signal, info);
+}
+
+void ProfilerDaisyChain::Impl::handler(int signal, siginfo_t* info) {
+  if (signal != SIGPROF)
+    return;
+
+  write_stack_trace();
+
+  struct sigaction myact;
+  sigaction(SIGPROF, NULL, &myact);
+  if (oldact.sa_handler != SIG_DFL && oldact.sa_handler != SIG_IGN) {
+    oldact.sa_handler(SIGPROF);
+  }
+  sigaction(SIGPROF, &myact, NULL);
 }
 
 int ProfilerDaisyChain::filter_in_thread(void* this_) {
@@ -67,4 +102,16 @@ int ProfilerDaisyChain::filter_in_thread() {
   }
   sigaction(SIGPROF, &myact, NULL);
   return 1;
+}
+
+void ProfilerDaisyChain::Impl::write_header() {
+
+}
+
+void ProfilerDaisyChain::Impl::write_stack_trace() {
+
+}
+
+void ProfilerDaisyChain::Impl::write_trailer() {
+
 }
