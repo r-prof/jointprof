@@ -13,7 +13,7 @@ include_directories(src)
 add_definitions(-D__CLION__)
 
 
-file(GLOB SOURCE_FILES src/*.cpp src/*.c)
+file(GLOB SOURCE_FILES src/*.cpp src/*.cc src/*.c)
 add_library(gprofiler ${SOURCE_FILES})
 
 add_custom_target(
