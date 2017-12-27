@@ -20,3 +20,4 @@ src/main.*
 /missing
 /config.status
 /src/stamp-h1
+/src/config.h
