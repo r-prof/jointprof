@@ -38,8 +38,9 @@ env:
 jobs:
   include:
   - os: osx
-    before_install:
-      - brew install gperftools
+    before_script:
+    - brew install gperftools
+    - R -q -e 'tic::before_script()'
   - os: linux
     addons:
       apt:
