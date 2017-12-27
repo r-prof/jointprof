@@ -37,7 +37,11 @@ env:
 
 jobs:
   include:
-  - addons:
+  - os: osx
+    before_install:
+      - brew install gperftools
+  - os: linux
+    addons:
       apt:
         packages:
         - libgoogle-perftools-dev
@@ -47,7 +51,8 @@ jobs:
     env:
     - KIND=apt
     - BUILD_PKGDOWN=true
-  - addons:
+  - os: linux
+    addons:
       apt:
         packages:
         - libunwind8-dev
