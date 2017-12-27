@@ -1,7 +1,10 @@
-args <- c("--no-manual", "--as_cran")
-if (Sys.getenv("TRAVIS_OS_NAME") == "osx") args <- c(args, "--no-build-vignettes")
-
-add_package_checks(warnings_are_errors = FALSE, args = args)
+add_package_checks(
+  warnings_are_errors = FALSE,
+  args = c(
+    "--no-manual", "--as_cran",
+    if (Sys.getenv("TRAVIS_OS_NAME") == "osx") "--no-build-vignettes"
+  )
+)
 
 if (ci()$get_branch() == "master" && Sys.getenv("BUILD_PKGDOWN") != "" && Sys.getenv("id_rsa") != "") {
   # pkgdown documentation can be built optionally. Other example criteria:
