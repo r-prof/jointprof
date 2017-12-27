@@ -161,6 +161,7 @@ static bool NextExtMachHelper(const mach_header* hdr,
 }
 #endif
 
+#if defined(__linux__)
 // Finds |c| in |text|, and assign '\0' at the found position.
 // The original character at the modified position should be |c|.
 // A pointer to the modified position is stored in |endptr|.
@@ -261,7 +262,6 @@ static bool ParseProcMapsLine(char *text, uint64 *start, uint64 *end,
                               char *flags, uint64 *offset,
                               int *major, int *minor, int64 *inode,
                               unsigned *filename_offset) {
-#if defined(__linux__)
   /*
    * It's similar to:
    * sscanf(text, "%"SCNx64"-%"SCNx64" %4s %"SCNx64" %x:%x %"SCNd64" %n",
@@ -294,10 +294,8 @@ static bool ParseProcMapsLine(char *text, uint64 *start, uint64 *end,
 
   *filename_offset = (endptr - text);
   return true;
-#else
-  return false;
-#endif
 }
+#endif // #if defined(__linux__)
 
 ProcMapsIterator::ProcMapsIterator(pid_t pid) {
   Init(pid, NULL, false);
