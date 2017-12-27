@@ -1,5 +1,6 @@
 PKG_CPPFLAGS = -I.
-PKG_LIBS = -lprofiler
+# Need tcmalloc on OS X, upstream issue filed
+PKG_LIBS = -lprofiler -ltcmalloc
 
 CGO_CFLAGS = "$(ALL_CPPFLAGS)"
 CGO_LDFLAGS = "$(PKG_LIBS) $(SHLIB_LIBADD) $(LIBR)"
