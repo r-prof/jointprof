@@ -41,6 +41,7 @@ jobs:
     before_script:
     - brew install gperftools
     - R -q -e 'tic::before_script()'
+    r_check_args: --as-cran --no-build-vignettes --no-vignettes
   - os: linux
     addons:
       apt:
