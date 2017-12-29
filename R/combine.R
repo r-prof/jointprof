@@ -110,16 +110,15 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
 
   eval_idx <- which(pprof_locations_full$name == "Rf_eval")
   if (length(eval_idx) == 0) {
-    eval_idx <- length(pprof_locations_full$name) + 1L
+    eval_idx <- length(pprof_locations_full$name)
   } else {
-    eval_idx <- eval_idx[[1L]] - 1L
+    eval_idx <- max(eval_idx[[1L]] - 1L, 1L)
+    if (pprof_locations_full$name[[eval_idx]] == "<?>") eval_idx <- eval_idx - 1L
   }
-
-  if (pprof_locations_full$name[[eval_idx]] == "<?>") eval_idx <- eval_idx - 1L
 
   tibble::tibble(
     location_id = c(
-      pprof_locations_full$location_id[seq2(1L, eval_idx - 1L)],
+      pprof_locations_full$location_id[seq2(1L, eval_idx)],
       rprof_locations_full$location_id[seq2(call_idx + 1L, nrow(rprof_locations_full))]
     )
   )
