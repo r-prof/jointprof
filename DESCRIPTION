@@ -23,7 +23,8 @@ Imports:
     RProtoBuf
 Remotes:
     r-prof/profile
-SystemRequirements: C++11, Go, libprofiler (libgoogle-perftools-dev on Ubuntu, gperftools on Homebrew)
+SystemRequirements: C++11, Linux (OS X and Solaris not supported), Go, libprofiler (libgoogle-perftools-dev on Ubuntu)
+OS_type: unix
 Suggests: 
     DBI,
     knitr,

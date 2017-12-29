@@ -9,6 +9,8 @@
 #'
 #' @export
 start_profiler <- function(path = "Rprof.out") {
+  stop_if_not_linux()
+
   pprof_path <- tempfile("gprofiler", fileext = ".prof")
   rprof_path <- tempfile("gprofiler", fileext = ".out")
   message("Temporary files: ", pprof_path, ", ", rprof_path)
@@ -28,6 +30,8 @@ start_profiler <- function(path = "Rprof.out") {
 #' @export
 #' @rdname start_profiler
 stop_profiler <- function() {
+  stop_if_not_linux()
+
   on.exit(rm(list = ls(.my_env), pos = .my_env), add = TRUE)
 
   utils::Rprof(NULL)
@@ -36,6 +40,12 @@ stop_profiler <- function() {
   combine_profiles(.my_env$path, .my_env$pprof_path, .my_env$rprof_path)
   file.copy(.my_env$pprof_path, paste0(.my_env$path, ".prof"), overwrite = TRUE)
   invisible(NULL)
+}
+
+stop_if_not_linux <- function() {
+  if (tolower(Sys.info()[["sysname"]]) != "linux") {
+    abort("This function is only supported on Linux")
+  }
 }
 
 #' @export
