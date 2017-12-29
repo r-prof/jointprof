@@ -5,7 +5,7 @@
 \alias{stop_profiler}
 \title{Starts and stops profiling}
 \usage{
-start_profiler(path = "1.prof")
+start_profiler(path = "Rprof.out")
 
 stop_profiler()
 }
@@ -16,6 +16,6 @@ may be created.}
 \description{
 \code{start_profiler()} initiates profiling.
 
-\code{stop_profiler()} terminates profiling. The results are available with
-\code{\link[=get_profiler_traces]{get_profiler_traces()}}.
+\code{stop_profiler()} terminates profiling. The results are written to the
+Rprof-compatible file given specified by the \code{path} argument.
 }

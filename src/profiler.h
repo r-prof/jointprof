@@ -15,10 +15,6 @@ public:
   void stop();
 
 private:
-  static int filter_in_thread(void* this_);
-  int filter_in_thread();
-
-private:
   struct Impl;
   std::unique_ptr<Impl> impl;
 };
