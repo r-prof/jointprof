@@ -1,6 +1,8 @@
 context("integration")
 
 test_that("simple integration test", {
+  skip_on_os(c("mac", "solaris", "windows"))
+
   path <- tempfile("gprofiler", fileext = ".prof")
 
   start_profiler(path)
@@ -12,4 +14,13 @@ test_that("simple integration test", {
 
   stop_profiler()
   expect_true(TRUE)
+})
+
+test_that("simple failure test", {
+  skip_on_os("linux")
+
+  path <- tempfile("gprofiler", fileext = ".prof")
+
+  expect_error(start_profiler(path), "Linux")
+  expect_error(stop_profiler(), "Linux")
 })
