@@ -10,12 +10,30 @@ start_profiler(path = "Rprof.out")
 stop_profiler()
 }
 \arguments{
-\item{path}{Path to the output file. Other files based on this path
-may be created.}
+\item{path}{Path to the output file.}
 }
 \description{
-\code{start_profiler()} initiates profiling.
+\code{start_profiler()} initiates profiling. It is a replacement for \code{\link[=Rprof]{Rprof()}}
+that will include native stack traces where available.
 
 \code{stop_profiler()} terminates profiling. The results are written to the
-Rprof-compatible file given specified by the \code{path} argument.
+\code{Rprof()}-compatible file given specified by the \code{path} argument.
+}
+\details{
+Set the \code{keep.source} and \code{keep.source.pkgs} options to \code{TRUE} (via
+\code{\link[=option]{option()}}) before installing packages from source or running code to obtain
+accurate locations in your stack traces. It is a good idea to set these
+options in your \link{.Rprofile} file.
+
+Use the \pkg{profile} package to read the data or save the output in \code{pprof}
+format for further processing.
+}
+\examples{
+\dontrun{
+start_profiler("Rprof.out")
+# code to be profiled
+stop_profiler()
+
+profile::read_rprof("Rprof.out")
+}
 }

@@ -1,4 +1,4 @@
-combine_profiles <- function(path, prof_path, out_path) {
+combine_profiles <- function(prof_path, out_path) {
   ds_rprof <- profile::read_rprof(out_path)
 
   proto_path <- tempfile("gprofiler", fileext = ".pb.gz")
@@ -18,8 +18,7 @@ combine_profiles <- function(path, prof_path, out_path) {
   ds_combined <- combine_ds(ds_rprof, ds_pprof)
   ds_merged <- patch_combined_ds(ds_combined)
   ds_pruned <- prune_ds(ds_merged)
-
-  profile::write_rprof(ds_pruned, path)
+  ds_pruned
 }
 
 shift_ids <- function(ds, ds_base) {

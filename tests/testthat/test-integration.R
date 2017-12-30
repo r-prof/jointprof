@@ -12,8 +12,9 @@ test_that("simple integration test", {
     DBI::dbWriteTable(con, paste0("iris", x), iris)))
   DBI::dbDisconnect(con)
 
-  stop_profiler()
-  expect_true(TRUE)
+  ds_vis <- withVisible(stop_profiler())
+  expect_false(ds_vis$visible)
+  expect_error(profile::validate_profile(ds_vis$value), NA)
 })
 
 test_that("simple failure test", {

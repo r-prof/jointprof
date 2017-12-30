@@ -2,14 +2,34 @@
 
 #' Starts and stops profiling
 #'
-#' `start_profiler()` initiates profiling.
+#' `start_profiler()` initiates profiling. It is a replacement for [Rprof()]
+#' that will include native stack traces where available.
 #'
-#' @param path Path to the output file. Other files based on this path
-#'   may be created.
+#' @details
+#' Set the `keep.source` and `keep.source.pkgs` options to `TRUE` (via
+#' [option()]) before installing packages from source or running code to obtain
+#' accurate locations in your stack traces. It is a good idea to set these
+#' options in your [.Rprofile] file.
+#'
+#' Use the \pkg{profile} package to read the data or save the output in `pprof`
+#' format for further processing.
+#'
+#' @param path Path to the output file.
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#' start_profiler("Rprof.out")
+#' # code to be profiled
+#' stop_profiler()
+#'
+#' profile::read_rprof("Rprof.out")
+#' }
 start_profiler <- function(path = "Rprof.out") {
   stop_if_not_linux()
+
+  # Make sure pprof is available, it will be needed later
+  get_pprof_path()
 
   pprof_path <- tempfile("gprofiler", fileext = ".prof")
   rprof_path <- tempfile("gprofiler", fileext = ".out")
@@ -25,9 +45,11 @@ start_profiler <- function(path = "Rprof.out") {
 }
 
 #' `stop_profiler()` terminates profiling. The results are written to the
-#' Rprof-compatible file given specified by the `path` argument.
+#' `Rprof()`-compatible file given specified by the `path` argument.
 #'
 #' @export
+#' @value `stop_profiler()` returns the profiling data like it would have
+#'   been read by [profile::read_rprof()].
 #' @rdname start_profiler
 stop_profiler <- function() {
   stop_if_not_linux()
@@ -37,9 +59,9 @@ stop_profiler <- function() {
   utils::Rprof(NULL)
   stop_profiler_impl(.my_env$prof_data)
 
-  combine_profiles(.my_env$path, .my_env$pprof_path, .my_env$rprof_path)
-  file.copy(.my_env$pprof_path, paste0(.my_env$path, ".prof"), overwrite = TRUE)
-  invisible(NULL)
+  ds <- combine_profiles(.my_env$pprof_path, .my_env$rprof_path)
+  profile::write_rprof(ds, .my_env$path)
+  invisible(ds)
 }
 
 stop_if_not_linux <- function() {
