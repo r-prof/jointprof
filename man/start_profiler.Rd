@@ -12,6 +12,10 @@ stop_profiler()
 \arguments{
 \item{path}{Path to the output file.}
 }
+\value{
+\code{stop_profiler()} returns the profiling data like it would have
+been read by \code{\link[profile:read_rprof]{profile::read_rprof()}}.
+}
 \description{
 \code{start_profiler()} initiates profiling. It is a replacement for \code{\link[=Rprof]{Rprof()}}
 that will include native stack traces where available.
@@ -20,6 +24,10 @@ that will include native stack traces where available.
 \code{Rprof()}-compatible file given specified by the \code{path} argument.
 }
 \details{
+Profiling requires the \code{pprof} tool, which can be made available by
+installing the \pkg{pprof} package (recommended) or by running
+\code{go get github.com/google/pprof} and adding \code{${GOPATH}/bin} to the \code{PATH}.
+
 Set the \code{keep.source} and \code{keep.source.pkgs} options to \code{TRUE} (via
 \code{\link[=option]{option()}}) before installing packages from source or running code to obtain
 accurate locations in your stack traces. It is a good idea to set these

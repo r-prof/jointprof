@@ -6,6 +6,10 @@
 #' that will include native stack traces where available.
 #'
 #' @details
+#' Profiling requires the `pprof` tool, which can be made available by
+#' installing the \pkg{pprof} package (recommended) or by running
+#' `go get github.com/google/pprof` and adding `${GOPATH}/bin` to the `PATH`.
+#'
 #' Set the `keep.source` and `keep.source.pkgs` options to `TRUE` (via
 #' [option()]) before installing packages from source or running code to obtain
 #' accurate locations in your stack traces. It is a good idea to set these
@@ -48,7 +52,7 @@ start_profiler <- function(path = "Rprof.out") {
 #' `Rprof()`-compatible file given specified by the `path` argument.
 #'
 #' @export
-#' @value `stop_profiler()` returns the profiling data like it would have
+#' @return `stop_profiler()` returns the profiling data like it would have
 #'   been read by [profile::read_rprof()].
 #' @rdname start_profiler
 stop_profiler <- function() {
@@ -83,5 +87,13 @@ show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
 }
 
 get_pprof_path <- function() {
-  system.file("bin", "pprof", package = utils::packageName())
+  if (is_installed("pprof")) {
+    pprof::get_pprof_path()
+  } else if (Sys.which("pprof") == "") {
+    stop(
+      "Please install the pprof package or put the pprof tool on the PATH.",
+      call. = FALSE
+    )
+    Sys.which("pprof")
+  }
 }

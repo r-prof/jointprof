@@ -21,16 +21,18 @@ Imports:
     tibble,
     Rcpp,
     RProtoBuf
-Remotes:
-    r-prof/profile
-SystemRequirements: C++11, Linux (OS X and Solaris not supported), Go, libprofiler (libgoogle-perftools-dev on Ubuntu)
-OS_type: unix
 Suggests: 
     DBI,
     knitr,
+    pprof,
     rmarkdown,
     RSQLite,
     testthat
+Remotes:
+    r-prof/pprof,
+    r-prof/profile
+SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
+OS_type: unix
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
