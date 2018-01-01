@@ -34,7 +34,7 @@ shift_ids <- function(ds, ds_base) {
   ds$locations$function_id <- ds$locations$function_id + d_function_id
   ds$functions$function_id <- ds$functions$function_id + d_function_id
 
-  profile::validate_profile_v1(ds)
+  profile::validate_profile(ds)
   ds
 }
 
@@ -45,7 +45,7 @@ expand_samples <- function(ds) {
   )
 
   ds$samples <- new_samples
-  profile::validate_profile_v1(ds)
+  profile::validate_profile(ds)
   ds
 }
 
@@ -57,7 +57,7 @@ combine_ds <- function(ds_rprof, ds_pprof) {
   ds_rprof$functions <- tibble::as_tibble(rbind(
     strip_dots(ds_rprof$functions), strip_dots(ds_pprof$functions)
   ))
-  profile::validate_profile_v1(ds_rprof)
+  profile::validate_profile(ds_rprof)
   ds_rprof
 }
 
