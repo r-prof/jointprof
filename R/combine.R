@@ -117,6 +117,7 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
 
   tibble::tibble(
     location_id = c(
+      rprof_locations_full$location_id[seq2(1L, call_idx - 1L)],
       pprof_locations_full$location_id[seq2(1L, eval_idx)],
       rprof_locations_full$location_id[seq2(call_idx + 1L, nrow(rprof_locations_full))]
     )
