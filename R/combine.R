@@ -91,7 +91,7 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
   rprof_locations_full <- .
   stopifnot(rprof_locations$location_id == rprof_locations_full$location_id)
 
-  call_idx <- which(rprof_locations_full$name == ".Call")
+  call_idx <- which(rprof_locations_full$system_name == ".Call")
 
   if (length(call_idx) == 0) {
     return(rprof_locations)
@@ -107,12 +107,12 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
   pprof_locations_full <- .
   stopifnot(pprof_locations$location_id == pprof_locations_full$location_id)
 
-  eval_idx <- which(pprof_locations_full$name == "Rf_eval")
+  eval_idx <- which(pprof_locations_full$system_name == "Rf_eval")
   if (length(eval_idx) == 0) {
-    eval_idx <- length(pprof_locations_full$name)
+    eval_idx <- length(pprof_locations_full$system_name)
   } else {
     eval_idx <- max(eval_idx[[1L]] - 1L, 1L)
-    if (pprof_locations_full$name[[eval_idx]] == "<?>") eval_idx <- eval_idx - 1L
+    if (pprof_locations_full$system_name[[eval_idx]] == "<?>") eval_idx <- eval_idx - 1L
   }
 
   tibble::tibble(
