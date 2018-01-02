@@ -16,12 +16,12 @@ knitr::opts_chunk$set(
 )
 knitr::opts_chunk$set(cache = TRUE)
 
-
+options(width = 95)
 ```
 
 For this vignette, we'll be profiling R and C++ implementations of functions that computes the Fibonacci sequence using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#In_computer_programming):
 
-```{r}
+```{r fib-r}
 fib_r <- function(x) {
   if (x <= 2) return(rep(1, x))
   fib <- fib_r(x - 1)
@@ -47,7 +47,7 @@ Rcpp::NumericVector fib_cpp(int x) {
 
 (A few tweaks are necessary to allow profiling the *Rcpp*-compiled function when run from the vignette. See the source for details.)
 
-```{r include = FALSE}
+```{r patch-fib-r, include = FALSE}
 code <- as.list(body(fib_cpp))
 # gprofiler is looking for calls to .Call, but Rcpp creates .Primitive(".Call")
 # Replacing.
@@ -61,14 +61,14 @@ compiler::enableJIT(0)
 
 The implementations are supposed to behave identically.
 
-```{r}
+```{r eval-fib}
 fib_r(10)
 fib_cpp(10)
 ```
 
 Our test function `test()` calls both functions and compares their output in a loop:
 
-```{r}
+```{r test-fun}
 test <- function(i) {
   for (i in seq_len(i)) {
     stopifnot(identical(fib_r(i), fib_cpp(i)))
@@ -79,31 +79,44 @@ test <- function(i) {
 
 ## A minimal example
 
-We can profile the function with [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof), and visualize results with [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof):
+R contains a built-in sampling profiler, accessible via [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof).
+It works by halting execution of the program every so often (by default 50 times per second) and then recording the [call stack](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sys.parent).
+Results can be aggregated with [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof):
 
-```{r}
+```{r minimal-plain-rprof}
 out_file <- tempfile("gprofiler", fileext = ".out")
 Rprof(out_file, gc.profiling = TRUE)
-test(800)
+for (i in 1:10) test(800)
 Rprof(NULL)
-summaryRprof(out_file)$by.self
+
+summary <- summaryRprof(out_file)
+summary$by.self
 ```
 
-This is a nice overview, but for `fun_cpp()` the "self" and "total" times are identical: calls into native code are opaque and cannot be resolved further. Enter joint profiling:
+This is a nice overview, but for `fun_cpp()` the run time is hidden in the entry for [`.Call()`](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/CallExternal): calls into native code are opaque and cannot be resolved further. Enter joint profiling:
 
-```{r}
+```{r minimal-gprofiler}
 library(gprofiler)
 out_file <- tempfile("gprofiler", fileext = ".out")
 start_profiler(out_file)
-test(800)
+for (i in 1:10) test(800)
 stop_profiler()
-summaryRprof(out_file)$by.self
+
+summary <- summaryRprof(out_file)
+summary$by.self
 ```
 
-We use Google's `pprof` to visualize the call *graph*:
+We use Google's `pprof` to visualize the call *graph*, after removing a chain of 15 calls common to all samples:
 
-```{r}
+```{r minimal-graph}
 profile_data <- profile::read_rprof(out_file)
+
+profile_data$samples$locations <- lapply(
+  profile_data$samples$locations,
+  head,
+  -15
+)
+
 pprof_file <- tempfile("gprofiler", fileext = ".pb.gz")
 profile::write_pprof(profile_data, pprof_file)
 
@@ -113,6 +126,7 @@ system2(
   pprof::get_pprof_path(),
   c(
     "-svg",
+    "-nodefraction 0.01",
     "-output",
     shQuote(svg_file),
     shQuote(pprof_file)
@@ -123,8 +137,7 @@ system2(
 
 ![Call graph](guide_fig/minimal.svg)
 
-
-- Short example
+The call graph shows a unified view of run time costs for both R and native code.
 
 - Installation
 
