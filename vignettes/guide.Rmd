@@ -1,0 +1,137 @@
+---
+title: "Introduction to joint profiling of native and R code"
+author: "Kirill Müller"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Kirill Müller}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+knitr::opts_chunk$set(cache = TRUE)
+
+
+```
+
+For this vignette, we'll be profiling R and C++ implementations of functions that computes the Fibonacci sequence using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#In_computer_programming):
+
+```{r}
+fib_r <- function(x) {
+  if (x <= 2) return(rep(1, x))
+  fib <- fib_r(x - 1)
+  c(fib, fib[x - 1] + fib[x - 2])
+}
+```
+
+```{Rcpp}
+#include <Rcpp.h>
+
+// [[Rcpp::export]]
+Rcpp::NumericVector fib_cpp(int x) {
+  if (x <= 1) return Rcpp::NumericVector::create(1);
+  if (x <= 2) return Rcpp::NumericVector::create(1, 1);
+  Rcpp::NumericVector fib = fib_cpp(x - 1);
+
+  // Zero-based indexing!
+  fib.push_back(fib[x - 1 - 1] + fib[x - 2 - 1]);
+
+  return fib;
+}
+```
+
+(A few tweaks are necessary to allow profiling the *Rcpp*-compiled function when run from the vignette. See the source for details.)
+
+```{r include = FALSE}
+code <- as.list(body(fib_cpp))
+# gprofiler is looking for calls to .Call, but Rcpp creates .Primitive(".Call")
+# Replacing.
+code[[1]] <- quote(.Call)
+# Get rid of compiled state
+fib_cpp <- function(x) NULL
+body(fib_cpp) <- call("{", as.call(code))
+# Still necessary
+compiler::enableJIT(0)
+```
+
+The implementations are supposed to behave identically.
+
+```{r}
+fib_r(10)
+fib_cpp(10)
+```
+
+Our test function `test()` calls both functions and compares their output in a loop:
+
+```{r}
+test <- function(i) {
+  for (i in seq_len(i)) {
+    stopifnot(identical(fib_r(i), fib_cpp(i)))
+  }
+}
+```
+
+
+## A minimal example
+
+We can profile the function with [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof), and visualize results with [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof):
+
+```{r}
+out_file <- tempfile("gprofiler", fileext = ".out")
+Rprof(out_file, gc.profiling = TRUE)
+test(800)
+Rprof(NULL)
+summaryRprof(out_file)$by.self
+```
+
+This is a nice overview, but for `fun_cpp()` the "self" and "total" times are identical: calls into native code are opaque and cannot be resolved further. Enter joint profiling:
+
+```{r}
+library(gprofiler)
+out_file <- tempfile("gprofiler", fileext = ".out")
+start_profiler(out_file)
+test(800)
+stop_profiler()
+summaryRprof(out_file)$by.self
+```
+
+We use Google's `pprof` to visualize the call *graph*:
+
+```{r}
+profile_data <- profile::read_rprof(out_file)
+pprof_file <- tempfile("gprofiler", fileext = ".pb.gz")
+profile::write_pprof(profile_data, pprof_file)
+
+svg_file <- here::here("vignettes/guide_fig/minimal.svg")
+
+system2(
+  pprof::get_pprof_path(),
+  c(
+    "-svg",
+    "-output",
+    shQuote(svg_file),
+    shQuote(pprof_file)
+  ),
+  wait = TRUE
+)
+```
+
+![Call graph](guide_fig/minimal.svg)
+
+
+- Short example
+
+- Installation
+
+- Usage
+
+- Other packages
+    - profvis
+    - proftools
+    - prof.tree
+    - 

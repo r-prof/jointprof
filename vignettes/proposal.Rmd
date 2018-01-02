@@ -1,5 +1,5 @@
 ---
-title: "Joint profiling of native and R code"
+title: "Proposal: Joint profiling of native and R code"
 author: "Kirill Müller"
 date: "`r Sys.Date()`"
 output:
