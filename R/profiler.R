@@ -88,7 +88,7 @@ show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
 
 get_pprof_path <- function() {
   if (is_installed("pprof")) {
-    pprof::get_pprof_path()
+    pprof::get_pprof_pkg_path()
   } else if (Sys.which("pprof") == "") {
     stop(
       "Please install the pprof package or put the pprof tool on the PATH.",
