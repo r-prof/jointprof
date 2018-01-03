@@ -119,7 +119,7 @@ The summary now also contains a breakdown for native functions below the R code 
 The *gprofiler* package currently requires Linux, it has been tested on Ubuntu only. Various system dependencies are required:
 
 - *gprofiler* requires [perftools](https://github.com/gperftools/gperftools)
-- the necessary *profiler* package requires ProtoBuf development files
+- the necessary *RProtoBuf* package requires ProtoBuf development files
 - the (for now necessary) *pprof* package requires Go
 - drawing call graphs in `pprof` requires GraphViz
 
@@ -133,7 +133,7 @@ sudo apt install \
   graphviz
 ```
 
-Installing the R package from GitHub will also install the two dependencies, *pprof* and *profile*:
+Installing the R package from GitHub will also install two dependencies from GitHub, *pprof* and *profile*, as well as all other required R packages:
 
 ```r
 # install.packages("remotes")
