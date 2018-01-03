@@ -1,6 +1,6 @@
 .my_env <- new.env(parent = emptyenv())
 
-#' Starts and stops profiling
+#' Start and stop profiling
 #'
 #' `start_profiler()` initiates profiling. It is a replacement for [Rprof()]
 #' that will include native stack traces where available. Internally, `Rprof()`

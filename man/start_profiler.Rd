@@ -3,7 +3,7 @@
 \name{start_profiler}
 \alias{start_profiler}
 \alias{stop_profiler}
-\title{Starts and stops profiling}
+\title{Start and stop profiling}
 \usage{
 start_profiler(path = "Rprof.out", ..., numfiles = 100L, bufsize = 10000L)
 
