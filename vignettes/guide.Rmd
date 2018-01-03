@@ -94,7 +94,7 @@ test <- function(i) {
 
 ## A minimal example
 
-Results can be aggregated with [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof):
+`Rprof()` creates a text file that contains the stack trace for each interruption. The [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof) function converts this to a data frame with one row per function and the corresponding run time estimates (self: code in that function only, total: including all descendant functions):
 
 ```{r minimal-plain-rprof}
 out_file <- tempfile("gprofiler", fileext = ".out")
