@@ -21,3 +21,5 @@ src/main.*
 /config.status
 /src/stamp-h1
 /src/config.h
+/vignettes/*_cache
+/vignettes/*.html
