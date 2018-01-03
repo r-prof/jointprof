@@ -8,7 +8,7 @@ Authors@R: c(
       person("Google, Inc.", role = "cph", comment = "Bundled pprof sources, and code extracted from gperftools")
     )
 Description: Simultaneously collects profiling data at both R and native levels
-    (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
+    (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data.
 License: GPL-3
 URL: https://github.com/r-prof/gprofiler, http://r-prof.github.io/gprofiler
 BugReports: https://github.com/r-prof/gprofiler/issues

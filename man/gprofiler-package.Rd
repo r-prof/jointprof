@@ -7,7 +7,7 @@
 \title{gprofiler: Joint Profiling of Native and R Code}
 \description{
 Simultaneously collects profiling data at both R and native levels
-(using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
+(using 'Rprof' and 'gprofiler') and provides a unified view of the collected data.
 }
 \seealso{
 Useful links:
