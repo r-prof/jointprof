@@ -3,6 +3,7 @@ Title: Joint Profiling of Native and R Code
 Version: 0.0-1
 Authors@R: c(
       person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
+      person("R Consortium", role = c("fnd")),
       person("Google, Inc.", role = "cph", comment = "Bundled pprof sources, and code extracted from gperftools")
     )
 Description: Simultaneously collects profiling data at both R and native levels
