@@ -1,4 +1,6 @@
 write_flat_ds <- function(ds, path) {
+  stopifnot(is_installed("readr"))
+
   ds <- expand_samples(ds)
 
   . <- tibble::tibble(

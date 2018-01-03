@@ -16,7 +16,6 @@ URL: https://github.com/r-prof/gprofiler, http://r-prof.github.io/gprofiler
 LinkingTo: Rcpp
 Imports:
     profile,
-    profvis,
     rlang,
     tibble,
     Rcpp,
@@ -26,7 +25,7 @@ Suggests:
     here,
     knitr,
     pprof,
-    Rcpp,
+    readr,
     rmarkdown,
     RSQLite,
     testthat
