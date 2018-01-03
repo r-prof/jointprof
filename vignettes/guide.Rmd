@@ -248,6 +248,4 @@ A few major points have been left unresolved until a forthcoming release:
 
 - OS X is not supported yet: the recording of native call stacks for the R binary doesn't work as expected. These problems seem fixable, in contrast to Windows support which will require a different approach for capturing native stack traces.
 
-- Very deep recursions (like in this vignette) may lead to profiler output which the *profile* package fails to parse.
-
 If your R code calls into native code, or if you want to try `pprof` with R profiling results, give the *gprofiler* package a try! If you discover problems or have comments, [file an issue](https://github.com/r-prof/gprofiler/issues). I'd be especially grateful for help with other Linux distributions or OS X.
