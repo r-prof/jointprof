@@ -1,0 +1,37 @@
+---
+title: "Collecting and merging dual call stacks"
+author: "Kirill Müller"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Collecting and merging dual call stacks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+This vignette describes internals and design choices of the *gprofiler* and associated packages. Users most likely will be interested in the ["Introduction" vignette](https://r-prof.github.io/gprofiler/articles/guide.html).
+
+## Work in progress
+
+- Common data format
+    - Rprof files: Lowest common denominator
+    - Existing codes were too specific
+    - versioning data format, based on pprof internals
+
+- Capturing samples: Only gperftools offered support for Linux and OS X (at least), early efforts started there
+    - Contrary to `Rprof()`, samples are aggregated during profiling
+        - Solution: Extract relevant parts of code that captures stack traces, write binary profile format
+    - Alternatives: instrumenting, callgrind, AMD, VerySleepy, ...
+    - Current OS X problems
+
+- Merging samples
+    - Relying on entries named `.Call` and `Rf_eval`
+
+- Challenges and next steps
