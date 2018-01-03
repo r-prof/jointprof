@@ -99,7 +99,7 @@ This is a nice overview, but for `fun_cpp()` the run time is hidden in the entry
 library(gprofiler)
 out_file <- tempfile("gprofiler", fileext = ".out")
 start_profiler(out_file)
-for (i in 1:10) test(800)
+for (i in 1:10) test(700)
 stop_profiler()
 
 summary <- summaryRprof(out_file)
@@ -139,7 +139,7 @@ The [`start_profiler()` and `stop_profiler()`](https://r-prof.github.io/gprofile
 ```{r show-out-contents}
 out_file <- tempfile("gprofiler", fileext = ".out")
 start_profiler(out_file)
-for (i in 1:10) test(800)
+for (i in 1:10) test(700)
 stop_profiler()
 
 readLines(out_file, n = 10)
@@ -150,7 +150,7 @@ Furthermore `stop_profiler()` returns an in-memory representation of the profile
 ```{r show-profile-data}
 out_file <- tempfile("gprofiler", fileext = ".out")
 start_profiler(out_file)
-for (i in 1:10) test(800)
+for (i in 1:10) test(700)
 profile_data <- stop_profiler()
 
 profile_data
