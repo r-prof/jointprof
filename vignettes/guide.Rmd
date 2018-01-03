@@ -132,6 +132,7 @@ sudo apt install \
 Installing the R package from GitHub will also install the two dependencies, *pprof* and *profile*:
 
 ```r
+# install.packages("remotes")
 remotes::install_github("r-prof/gprofiler")
 ```
 
@@ -145,7 +146,7 @@ start_profiler(out_file)
 for (i in 1:10) test(700)
 stop_profiler()
 
-strtrim(readLines(out_file, n = 10), 90)
+strtrim(readLines(out_file, n = 12), 90)
 ```
 
 Furthermore `stop_profiler()` returns an in-memory representation of the profiled data, invisibly. See [`?profiler::validate_profile`](https://r-prof.github.io/profile/reference/validate_profile.html) for a description of the data format.
