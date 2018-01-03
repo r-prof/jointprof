@@ -1,6 +1,7 @@
 Package: gprofiler
 Title: Joint Profiling of Native and R Code
 Version: 0.0-1
+Date: 2017-01-18
 Authors@R: c(
       person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
       person("R Consortium", role = "fnd"),
@@ -9,18 +10,14 @@ Authors@R: c(
 Description: Simultaneously collects profiling data at both R and native levels
     (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data. Work in progress.
 License: GPL-3
-Encoding: UTF-8
-LazyData: true
-Date: 2017-01-18
-BugReports: https://github.com/r-prof/gprofiler/issues
 URL: https://github.com/r-prof/gprofiler, http://r-prof.github.io/gprofiler
-LinkingTo: Rcpp
-Imports:
+BugReports: https://github.com/r-prof/gprofiler/issues
+Imports: 
     profile,
-    rlang,
-    tibble,
     Rcpp,
-    RProtoBuf
+    rlang,
+    RProtoBuf,
+    tibble
 Suggests: 
     DBI,
     here,
@@ -30,11 +27,14 @@ Suggests:
     rmarkdown,
     RSQLite,
     testthat
-Remotes:
-    r-prof/r-pprof,
-    r-prof/profile
-SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
-OS_type: unix
+LinkingTo: 
+    Rcpp
 VignetteBuilder: knitr
+Encoding: UTF-8
+LazyData: true
+OS_type: unix
+Remotes: r-prof/profile,
+    r-prof/r-pprof
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
+SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
