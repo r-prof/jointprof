@@ -74,18 +74,6 @@ stop_if_not_linux <- function() {
   }
 }
 
-#' @export
-show_profiler_pdf <- function(path = "1.prof", focus = NULL) {
-  pprof_exit_code <- system2(
-    get_pprof_path(),
-    c("-lines", "-evince", if (!is.null(focus)) paste0("-focus=", focus),
-      shQuote(path)),
-    wait = FALSE)
-  if (pprof_exit_code != 0) {
-    warning("pprof exited with ", pprof_exit_code)
-  }
-}
-
 get_pprof_path <- function() {
   if (is_installed("pprof")) {
     pprof::get_pprof_pkg_path()
