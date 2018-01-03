@@ -45,6 +45,7 @@ jobs:
         - libprotobuf-dev
         - protobuf-compiler
         - graphviz # for call graph in vignette
+        - librsvg2-dev # for rsvg
     env:
     - KIND=apt
     - BUILD_PKGDOWN=true
@@ -56,6 +57,7 @@ jobs:
         - libprotobuf-dev
         - protobuf-compiler
         - graphviz # for call graph in vignette
+        - librsvg2-dev # for rsvg
     env:
     - KIND=github
     before_install:
