@@ -32,3 +32,4 @@
 ^vignettes/.*_cache$
 ^vignettes/.*_fig$
 ^vignettes/.*\.html$
+^codecov\.yml$

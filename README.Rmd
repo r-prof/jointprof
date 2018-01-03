@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
 
 # gprofiler
 
+[![Travis build status](https://travis-ci.org/r-prof/gprofiler.svg?branch=master)](https://travis-ci.org/r-prof/gprofiler) [![Coverage status](https://codecov.io/gh/r-prof/gprofiler/branch/master/graph/badge.svg)](https://codecov.io/github/r-prof/gprofiler?branch=master) [![CRAN status](http://www.r-pkg.org/badges/version/gprofiler)](https://cran.r-project.org/package=gprofiler)
+
 The goal of gprofiler is to assist profiling R packages that include native code (C++, C, Fortran, ...).
 It collects profiling output simultaneously using [Rprof](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof) and [gperftools](https://github.com/gperftools/gperftools) and provides a unified view of profiling data.
 
