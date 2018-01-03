@@ -3,7 +3,8 @@
 #' Starts and stops profiling
 #'
 #' `start_profiler()` initiates profiling. It is a replacement for [Rprof()]
-#' that will include native stack traces where available.
+#' that will include native stack traces where available. Internally, `Rprof()`
+#' is used to capture R call stacks.
 #'
 #' @details
 #' Profiling requires the `pprof` tool, which can be made available by
@@ -19,6 +20,8 @@
 #' format for further processing.
 #'
 #' @param path Path to the output file.
+#' @param ... Ignored, for extensibility.
+#' @param numfiles,bufsize Passed on to `Rprof()` call.
 #'
 #' @export
 #' @examples
@@ -29,7 +32,7 @@
 #'
 #' profile::read_rprof("Rprof.out")
 #' }
-start_profiler <- function(path = "Rprof.out") {
+start_profiler <- function(path = "Rprof.out", ..., numfiles = 100L, bufsize = 10000L) {
   stop_if_not_linux()
 
   # Make sure pprof is available, it will be needed later
@@ -40,7 +43,13 @@ start_profiler <- function(path = "Rprof.out") {
   message("Temporary files: ", pprof_path, ", ", rprof_path)
 
   prof_data <- init_profiler_impl()
-  utils::Rprof(filename = rprof_path, line.profiling = TRUE, gc.profiling = TRUE)
+  utils::Rprof(
+    filename = rprof_path,
+    line.profiling = TRUE,
+    gc.profiling = TRUE,
+    numfiles = numfiles,
+    bufsize = bufsize
+  )
   start_profiler_impl(prof_data, pprof_path)
   .my_env$prof_data <- prof_data
   .my_env$path <- path

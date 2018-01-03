@@ -5,12 +5,16 @@
 \alias{stop_profiler}
 \title{Starts and stops profiling}
 \usage{
-start_profiler(path = "Rprof.out")
+start_profiler(path = "Rprof.out", ..., numfiles = 100L, bufsize = 10000L)
 
 stop_profiler()
 }
 \arguments{
 \item{path}{Path to the output file.}
+
+\item{...}{Ignored, for extensibility.}
+
+\item{numfiles, bufsize}{Passed on to \code{Rprof()} call.}
 }
 \value{
 \code{stop_profiler()} returns the profiling data like it would have
@@ -18,7 +22,8 @@ been read by \code{\link[profile:read_rprof]{profile::read_rprof()}}.
 }
 \description{
 \code{start_profiler()} initiates profiling. It is a replacement for \code{\link[=Rprof]{Rprof()}}
-that will include native stack traces where available.
+that will include native stack traces where available. Internally, \code{Rprof()}
+is used to capture R call stacks.
 
 \code{stop_profiler()} terminates profiling. The results are written to the
 \code{Rprof()}-compatible file given specified by the \code{path} argument.
