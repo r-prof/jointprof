@@ -31,3 +31,4 @@
 ^src/config\.h$
 ^vignettes/.*_cache$
 ^vignettes/.*_fig$
+^vignettes/.*\.html$

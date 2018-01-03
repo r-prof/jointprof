@@ -22,3 +22,4 @@ src/main.*
 /src/stamp-h1
 /src/config.h
 /vignettes/*_cache
+/vignettes/*.html
