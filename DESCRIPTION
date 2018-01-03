@@ -28,6 +28,7 @@ Suggests:
     readr,
     rmarkdown,
     RSQLite,
+    rsvg,
     testthat
 LinkingTo: 
     Rcpp

@@ -205,11 +205,14 @@ system2(
     shQuote(pprof_file)
   )
 )
+
+png_file <- knit_dir("guide_fig/minimal.png")
+rsvg::rsvg_png(svg_file, png_file, width = 680)
 ```
 
-![Call graph](guide_fig/minimal.svg)
+[![Call graph (click to show image)](guide_fig/minimal.png)](guide_fig/minimal.svg)
 
-The call graph shows a unified view of run time costs for both R and native code. (You may need to invoke "View image" or a similar command in your browser to see the full image.)
+The call graph shows a unified view of run time costs for both R and native code. (Click on the image to see the SVG version.)
 
 For interactive exploration of a call graph, try the built-in web browser view:
 
