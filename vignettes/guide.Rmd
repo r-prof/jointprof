@@ -23,6 +23,18 @@ knit_dir <- withr::with_dir(
 )
 ```
 
+The three rules of software optimization are:
+
+1. Don't.
+2. Don't do it yet.
+3. Profile before optimizing.
+
+A profiler is a tool that identifies which parts of your code take the most time. One way to do this is to run the code and halt execution every so often (by default 50 times per second), and record the [call stack](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sys.parent) on each occurrence. The combined samples will likely show in which part of your code the most time is spent.
+
+In R, a sampling profiler is available via [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof), but it provides detailed measurements only for R code. This vignette shows how to include detailed information on native code run times in the profile.
+
+## Prerequisite: Code to profile
+
 For this vignette, we'll be profiling R and C++ implementations of functions that computes the Fibonacci sequence using [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming#In_computer_programming):
 
 ```{r fib-r}
@@ -80,12 +92,8 @@ test <- function(i) {
 }
 ```
 
-
 ## A minimal example
 
-R contains a built-in sampling profiler, accessible via [`Rprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof).
-It works by halting execution of the program every so often (by default 50 times per second) and then recording the [call stack](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sys.parent).
-The combined samples will likely show in which part of your code the most time is spent.
 Results can be aggregated with [`summaryRprof()`](https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof):
 
 ```{r minimal-plain-rprof}
@@ -133,7 +141,7 @@ sudo apt install \
   graphviz
 ```
 
-Installing the R package from GitHub will also install two dependencies from GitHub, *pprof* and *profile*, as well as all other required R packages:
+Installing the R package from GitHub will also install two dependencies from GitHub, [*pprof*](https://r-prof.github.io/r-pprof/index.html) and [*profile*](https://r-prof.github.io/profile/index.html), as well as all other required R packages:
 
 ```r
 # install.packages("remotes")
