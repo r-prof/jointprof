@@ -1,12 +1,12 @@
 combine_profiles <- function(prof_path, out_path) {
-  ds_rprof <- profile::read_rprof(out_path)
+  ds_rprof <- profile::read_rprof(out_path, version = "1.0")
 
   proto_path <- tempfile("gprofiler", fileext = ".pb.gz")
   system2(
     get_pprof_path(),
     c("-proto", "-output", shQuote(proto_path), shQuote(prof_path))
   )
-  ds_pprof <- profile::read_pprof(proto_path)
+  ds_pprof <- profile::read_pprof(proto_path, version = "1.0")
 
   stopifnot(sum(ds_pprof$samples$value) == sum(ds_rprof$samples$value))
   stopifnot(ds_rprof$samples$value == 1)
