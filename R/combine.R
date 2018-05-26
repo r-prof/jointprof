@@ -1,7 +1,7 @@
 combine_profiles <- function(prof_path, out_path) {
   ds_rprof <- profile::read_rprof(out_path, version = "1.0")
 
-  proto_path <- tempfile("gprofiler", fileext = ".pb.gz")
+  proto_path <- tempfile("jointprof", fileext = ".pb.gz")
   system2(
     get_pprof_path(),
     c("-proto", "-output", shQuote(proto_path), shQuote(prof_path))

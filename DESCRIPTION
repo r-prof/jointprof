@@ -39,5 +39,5 @@ OS_type: unix
 Remotes: r-prof/profile,
     r-prof/r-pprof
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)

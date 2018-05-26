@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 
-#include "gprofiler_types.h"
+#include "jointprof_types.h"
 
 
 using namespace Rcpp;

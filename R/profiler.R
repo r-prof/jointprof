@@ -38,8 +38,8 @@ start_profiler <- function(path = "Rprof.out", ..., numfiles = 100L, bufsize = 1
   # Make sure pprof is available, it will be needed later
   get_pprof_path()
 
-  pprof_path <- tempfile("gprofiler", fileext = ".prof")
-  rprof_path <- tempfile("gprofiler", fileext = ".out")
+  pprof_path <- tempfile("jointprof", fileext = ".prof")
+  rprof_path <- tempfile("jointprof", fileext = ".out")
   message("Temporary files: ", pprof_path, ", ", rprof_path)
 
   prof_data <- init_profiler_impl()

@@ -24,9 +24,6 @@ been read by \code{\link[profile:read_rprof]{profile::read_rprof()}}.
 \code{start_profiler()} initiates profiling. It is a replacement for \code{\link[=Rprof]{Rprof()}}
 that will include native stack traces where available. Internally, \code{Rprof()}
 is used to capture R call stacks.
-
-\code{stop_profiler()} terminates profiling. The results are written to the
-\code{Rprof()}-compatible file given specified by the \code{path} argument.
 }
 \details{
 Profiling requires the \code{pprof} tool, which can be made available by
