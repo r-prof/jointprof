@@ -1,4 +1,4 @@
-Package: gprofiler
+Package: jointprof
 Title: Joint Profiling of Native and R Code
 Version: 0.0-1
 Date: 2017-01-18
