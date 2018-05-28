@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This vignette describes internals and design choices of the *gprofiler* and associated packages. Users most likely will be interested in the ["Introduction" vignette](https://r-prof.github.io/gprofiler/articles/guide.html).
+This vignette describes internals and design choices of the *jointprof* and associated packages. Users most likely will be interested in the ["Introduction" vignette](https://r-prof.github.io/jointprof/articles/guide.html).
 
 ## Work in progress
 
