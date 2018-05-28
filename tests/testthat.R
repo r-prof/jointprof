@@ -1,4 +1,4 @@
 library(testthat)
-library(gprofiler)
+library(jointprof)
 
-test_check("gprofiler")
+test_check("jointprof")
