@@ -196,7 +196,7 @@ dir.create(knit_dir("guide_fig"), recursive = TRUE)
 svg_file <- knit_dir("guide_fig/minimal.svg")
 
 system2(
-  pprof::get_pprof_pkg_path(),
+  find_pprof(),
   c(
     "-svg",
     "-nodefraction 0.01",
@@ -218,23 +218,13 @@ For interactive exploration of a call graph, try the built-in web browser view:
 
 ```r
 system2(
-  pprof::get_pprof_pkg_path(),
+  find_pprof(),
   c(
     "-http",
     "localhost:8080",
     shQuote(pprof_file)
   )
 )
-```
-
-You can also create a symlink to the pprof executable in a directory on your path, and run the command from the shell:
-
-```r
-file.symlink(pprof::get_pprof_pkg_path(), "~/bin")
-```
-
-```sh
-pprof -http localhost:8080 jointprof.pb.gz
 ```
 
 ## Other packages for analyzing profiler data

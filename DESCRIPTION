@@ -24,7 +24,6 @@ Suggests:
     DBI,
     here,
     knitr,
-    pprof,
     readr,
     rmarkdown,
     RSQLite,

@@ -62,7 +62,7 @@ pprof_target_file <- "Rprof.pb.gz"
 profile_data <- profile::read_rprof(target_file)
 profile::write_rprof(profile_data, pprof_target_file)
 system2(
-  pprof::get_pprof_pkg_path(),
+  find_pprof(),
   c(
     "-http",
     "localhost:8080",

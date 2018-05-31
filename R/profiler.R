@@ -36,7 +36,7 @@ start_profiler <- function(path = "Rprof.out", ..., numfiles = 100L, bufsize = 1
   stop_if_not_linux()
 
   # Make sure pprof is available, it will be needed later
-  get_pprof_path()
+  find_pprof()
 
   pprof_path <- tempfile("jointprof", fileext = ".prof")
   rprof_path <- tempfile("jointprof", fileext = ".out")
@@ -80,17 +80,5 @@ stop_profiler <- function() {
 stop_if_not_linux <- function() {
   if (tolower(Sys.info()[["sysname"]]) != "linux") {
     abort("This function is only supported on Linux")
-  }
-}
-
-get_pprof_path <- function() {
-  if (is_installed("pprof")) {
-    pprof::get_pprof_pkg_path()
-  } else if (Sys.which("pprof") == "") {
-    stop(
-      "Please install the pprof package or put the pprof tool on the PATH.",
-      call. = FALSE
-    )
-    Sys.which("pprof")
   }
 }
