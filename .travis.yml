@@ -69,6 +69,13 @@ jobs:
     - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
     - echo "export LD_RUN_PATH" >> ~/.R/Makevars
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+  - os: osx
+    env:
+    - KIND=github
+    before_install:
+    - brew install google-perftools
+    - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+
 
 #services
 services:
