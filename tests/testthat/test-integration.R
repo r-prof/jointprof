@@ -1,7 +1,7 @@
 context("integration")
 
 test_that("simple integration test", {
-  skip_on_os(c("mac", "solaris", "windows"))
+  skip_on_os(c("solaris", "windows"))
 
   path <- tempfile("jointprof", fileext = ".prof")
 
@@ -15,13 +15,4 @@ test_that("simple integration test", {
   ds_vis <- withVisible(stop_profiler())
   expect_false(ds_vis$visible)
   expect_error(profile::validate_profile(ds_vis$value), NA)
-})
-
-test_that("simple failure test", {
-  skip_on_os("linux")
-
-  path <- tempfile("jointprof", fileext = ".prof")
-
-  expect_error(start_profiler(path), "Linux")
-  expect_error(stop_profiler(), "Linux")
 })
