@@ -51,7 +51,7 @@ jobs:
     - BUILD_PKGDOWN=true
     before_install:
     - go get github.com/google/pprof
-    - ln -s ~/go/bin/pprof ~/bin/
+    - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - addons:
       apt:
@@ -73,7 +73,7 @@ jobs:
     - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
     - echo "export LD_RUN_PATH" >> ~/.R/Makevars
     - go get github.com/google/pprof
-    - ln -s ~/go/bin/pprof ~/bin/
+    - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - os: osx
     env:
