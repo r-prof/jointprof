@@ -1,2 +1,2 @@
 PKG_CPPFLAGS = -I.
-PKG_LIBS = -ltcmalloc -lprofiler
+PKG_LIBS = -lprofiler
