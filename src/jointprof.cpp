@@ -24,3 +24,7 @@ void stop_profiler_impl(List ldc) {
   ProfilerDaisyChain* dc = pdc.get();
   dc->stop();
 }
+
+RcppExport void R_unload_jointprof(DllInfo *dll) {
+  ProfilerDaisyChain::remove_handler();
+}

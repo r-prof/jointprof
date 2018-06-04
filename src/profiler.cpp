@@ -75,6 +75,15 @@ void ProfilerDaisyChain::stop() {
   impl->stop();
 }
 
+void ProfilerDaisyChain::remove_handler() {
+  struct sigaction myact;
+  memset(&myact, 0, sizeof(myact));
+
+  myact.sa_handler = SIG_IGN;
+
+  sigaction(SIGPROF, &myact, NULL);
+}
+
 void ProfilerDaisyChain::Impl::stop() {
   // Before closing file, to avoid race condition
   sigaction(SIGPROF, &initact, NULL);

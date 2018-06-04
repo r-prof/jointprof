@@ -14,6 +14,8 @@ public:
   void start(const std::string& path);
   void stop();
 
+  static void remove_handler();
+
 private:
   struct Impl;
   std::unique_ptr<Impl> impl;

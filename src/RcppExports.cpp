@@ -65,6 +65,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
+RcppExport void R_unload_jointprof(void *);
+
 static const R_CallMethodDef CallEntries[] = {
     {"_jointprof_callback1_cpp", (DL_FUNC) &_jointprof_callback1_cpp, 0},
     {"_jointprof_callback2_cpp", (DL_FUNC) &_jointprof_callback2_cpp, 0},
@@ -72,6 +74,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_jointprof_init_profiler_impl", (DL_FUNC) &_jointprof_init_profiler_impl, 0},
     {"_jointprof_start_profiler_impl", (DL_FUNC) &_jointprof_start_profiler_impl, 2},
     {"_jointprof_stop_profiler_impl", (DL_FUNC) &_jointprof_stop_profiler_impl, 1},
+    {"R_unload_jointprof", (DL_FUNC) &R_unload_jointprof, 1},
     {NULL, NULL, 0}
 };
 
