@@ -66,7 +66,11 @@ jobs:
     - KIND=github
     before_install:
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
-    - ( cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=${HOME} && make && make install )
+    - ( cd /tmp/gperftools && ./autogen.sh  )
+    - ( cd /tmp/gperftools && ./configure --prefix=${HOME} )
+    - ( cd /tmp/gperftools && cat config.log )
+    - ( cd /tmp/gperftools && make )
+    - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
     - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
     - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
@@ -80,7 +84,11 @@ jobs:
     - KIND=github
     before_install:
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
-    - ( cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=${HOME} && make && make install )
+    - ( cd /tmp/gperftools && ./autogen.sh  )
+    - ( cd /tmp/gperftools && ./configure --prefix=${HOME} )
+    - ( cd /tmp/gperftools && cat config.log )
+    - ( cd /tmp/gperftools && make )
+    - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
     - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
     - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
