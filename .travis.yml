@@ -72,10 +72,7 @@ jobs:
     - ( cd /tmp/gperftools && make )
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
-    - echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -I${HOME}/include" >> ~/.R/Makevars
-    - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
-    - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
-    - echo "export LD_RUN_PATH" >> ~/.R/Makevars
+    - cp .travis/Makevars ~/.R
     - go get github.com/google/pprof
     - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
@@ -90,10 +87,7 @@ jobs:
     - ( cd /tmp/gperftools && make )
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
-    - echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -I${HOME}/include" >> ~/.R/Makevars
-    - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
-    - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
-    - echo "export LD_RUN_PATH" >> ~/.R/Makevars
+    - cp .travis/Makevars ~/.R
     - go get github.com/google/pprof
     - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
