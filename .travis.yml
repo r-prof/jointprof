@@ -72,7 +72,7 @@ jobs:
     - ( cd /tmp/gperftools && make )
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
-    - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
+    - echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -I${HOME}/include" >> ~/.R/Makevars
     - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
     - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
     - echo "export LD_RUN_PATH" >> ~/.R/Makevars
@@ -90,7 +90,7 @@ jobs:
     - ( cd /tmp/gperftools && make )
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
-    - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
+    - echo "PKG_CPPFLAGS = ${PKG_CPPFLAGS} -I${HOME}/include" >> ~/.R/Makevars
     - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
     - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
     - echo "export LD_RUN_PATH" >> ~/.R/Makevars
