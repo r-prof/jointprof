@@ -85,7 +85,7 @@ jobs:
     before_install:
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )
-    - ( cd /tmp/gperftools && ./configure --prefix=${HOME} )
+    - ( cd /tmp/gperftools && CFLAGS=-Wno-deprecated-declarations ./configure --prefix=${HOME} )
     - ( cd /tmp/gperftools && cat config.log )
     - ( cd /tmp/gperftools && make )
     - ( cd /tmp/gperftools && make install )
