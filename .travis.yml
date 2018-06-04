@@ -81,6 +81,7 @@ jobs:
     before_install:
     - brew install google-perftools
     - go get github.com/google/pprof
+    - mkdir -p ~/bin
     - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 
