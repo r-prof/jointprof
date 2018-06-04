@@ -23,6 +23,8 @@
 #' @param ... Ignored, for extensibility.
 #' @param numfiles,bufsize Passed on to `Rprof()` call.
 #'
+#' @return Profiler data compatible with [profile::validate_profile()], invisibly.
+#'
 #' @export
 #' @examples
 #' \dontrun{

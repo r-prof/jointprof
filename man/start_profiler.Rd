@@ -17,6 +17,8 @@ stop_profiler()
 \item{numfiles, bufsize}{Passed on to \code{Rprof()} call.}
 }
 \value{
+Profiler data compatible with \code{\link[profile:validate_profile]{profile::validate_profile()}}, invisibly.
+
 \code{stop_profiler()} returns the profiling data like it would have
 been read by \code{\link[profile:read_rprof]{profile::read_rprof()}}.
 }
