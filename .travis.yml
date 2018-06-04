@@ -80,6 +80,7 @@ jobs:
     env:
     - KIND=github
     before_install:
+    - brew install graphviz
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )
     - ( cd /tmp/gperftools && CFLAGS=-Wno-deprecated-declarations ./configure --prefix=${HOME} )
