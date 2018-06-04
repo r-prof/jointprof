@@ -65,7 +65,7 @@ jobs:
     env:
     - KIND=github
     before_install:
-    - ( cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git )
+    - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=${HOME} && make && make install )
     - mkdir -p ~/.R
     - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
