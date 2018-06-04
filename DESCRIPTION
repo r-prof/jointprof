@@ -35,8 +35,7 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true
 OS_type: unix
-Remotes: r-prof/profile,
-    r-prof/r-pprof
+Remotes: r-prof/profile
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1.9000
 SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)

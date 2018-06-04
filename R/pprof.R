@@ -9,6 +9,7 @@
 #' Use the instructions on `pprof`'s
 #' [GitHub page](https://github.com/google/pprof#building-pprof)
 #' to install it.  Make sure the `pprof` executable is on your system path.
+#' @export
 find_pprof <- function() {
   path <- unname(Sys.which("pprof"))
   if (path == "") {

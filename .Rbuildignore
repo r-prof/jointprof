@@ -33,3 +33,4 @@
 ^vignettes/.*_fig$
 ^vignettes/.*\.html$
 ^codecov\.yml$
+^\.travis$

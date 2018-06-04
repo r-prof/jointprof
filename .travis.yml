@@ -49,6 +49,10 @@ jobs:
     env:
     - KIND=apt
     - BUILD_PKGDOWN=true
+    before_install:
+    - go get github.com/google/pprof
+    - ln -sf ~/go/bin/pprof ~/bin/
+    - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - addons:
       apt:
         packages:
@@ -61,14 +65,43 @@ jobs:
     env:
     - KIND=github
     before_install:
-    - ( cd /tmp && git clone --depth 1 https://github.com/gperftools/gperftools.git )
-    - ( cd /tmp/gperftools && ./autogen.sh && ./configure --prefix=${HOME} && make && make install )
+    - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
+    - ( cd /tmp/gperftools && ./autogen.sh  )
+    - ( cd /tmp/gperftools && ./configure --prefix=${HOME} )
+    - ( cd /tmp/gperftools && cat config.log )
+    - ( cd /tmp/gperftools && make )
+    - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
-    - echo "PKG_CPPFLAGS = -I${HOME}/include" >> ~/.R/Makevars
-    - echo "LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib" >> ~/.R/Makevars
-    - echo "LD_RUN_PATH = ${HOME}/lib" >> ~/.R/Makevars
-    - echo "export LD_RUN_PATH" >> ~/.R/Makevars
+    - cp .travis/Makevars ~/.R
+    - go get github.com/google/pprof
+    - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+  - os: osx
+    env:
+    - KIND=github
+    before_install:
+    - brew install graphviz
+    - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
+    - ( cd /tmp/gperftools && ./autogen.sh  )
+    - ( cd /tmp/gperftools && CFLAGS=-Wno-deprecated-declarations CXXFLAGS=-Wno-deprecated-declarations ./configure --prefix=${HOME} )
+    - ( cd /tmp/gperftools && cat config.log )
+    - ( cd /tmp/gperftools && make )
+    - ( cd /tmp/gperftools && make install )
+    - mkdir -p ~/.R
+    - cp .travis/Makevars ~/.R
+    - go get github.com/google/pprof
+    - ln -sf ~/go/bin/pprof ~/bin/
+    - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+#  - os: osx
+#    env:
+#    - KIND=brew
+#    before_install:
+#    - brew install google-perftools
+#    - go get github.com/google/pprof
+#    - mkdir -p ~/bin
+#    - ln -sf ~/go/bin/pprof ~/bin/
+#    - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
+
 
 #services
 services:

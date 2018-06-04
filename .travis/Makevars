@@ -1,0 +1,4 @@
+PKG_CPPFLAGS := ${PKG_CPPFLAGS} -I${HOME}/include
+LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib
+LD_RUN_PATH = ${HOME}/lib
+export LD_RUN_PATH
