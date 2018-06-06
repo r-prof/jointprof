@@ -23,8 +23,6 @@
 #' @param ... Ignored, for extensibility.
 #' @param numfiles,bufsize Passed on to `Rprof()` call.
 #'
-#' @return Profiler data compatible with [profile::validate_profile()], invisibly.
-#'
 #' @export
 #' @examples
 #' \dontrun{
@@ -59,12 +57,15 @@ start_profiler <- function(path = "Rprof.out", ..., numfiles = 100L, bufsize = 1
   .my_env$rprof_path <- rprof_path
 }
 
+#' @description
 #' `stop_profiler()` terminates profiling. The results are written to the
 #' `Rprof()`-compatible file given specified by the `path` argument.
 #'
 #' @export
-#' @return `stop_profiler()` returns the profiling data like it would have
-#'   been read by [profile::read_rprof()].
+#' @return `stop_profiler()` returns (invisibly) the profiling data like it would have
+#'   been read by [profile::read_rprof()], validated with [profile::validate_profile()].
+#'
+
 #' @rdname start_profiler
 stop_profiler <- function() {
   stop_if_not_linux()
