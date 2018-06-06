@@ -70,6 +70,10 @@ start_profiler <- function(path = "Rprof.out", ..., numfiles = 100L, bufsize = 1
 stop_profiler <- function() {
   stop_if_not_linux()
 
+  if (is.null(.my_env$prof_data)) {
+    stop("Can't stop profiling because it hasn't started yet.\nPlease call `start_profiler()` before calling `stop_profiler()`.", call. = FALSE)
+  }
+
   on.exit(rm(list = ls(.my_env), pos = .my_env), add = TRUE)
 
   utils::Rprof(NULL)
