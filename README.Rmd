@@ -24,20 +24,70 @@ See the [guide](https://r-prof.github.io/jointprof/articles/guide.html) for a mo
 
 ## Installation
 
-Tested on Ubuntu only. Other Linux distributions may work if you install the right system dependencies ([let me know](https://github.com/r-prof/jointprof/issues) which!). OS X currently doesn't work, Windows, and Solaris are not supported.
+### Ubuntu
 
-```sh
-sudo apt install \
-  libgoogle-perftools-dev \
-  libprotoc-dev libprotobuf-dev protobuf-compiler \
-  golang-go \
-  graphviz
-```
+Other Linux distributions may work if you install the right system dependencies ([let me know](https://github.com/r-prof/jointprof/issues) which!). 
 
-```r
-# install.packages("remotes")
-remotes::install_github("r-prof/jointprof")
-```
+1. Install system dependencies:
+
+    ```sh
+    sudo apt install \
+      libgoogle-perftools-dev \
+      libprotoc-dev libprotobuf-dev protobuf-compiler \
+      golang-go \
+      graphviz
+    ```
+
+1. Install `pprof`:
+
+    ```sh
+    go get github.com/google/pprof
+    ```
+
+1. Install the package:
+    
+    ```r
+    # install.packages("remotes")
+    remotes::install_github("r-prof/jointprof")
+    ```
+
+### OS X
+
+1. Install system dependencies:
+
+    ```sh
+    brew install graphviz
+    ```
+
+1. Install `gperftools` (currently from a branch, [pull request](https://github.com/gperftools/gperftools/pull/1004) pending):
+
+    ```sh
+    git clone https://github.com/krlmlr/gperftools.git -b f-export-stack
+    cd gperftools
+    ./autogen.sh
+    ./configure
+    make
+    sudo make install
+    cd ..
+    ```
+
+1. Install `pprof`:
+
+    ```sh
+    go get github.com/google/pprof
+    ```
+
+1. Install the package:
+    
+    ```r
+    # install.packages("remotes")
+    remotes::install_github("r-prof/jointprof")
+    ```
+
+### Other OS
+
+Windows and Solaris are not supported.
+
 
 ## Usage
 
