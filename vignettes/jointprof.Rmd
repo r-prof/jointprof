@@ -228,8 +228,8 @@ profile::write_pprof(profile_data, pprof_file)
 We then use `pprof` to visualize the call *graph*. The only exported function in the *pprof* package, [`get_pprof_pkg_path()`](https://r-prof.github.io/r-pprof/reference/get_pprof_pkg_path.html), tells us the path to the `pprof` executable.
 
 ```{r minimal-graph}
-dir.create(knit_dir("guide_fig"), recursive = TRUE)
-svg_file <- knit_dir("guide_fig/minimal.svg")
+dir.create(knit_dir("jointprof_fig"), recursive = TRUE)
+svg_file <- knit_dir("jointprof_fig/minimal.svg")
 
 system2(
   find_pprof(),
@@ -242,11 +242,11 @@ system2(
   )
 )
 
-png_file <- knit_dir("guide_fig/minimal.png")
+png_file <- knit_dir("jointprof_fig/minimal.png")
 rsvg::rsvg_png(svg_file, png_file, width = 680)
 ```
 
-[![Call graph (click to show image)](guide_fig/minimal.png)](guide_fig/minimal.svg)
+[![Call graph (click to show image)](jointprof_fig/minimal.png)](jointprof_fig/minimal.svg)
 
 The call graph shows a unified view of run time costs for both R and native code. (Click on the image to see the SVG version.)
 
