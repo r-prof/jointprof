@@ -64,13 +64,6 @@ Rcpp::NumericVector fib_cpp(int x) {
 (A few tweaks are necessary to allow profiling the *Rcpp*-compiled function when run from the vignette. See the source for details.)
 
 ```{r patch-fib-r, include = FALSE}
-code <- as.list(body(fib_cpp))
-# jointprof is looking for calls to .Call, but Rcpp creates .Primitive(".Call")
-# Replacing.
-code[[1]] <- quote(.Call)
-# Get rid of compiled state
-fib_cpp <- function(x) NULL
-body(fib_cpp) <- call("{", as.call(code))
 # Still necessary
 compiler::enableJIT(0)
 ```
@@ -124,29 +117,72 @@ The summary now also contains a breakdown for native functions below the R code 
 
 ## Installation
 
-The *jointprof* package currently requires Linux, it has been tested on Ubuntu only. Various system dependencies are required:
+### Ubuntu
 
-- *jointprof* requires [perftools](https://github.com/gperftools/gperftools)
-- the necessary *RProtoBuf* package requires ProtoBuf development files
-- the (for now necessary) *pprof* package requires Go
-- drawing call graphs in `pprof` requires GraphViz
+Other Linux distributions may work if you install the right system dependencies ([let me know](https://github.com/r-prof/jointprof/issues) which!). 
 
-On Ubuntu, all of these can be installed via `apt`:
+1. Install system dependencies:
 
-```sh
-sudo apt install \
-  libgoogle-perftools-dev \
-  libprotoc-dev libprotobuf-dev protobuf-compiler \
-  golang-go \
-  graphviz
-```
+    ```sh
+    sudo apt install \
+      libgoogle-perftools-dev \
+      libprotoc-dev libprotobuf-dev protobuf-compiler \
+      golang-go \
+      graphviz
+    ```
 
-Installing the R package from GitHub will also install two dependencies from GitHub, [*pprof*](https://r-prof.github.io/r-pprof/index.html) and [*profile*](https://r-prof.github.io/profile/index.html), as well as all other required R packages:
+1. Install `pprof`:
 
-```r
-# install.packages("remotes")
-remotes::install_github("r-prof/jointprof")
-```
+    ```sh
+    go get github.com/google/pprof
+    ```
+
+1. Install the package:
+    
+    ```r
+    # install.packages("remotes")
+    remotes::install_github("r-prof/jointprof")
+    ```
+
+### OS X
+
+1. Install system dependencies:
+
+    ```sh
+    brew install graphviz
+    ```
+
+1. Install `gperftools` (currently from a branch, [pull request](https://github.com/gperftools/gperftools/pull/1004) pending):
+
+    ```sh
+    git clone https://github.com/krlmlr/gperftools.git -b f-export-stack
+    cd gperftools
+    ./autogen.sh
+    ./configure
+    make
+    sudo make install
+    cd ..
+    ```
+
+1. Install `pprof`:
+
+    ```sh
+    go get github.com/google/pprof
+    ```
+
+1. Install the package:
+    
+    ```r
+    # install.packages("remotes")
+    remotes::install_github("r-prof/jointprof")
+    ```
+
+### Other OS
+
+Windows and Solaris are not supported.
+
+
+
 
 ## Usage
 
@@ -251,7 +287,5 @@ I'd also like to mention two other tools outside the R ecosystem:
 A few major points have been left unresolved until a forthcoming release:
 
 - Nested calls back into R code are not fully supported yet. In situations where native code evaluates R expressions which then invoke native code again, the recorded stack trace will look wrong.
-
-- OS X is not supported yet: the recording of native call stacks for the R binary doesn't work as expected. These problems seem fixable, in contrast to Windows support which will require a different approach for capturing native stack traces.
 
 If your R code calls into native code, or if you want to try `pprof` with R profiling results, give the *jointprof* package a try! If you discover problems or have comments, [file an issue](https://github.com/r-prof/jointprof/issues). I'd be especially grateful for help with other Linux distributions or OS X.
