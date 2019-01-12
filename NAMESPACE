@@ -3,6 +3,7 @@
 export(find_pprof)
 export(start_profiler)
 export(stop_profiler)
+export(vis_pprof)
 import(rlang)
 importFrom(RProtoBuf,FileInputStream)
 importFrom(Rcpp,sourceCpp)

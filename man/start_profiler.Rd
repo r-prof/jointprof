@@ -5,7 +5,8 @@
 \alias{stop_profiler}
 \title{Start and stop profiling}
 \usage{
-start_profiler(path = "Rprof.out", ..., numfiles = 100L, bufsize = 10000L)
+start_profiler(path = "Rprof.out", ..., numfiles = 100L,
+  bufsize = 10000L)
 
 stop_profiler()
 }
