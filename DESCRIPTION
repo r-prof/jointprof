@@ -26,7 +26,6 @@ Imports:
     tibble
 Suggests: 
     DBI,
-    here,
     knitr,
     rmarkdown,
     RSQLite,
