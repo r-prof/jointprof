@@ -5,11 +5,11 @@ Date: 2018-06-11
 Authors@R: c(
       person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
       person("R Consortium", role = "fnd"),
-      person("Google, Inc.", role = "cph", comment = "Bundled pprof sources, and code extracted from gperftools")
+      person("Google Inc.", role = "cph", comment = "Code adapted from gperftools under its BSD 3-clause license.")
     )
 Description: Simultaneously collects profiling data at both R and native levels
     (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data.
-License: GPL-3
+License: GPL-3 + file LICENSE
 URL: https://github.com/r-prof/jointprof, http://r-prof.github.io/jointprof
 BugReports: https://github.com/r-prof/jointprof/issues
 Depends: 
