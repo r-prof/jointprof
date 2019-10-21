@@ -228,7 +228,7 @@ profile::write_pprof(profile_data, pprof_file)
 We then use `pprof` to visualize the call *graph*, using [`find_pprof()`](https://r-prof.github.io/jointprof/reference/find_pprof.html) to get the path to the `pprof` executable:
 
 ```{r minimal-graph}
-dir.create(knit_dir("jointprof_fig"), recursive = TRUE)
+dir.create(knit_dir("jointprof_fig"), recursive = TRUE, showWarnings = FALSE)
 svg_file <- knit_dir("jointprof_fig/minimal.svg")
 
 system2(
