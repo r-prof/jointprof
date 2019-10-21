@@ -1,5 +1,5 @@
 Package: jointprof
-Title: Joint Profiling of Native and R Code
+Title: Joint Profiling of Native C/C++ and R Code
 Version: 0.0.1.9000
 Date: 2018-06-11
 Authors@R: c(
@@ -7,8 +7,12 @@ Authors@R: c(
       person("R Consortium", role = "fnd"),
       person("Google Inc.", role = "cph", comment = "Code adapted from gperftools under its BSD 3-clause license.")
     )
-Description: Simultaneously collects profiling data at both R and native levels
-    (using 'Rprof' and 'gprofiler') and provides a unified view of the collected data.
+Description: Simultaneously collects profiling data at both the R and C/C++
+    levels (using 'Rprof' and Google's 'libprofiler' from 'gperftools') and
+    collates the results to present a unified view of the collected data.
+    Supports writing these combined profiles to R's usual 'Rprof.out' format (for
+    interoperability with existing tools) or interacting with the external
+    'pprof' program for its rich visualization tools.
 License: GPL-3 + file LICENSE
 URL: https://github.com/r-prof/jointprof, http://r-prof.github.io/jointprof
 BugReports: https://github.com/r-prof/jointprof/issues
