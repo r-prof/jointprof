@@ -88,7 +88,7 @@ pmap <- function(.l, .f, ...) {
 }
 
 probe <- function(.x, .p, ...) {
-  if (is_logical(.p)) {
+  if (rlang::is_logical(.p)) {
     stopifnot(length(.p) == length(.x))
     .p
   } else {
@@ -118,7 +118,7 @@ transpose <- function(.l) {
   if (is.null(inner_names)) {
     fields <- seq_along(.l[[1]])
   } else {
-    fields <- set_names(inner_names)
+    fields <- rlang::set_names(inner_names)
   }
 
   map(fields, function(i) {

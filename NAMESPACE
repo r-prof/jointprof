@@ -3,6 +3,5 @@
 export(find_pprof)
 export(start_profiler)
 export(stop_profiler)
-import(rlang)
 importFrom(Rcpp,sourceCpp)
 useDynLib(jointprof,.registration = TRUE)
