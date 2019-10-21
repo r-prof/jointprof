@@ -34,3 +34,4 @@
 ^vignettes/.*\.html$
 ^codecov\.yml$
 ^\.travis$
+^autogen\.sh$
