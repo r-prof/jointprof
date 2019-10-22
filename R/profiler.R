@@ -86,6 +86,6 @@ stop_profiler <- function() {
 
 stop_if_not_linux <- function() {
   if (!(tolower(Sys.info()[["sysname"]]) %in% c("linux", "darwin"))) {
-    abort("This function is only supported on Linux or OS X")
+    rlang::abort("This function is only supported on Linux or OS X")
   }
 }

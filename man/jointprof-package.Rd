@@ -4,17 +4,21 @@
 \name{jointprof-package}
 \alias{jointprof}
 \alias{jointprof-package}
-\title{jointprof: Joint Profiling of Native and R Code}
+\title{jointprof: Joint Profiling of Native C/C++ and R Code}
 \description{
-Simultaneously collects profiling data at both R and native levels
-(using 'Rprof' and 'gprofiler') and provides a unified view of the collected data.
+Simultaneously collects profiling data at both the R and C/C++
+    levels (using 'Rprof' and Google's 'libprofiler' from 'gperftools') and
+    collates the results to present a unified view of the collected data.
+    Supports writing these combined profiles to R's usual 'Rprof.out' format (for
+    interoperability with existing tools) or interacting with the external
+    'pprof' program for its rich visualization tools.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/r-prof/gprofiler}
-  \item \url{http://r-prof.github.io/gprofiler}
-  \item Report bugs at \url{https://github.com/r-prof/gprofiler/issues}
+  \item \url{https://github.com/r-prof/jointprof}
+  \item \url{http://r-prof.github.io/jointprof}
+  \item Report bugs at \url{https://github.com/r-prof/jointprof/issues}
 }
 
 }
@@ -24,7 +28,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item R Consortium [funder]
-  \item Google, Inc. (Bundled pprof sources, and code extracted from gperftools) [copyright holder]
+  \item Google Inc. (Code adapted from gperftools under its BSD 3-clause license.) [copyright holder]
 }
 
 }
