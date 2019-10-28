@@ -15,11 +15,6 @@ AC_CONFIG_HEADERS([src/config.h])
 # Check whether some low-level functions/files are available
 AC_HEADER_STDC
 
-# TODO(csilvers): we could remove a lot when WITH_CPU_PROFILER etc is "no".
-AC_CHECK_TYPES([__int64])       # defined in some windows platforms
-# We also need <ucontext.h>/<sys/ucontext.h>, but we get those from
-# AC_PC_FROM_UCONTEXT, below.
-
 # We want to access the "PC" (Program Counter) register from a struct
 # ucontext.  Every system has its own way of doing that.  We try all the
 # possibilities we know about.  Note REG_PC should come first (REG_RIP
