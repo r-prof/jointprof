@@ -28,9 +28,6 @@ AC_CHECK_TYPES([__int64])       # defined in some windows platforms
 # [*] means that we've not actually tested one of these systems
 AC_PC_FROM_UCONTEXT(AC_MSG_WARN(Could not find the PC))
 
-# Defines PRIuS
-AC_COMPILER_CHARACTERISTICS
-
 # Also make sure we get standard PRI... definitions, even with glibc.
 # We have to use AH_VERBATIM because we need the #ifdef guard (gcc buglet)
 AH_VERBATIM([__STDC_FORMAT_MACROS],

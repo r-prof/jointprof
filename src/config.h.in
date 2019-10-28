@@ -68,15 +68,6 @@
 /* How to access the PC from a struct ucontext */
 #undef PC_FROM_UCONTEXT
 
-/* printf format code for printing a size_t and ssize_t */
-#undef PRIdS
-
-/* printf format code for printing a size_t and ssize_t */
-#undef PRIuS
-
-/* printf format code for printing a size_t and ssize_t */
-#undef PRIxS
-
 /* Define to 1 if you have the ANSI C header files. */
 #undef STDC_HEADERS
 
