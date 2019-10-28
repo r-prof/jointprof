@@ -85,9 +85,56 @@ CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
 AC_LANG(C++)
 AC_PROG_CXX
 
+# Ensure we have libprofiler.
+#
+# First, try to use pkg-config, which is the best option when available,
+# otherwise fall back on AC_CHECK_HEADERS and generic cpp/linker flags.
+have_libprofiler=no
+LIBPROFILER_CXXFLAGS=""
+LIBPROFILER_LIBS="-lprofiler"
+
+PKG_PROG_PKG_CONFIG
+
+if test [ -n "$PKG_CONFIG" ] ; then
+  AC_MSG_CHECKING([pkg-config for libprofiler])
+  if $PKG_CONFIG --exists libprofiler; then
+    have_libprofiler=yes
+    LIBPROFILER_CXXFLAGS=`"${PKG_CONFIG}" --cflags libprofiler`
+    LIBPROFILER_LIBS=`"${PKG_CONFIG}" --libs libprofiler`
+  fi
+  AC_MSG_RESULT([${have_libprofiler}])
+fi
+
+if test "x${have_libprofiler}" = xno; then
+  AC_CHECK_HEADERS([gperftools/stacktrace.h],[have_libprofiler=yes])
+fi
+
+if test "x${have_libprofiler}" = xno; then
+  AC_MSG_FAILURE([
+  ---------------------------------------------
+   'libprofiler' and its header files from Google's 'gperftools'
+   suite are required.
+
+   Please install:
+
+   * libgoogle-perftools-dev (on Debian and Ubuntu)
+   * gperftools-devel (on Fedora, CentOS and RHEL)
+   * gperftools (on Arch)
+
+   and try again.
+
+   If you believe this library is installed on your system but
+   this script is simply unable to find it, you can specify the
+   include and lib paths manually:
+
+   R CMD INSTALL ${PACKAGE_NAME} \\
+     --configure-vars='LIBS=-L/path/to/libs CPPFLAGS=-I/path/to/headers'
+  ---------------------------------------------])
+fi
+
 # Write generated files
-AC_SUBST([PKG_CPPFLAGS],["${PKG_CPPFLAGS} ${CXXFLAGS}"])
-AC_SUBST([PKG_LIBS],["${PKG_LIBS} ${LIBS}"])
+AC_SUBST([PKG_CPPFLAGS],["${PKG_CPPFLAGS} ${LIBPROFILER_CXXFLAGS}"])
+AC_SUBST([PKG_LIBS],["${PKG_LIBS} ${LIBPROFILER_LIBS}"])
 AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
 

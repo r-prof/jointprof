@@ -8,6 +8,9 @@
 /* Define to 1 if you have the <cygwin/signal.h> header file. */
 #undef HAVE_CYGWIN_SIGNAL_H
 
+/* Define to 1 if you have the <gperftools/stacktrace.h> header file. */
+#undef HAVE_GPERFTOOLS_STACKTRACE_H
+
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
