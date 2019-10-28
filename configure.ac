@@ -4,7 +4,7 @@
 # make sure we're interpreted by some minimal autoconf
 AC_PREREQ([2.59])
 
-AC_INIT([gperftools],[2.6.3],[gperftools@googlegroups.com])
+AC_INIT([jointprof],[0.0.1.9000])
 
 # The argument here is just something that should be in the current directory
 # (for sanity checking)
