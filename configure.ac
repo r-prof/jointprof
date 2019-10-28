@@ -36,15 +36,6 @@ AH_VERBATIM([__STDC_FORMAT_MACROS],
 # define __STDC_FORMAT_MACROS 1
 #endif])
 
-# Solaris 10 6/06 has a bug where /usr/sfw/lib/libstdc++.la is empty.
-# If so, we replace it with our own version.
-LIBSTDCXX_LA_LINKER_FLAG=
-if test -f /usr/sfw/lib/libstdc++.la && ! test -s /usr/sfw/lib/libstdc++.la
-then
-  LIBSTDCXX_LA_LINKER_FLAG='-L$(top_srcdir)/src/solaris'
-fi
-AC_SUBST(LIBSTDCXX_LA_LINKER_FLAG)
-
 # In theory, config.h files shouldn't need a header guard, but we do,
 # because we (maybe) #include windows/mingw.h from within config.h,
 # and it #includes other .h files.  These all have header guards, so

@@ -630,7 +630,6 @@ PKG_CONFIG
 ac_ct_CXX
 CXXFLAGS
 CXX
-LIBSTDCXX_LA_LINKER_FLAG
 EGREP
 GREP
 CPP
@@ -3639,15 +3638,6 @@ $as_echo "$as_me: WARNING: Could not find the PC" >&2;}
 
 # Also make sure we get standard PRI... definitions, even with glibc.
 # We have to use AH_VERBATIM because we need the #ifdef guard (gcc buglet)
-
-
-# Solaris 10 6/06 has a bug where /usr/sfw/lib/libstdc++.la is empty.
-# If so, we replace it with our own version.
-LIBSTDCXX_LA_LINKER_FLAG=
-if test -f /usr/sfw/lib/libstdc++.la && ! test -s /usr/sfw/lib/libstdc++.la
-then
-  LIBSTDCXX_LA_LINKER_FLAG='-L$(top_srcdir)/src/solaris'
-fi
 
 
 # In theory, config.h files shouldn't need a header guard, but we do,
