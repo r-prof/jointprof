@@ -75,5 +75,26 @@ AH_BOTTOM([
 #endif  /* #ifndef GPERFTOOLS_CONFIG_H_ */
 ])
 
-# Write generated configuration file
+# Ask R for the C++ configuration.
+if test -z "${R_HOME}"; then
+    AC_MSG_ERROR([Could not determine R_HOME.])
+fi
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
+CXX=`"${R_HOME}/bin/R" CMD config CXX`
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
+AC_LANG(C++)
+AC_PROG_CXX
+
+# Write generated files
+AC_SUBST([PKG_CPPFLAGS],["${PKG_CPPFLAGS} ${CXXFLAGS}"])
+AC_SUBST([PKG_LIBS],["${PKG_LIBS} ${LIBS}"])
+AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
+
+echo "
+${PACKAGE_NAME} $PACKAGE_VERSION
+================
+
+cppflags: ${PKG_CPPFLAGS}
+libs: ${PKG_LIBS}
+"
