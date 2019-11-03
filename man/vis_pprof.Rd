@@ -39,9 +39,9 @@ to display profile data interactively.
 \dontrun{
 # Collect profile data.
 target_file <- tempfile()
-Rprof(target_file) # Or start_profiler()
+Rprof(target_file) # or start_profiler(target_file)
 replicate(100, sessionInfo())
-Rprof(NULL) # Or stop_profiler()
+Rprof(NULL) # or stop_profiler()
 
 # Convert to pprof format.
 pprof_target_file <- tempfile()

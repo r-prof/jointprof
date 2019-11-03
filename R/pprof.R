@@ -46,9 +46,13 @@ find_pprof <- function() {
 
 get_gopath <- function() {
   if (is.null(.gopath_env$gopath)) {
+    if (nchar(Sys.which("go")) == 0) {
+      stop("The 'go' compiler tools must be installed. See `?find_pprof` for installation instructions.", call. = FALSE)
+    }
     gopath <- system2("go", c("env", "GOPATH"), stdout = TRUE)
-    stopifnot(file.exists(gopath))
-    stopifnot(file.info(gopath)$isdir)
+    if (!dir.exists(gopath)) {
+      stop("`GOPATH` does not yet exist. See `?find_pprof` for installation instructions.", call. = FALSE)
+    }
     .gopath_env$gopath <- gopath
   }
 

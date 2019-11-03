@@ -15,7 +15,6 @@
 ^src/main\..*$
 ^_pkgdown\.yml$
 ^.*\.out$
-^configure\.ac$
 ^m4$
 ^config\.log$
 ^autom4te\.cache$
@@ -34,3 +33,4 @@
 ^vignettes/.*\.html$
 ^codecov\.yml$
 ^\.travis$
+^autogen\.sh$

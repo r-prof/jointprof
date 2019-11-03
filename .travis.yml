@@ -48,7 +48,6 @@ jobs:
         - librsvg2-dev # for rsvg
     env:
     - KIND=apt
-    - BUILD_PKGDOWN=true
     before_install:
     - go get github.com/google/pprof
     - ln -sf ~/go/bin/pprof ~/bin/
@@ -64,6 +63,7 @@ jobs:
         - librsvg2-dev # for rsvg
     env:
     - KIND=github
+    - BUILD_PKGDOWN=true
     before_install:
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )

@@ -3,6 +3,8 @@ title: "Introduction to joint profiling of native and R code"
 author: "Kirill Müller"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+resource_files:
+  - jointprof_fig/minimal.svg
 vignette: >
   %\VignetteIndexEntry{Kirill Müller}
   %\VignetteEngine{knitr::rmarkdown}
@@ -225,10 +227,10 @@ pprof_file <- tempfile("jointprof", fileext = ".pb.gz")
 profile::write_pprof(profile_data, pprof_file)
 ```
 
-We then use `pprof` to visualize the call *graph*. The only exported function in the *pprof* package, [`get_pprof_pkg_path()`](https://r-prof.github.io/r-pprof/reference/get_pprof_pkg_path.html), tells us the path to the `pprof` executable.
+We then use `pprof` to visualize the call *graph*, using [`find_pprof()`](https://r-prof.github.io/jointprof/reference/find_pprof.html) to get the path to the `pprof` executable:
 
 ```{r minimal-graph}
-dir.create(knit_dir("jointprof_fig"), recursive = TRUE)
+dir.create(knit_dir("jointprof_fig"), recursive = TRUE, showWarnings = FALSE)
 svg_file <- knit_dir("jointprof_fig/minimal.svg")
 
 system2(
