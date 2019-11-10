@@ -275,7 +275,7 @@ and for visualizing profiling data. Also offers an export to [callgrind](http://
 
 - [*profvis*](https://rstudio.github.io/profvis/): Interactive exploration of the flame graph and call tree in a web browser.
 
-- [*prof.tree*](https://github.com/artemklevtsov/prof.tree#proftree): Shows a call tree on the console.
+- [*prof.tree*](https://github.com/artemklevtsov/prof.tree#proftree): Shows a call tree on the console. A similar project, [*treeprof*](https://github.com/brodieG/treeprof), never made it to CRAN.
 
 I'd also like to mention two other tools outside the R ecosystem:
 
