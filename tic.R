@@ -1,4 +1,4 @@
-add_package_checks()
+do_package_checks()
 
 if (Sys.getenv("BUILD_PKGDOWN") != "") {
   get_stage("deploy") %>%
