@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rm -rf autom4te.cache config.* src/Makevars src/*.o src/*.so src/*.a src/*.dll
