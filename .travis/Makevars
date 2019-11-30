@@ -1,3 +1,7 @@
+LIBS := ${LIBS} -L${HOME}/lib
+CPPFLAGS := ${CPPFLAGS} -I${HOME}/include
+PKG_CONFIG_PATH = ${HOME}/lib/pkgconfig
+export PKG_CONFIG_PATH
 PKG_CPPFLAGS := ${PKG_CPPFLAGS} -I${HOME}/include
 LDFLAGS := ${LDFLAGS} -shared -L${HOME}/lib
 LD_RUN_PATH = ${HOME}/lib
