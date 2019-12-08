@@ -21,5 +21,6 @@ src/main.*
 /config.status
 /src/stamp-h1
 /src/config.h
+/src/Makevars
 /vignettes/*_cache
 /vignettes/*.html

@@ -4,7 +4,7 @@
 # make sure we're interpreted by some minimal autoconf
 AC_PREREQ([2.59])
 
-AC_INIT([gperftools],[2.6.3],[gperftools@googlegroups.com])
+AC_INIT([jointprof],[0.0.1.9000])
 
 # The argument here is just something that should be in the current directory
 # (for sanity checking)
@@ -15,11 +15,6 @@ AC_CONFIG_HEADERS([src/config.h])
 # Check whether some low-level functions/files are available
 AC_HEADER_STDC
 
-# TODO(csilvers): we could remove a lot when WITH_CPU_PROFILER etc is "no".
-AC_CHECK_TYPES([__int64])       # defined in some windows platforms
-# We also need <ucontext.h>/<sys/ucontext.h>, but we get those from
-# AC_PC_FROM_UCONTEXT, below.
-
 # We want to access the "PC" (Program Counter) register from a struct
 # ucontext.  Every system has its own way of doing that.  We try all the
 # possibilities we know about.  Note REG_PC should come first (REG_RIP
@@ -28,9 +23,6 @@ AC_CHECK_TYPES([__int64])       # defined in some windows platforms
 # [*] means that we've not actually tested one of these systems
 AC_PC_FROM_UCONTEXT(AC_MSG_WARN(Could not find the PC))
 
-# Defines PRIuS
-AC_COMPILER_CHARACTERISTICS
-
 # Also make sure we get standard PRI... definitions, even with glibc.
 # We have to use AH_VERBATIM because we need the #ifdef guard (gcc buglet)
 AH_VERBATIM([__STDC_FORMAT_MACROS],
@@ -38,15 +30,6 @@ AH_VERBATIM([__STDC_FORMAT_MACROS],
 #ifndef __STDC_FORMAT_MACROS
 # define __STDC_FORMAT_MACROS 1
 #endif])
-
-# Solaris 10 6/06 has a bug where /usr/sfw/lib/libstdc++.la is empty.
-# If so, we replace it with our own version.
-LIBSTDCXX_LA_LINKER_FLAG=
-if test -f /usr/sfw/lib/libstdc++.la && ! test -s /usr/sfw/lib/libstdc++.la
-then
-  LIBSTDCXX_LA_LINKER_FLAG='-L$(top_srcdir)/src/solaris'
-fi
-AC_SUBST(LIBSTDCXX_LA_LINKER_FLAG)
 
 # In theory, config.h files shouldn't need a header guard, but we do,
 # because we (maybe) #include windows/mingw.h from within config.h,
@@ -75,5 +58,73 @@ AH_BOTTOM([
 #endif  /* #ifndef GPERFTOOLS_CONFIG_H_ */
 ])
 
-# Write generated configuration file
+# Ask R for the C++ configuration.
+if test -z "${R_HOME}"; then
+    AC_MSG_ERROR([Could not determine R_HOME.])
+fi
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
+CXX=`"${R_HOME}/bin/R" CMD config CXX`
+CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
+AC_LANG(C++)
+AC_PROG_CXX
+
+# Ensure we have libprofiler.
+#
+# First, try to use pkg-config, which is the best option when available,
+# otherwise fall back on AC_CHECK_HEADERS and generic cpp/linker flags.
+have_libprofiler=no
+LIBPROFILER_CXXFLAGS=""
+LIBPROFILER_LIBS="-lprofiler"
+
+PKG_PROG_PKG_CONFIG
+
+if test [ -n "$PKG_CONFIG" ] ; then
+  AC_MSG_CHECKING([pkg-config for libprofiler])
+  if $PKG_CONFIG --exists libprofiler; then
+    have_libprofiler=yes
+    LIBPROFILER_CXXFLAGS=`"${PKG_CONFIG}" --cflags libprofiler`
+    LIBPROFILER_LIBS=`"${PKG_CONFIG}" --libs libprofiler`
+  fi
+  AC_MSG_RESULT([${have_libprofiler}])
+fi
+
+if test "x${have_libprofiler}" = xno; then
+  AC_CHECK_HEADERS([gperftools/stacktrace.h],[have_libprofiler=yes])
+fi
+
+if test "x${have_libprofiler}" = xno; then
+  AC_MSG_FAILURE([
+  ---------------------------------------------
+   'libprofiler' and its header files from Google's 'gperftools'
+   suite are required.
+
+   Please install:
+
+   * libgoogle-perftools-dev (on Debian and Ubuntu)
+   * gperftools-devel (on Fedora, CentOS and RHEL)
+   * gperftools (on Arch)
+
+   and try again.
+
+   If you believe this library is installed on your system but
+   this script is simply unable to find it, you can specify the
+   include and lib paths manually:
+
+   R CMD INSTALL ${PACKAGE_NAME} \\
+     --configure-vars='LIBS=-L/path/to/libs CPPFLAGS=-I/path/to/headers'
+  ---------------------------------------------])
+fi
+
+# Write generated files
+AC_SUBST([PKG_CPPFLAGS],["${PKG_CPPFLAGS} ${LIBPROFILER_CXXFLAGS}"])
+AC_SUBST([PKG_LIBS],["${PKG_LIBS} ${LIBPROFILER_LIBS}"])
+AC_CONFIG_FILES([src/Makevars])
 AC_OUTPUT
+
+echo "
+${PACKAGE_NAME} $PACKAGE_VERSION
+================
+
+cppflags: ${PKG_CPPFLAGS}
+libs: ${PKG_LIBS}
+"
