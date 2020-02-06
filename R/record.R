@@ -5,14 +5,14 @@
 #'   This function uses [start_profiler()] and [stop_profiler()]
 #'   to initiate and stop the data collection.
 #' @return Path to a file with pprof samples.
-#' @param expr An R expression to profile.
+#' @inheritParams comingle_rprof
 #' @param pprof Path to a file with pprof samples.
 #'   Also returned from the function.
 #' @examples
 #' # Returns a path to pprof samples.
 #' comingle_pprof(replicate(1e2, sample.int(1e4)))
-comingle_pprof <- function(expr, pprof = tempfile()) {
-  rprof <- comingle_rprof(expr)
+comingle_pprof <- function(expr, pprof = tempfile(), ...) {
+  rprof <- comingle_rprof(expr, ...)
   proffer::to_pprof(rprof, pprof = pprof)
   pprof
 }
@@ -27,12 +27,13 @@ comingle_pprof <- function(expr, pprof = tempfile()) {
 #' @param expr An R expression to profile.
 #' @param rprof Path to a file with Rprof samples.
 #'   Also returned from the function.
+#' @param ... Passed on to `start_profiler()`.
 #' @examples
 #' # Returns a path to Rprof samples.
 #' comingle_rprof(replicate(1e2, sample.int(1e4)))
-comingle_rprof <- function(expr, rprof = tempfile()) {
+comingle_rprof <- function(expr, rprof = tempfile(), ...) {
   on.exit(stop_profiler())
-  start_profiler(path = rprof)
+  start_profiler(path = rprof, ...)
   expr
   rprof
 }

@@ -4,13 +4,15 @@
 \alias{comingle_rprof}
 \title{Profile R code and record Rprof samples.}
 \usage{
-comingle_rprof(expr, rprof = tempfile())
+comingle_rprof(expr, rprof = tempfile(), ...)
 }
 \arguments{
 \item{expr}{An R expression to profile.}
 
 \item{rprof}{Path to a file with Rprof samples.
 Also returned from the function.}
+
+\item{...}{Passed on to \code{start_profiler()}.}
 }
 \value{
 Path to a file with Rprof samples.
