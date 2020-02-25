@@ -2,19 +2,26 @@ Package: jointprof
 Title: Joint Profiling of Native C/C++ and R Code
 Version: 0.0.1.9000
 Date: 2018-06-11
-Authors@R: c(
-      person("Kirill", "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
-      person("R Consortium", role = "fnd"),
-      person("Google Inc.", role = "cph", comment = "Code adapted from gperftools under its BSD 3-clause license.")
-    )
-Description: Simultaneously collects profiling data at both the R and C/C++
-    levels (using 'Rprof' and Google's 'libprofiler' from 'gperftools') and
-    collates the results to present a unified view of the collected data.
-    Supports writing these combined profiles to R's usual 'Rprof.out' format (for
-    interoperability with existing tools) or interacting with the external
-    'pprof' program for its rich visualization tools.
+Authors@R: 
+    c(person(given = "Kirill",
+             family = "M\u00fcller",
+             role = c("aut", "cre"),
+             email = "krlmlr+r@mailbox.org"),
+      person(given = "R Consortium",
+             role = "fnd"),
+      person(given = "Google Inc.",
+             role = "cph",
+             comment = "Code adapted from gperftools under its BSD 3-clause license."))
+Description: Simultaneously collects profiling data at both the
+    R and C/C++ levels (using 'Rprof' and Google's 'libprofiler' from
+    'gperftools') and collates the results to present a unified view of
+    the collected data.  Supports writing these combined profiles to R's
+    usual 'Rprof.out' format (for interoperability with existing tools) or
+    interacting with the external 'pprof' program for its rich
+    visualization tools.
 License: GPL-3 + file LICENSE
-URL: https://github.com/r-prof/jointprof, http://r-prof.github.io/jointprof
+URL: https://github.com/r-prof/jointprof,
+    http://r-prof.github.io/jointprof
 BugReports: https://github.com/r-prof/jointprof/issues
 Depends: 
     R (>= 3.1)
@@ -29,18 +36,21 @@ Suggests:
     DBI,
     knitr,
     rmarkdown,
-    RSQLite,
     rprojroot,
+    RSQLite,
     rsvg,
     testthat,
     withr
 LinkingTo: 
     Rcpp
-VignetteBuilder: knitr
+VignetteBuilder: 
+    knitr
+Remotes: 
+    r-prof/profile
 Encoding: UTF-8
 LazyData: true
 OS_type: unix
-Remotes: r-prof/profile
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.0.2
-SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
+SystemRequirements: C++11, Linux (OS X and Solaris not
+    supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
