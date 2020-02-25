@@ -4,7 +4,7 @@
 
 #include <signal.h>
 #include <fstream>
-#include <gperftools/stacktrace.h>
+#include <gperftools/profiler.h>
 #include "getpc.h"
 #include "sysinfo.h"
 
@@ -169,8 +169,10 @@ void ProfilerDaisyChain::Impl::write_stack_trace(const ucontext_t* signal_uconte
   // "pprof" at analysis time.  Instead of skipping the top frames,
   // we could skip nothing, but that would increase the profile size
   // unnecessarily.
-  intptr_t depth = GetStackTraceWithContext(stack + stack_start + 1, kMaxStackDepth - 1,
-                                            3, signal_ucontext);
+  intptr_t depth = ProfilerGetStackTrace(
+    stack + stack_start + 1, kMaxStackDepth - 1,
+    3, signal_ucontext
+  );
 
   if (depth > 0 && stack[1] == stack[0]) {
     // in case of non-frame-pointer-based unwinding we will get
