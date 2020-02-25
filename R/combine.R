@@ -91,7 +91,7 @@ patch_locations <- function(rprof_locations, pprof_locations, locations_flat) {
   rprof_locations_full <- .
   stopifnot(rprof_locations$location_id == rprof_locations_full$location_id)
 
-  call_idx <- which(rprof_locations_full$system_name == ".Call")
+  call_idx <- which(rprof_locations_full$system_name %in% c(".Call", ".External2"))
 
   if (length(call_idx) == 0) {
     return(rprof_locations)
