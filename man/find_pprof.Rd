@@ -11,7 +11,7 @@ find_pprof()
 implemented in Go.
 The \code{find_pprof()} function looks for the \code{pprof} executable
 in the \code{bin} subdirectory of the \code{GOPATH}
-(by default \code{~/go}, can be overridden by setting the \code{GOPATH}
+(by default \verb{~/go}, can be overridden by setting the \code{GOPATH}
 environment variable).
 It fails if no \code{pprof} executable can be found.
 

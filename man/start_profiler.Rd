@@ -5,8 +5,7 @@
 \alias{stop_profiler}
 \title{Start and stop profiling}
 \usage{
-start_profiler(path = "Rprof.out", ..., numfiles = 100L,
-  bufsize = 10000L)
+start_profiler(path = "Rprof.out", ..., numfiles = 100L, bufsize = 10000L)
 
 stop_profiler()
 }
@@ -32,7 +31,7 @@ is used to capture R call stacks.
 \details{
 Profiling requires the \code{pprof} tool, which can be made available by
 installing the \pkg{pprof} package (recommended) or by running
-\code{go get github.com/google/pprof} and adding \code{${GOPATH}/bin} to the \code{PATH}.
+\verb{go get github.com/google/pprof} and adding \verb{$\{GOPATH\}/bin} to the \code{PATH}.
 
 Set the \code{keep.source} and \code{keep.source.pkgs} options to \code{TRUE} (via
 \code{\link[=option]{option()}}) before installing packages from source or running code to obtain

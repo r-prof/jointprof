@@ -42,5 +42,5 @@ LazyData: true
 OS_type: unix
 Remotes: r-prof/profile
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 SystemRequirements: C++11, Linux (OS X and Solaris not supported), libprofiler (libgoogle-perftools-dev on Ubuntu)
