@@ -46,6 +46,7 @@ LinkingTo:
 VignetteBuilder: 
     knitr
 Remotes: 
+    r-prof/proffer#12,
     r-prof/profile
 Encoding: UTF-8
 LazyData: true
