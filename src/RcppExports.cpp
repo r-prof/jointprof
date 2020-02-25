@@ -7,20 +7,22 @@
 using namespace Rcpp;
 
 // callback1_cpp
-void callback1_cpp();
-RcppExport SEXP _jointprof_callback1_cpp() {
+void callback1_cpp(Rcpp::XPtr<int> x);
+RcppExport SEXP _jointprof_callback1_cpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    callback1_cpp();
+    Rcpp::traits::input_parameter< Rcpp::XPtr<int> >::type x(xSEXP);
+    callback1_cpp(x);
     return R_NilValue;
 END_RCPP
 }
 // callback2_cpp
-void callback2_cpp();
-RcppExport SEXP _jointprof_callback2_cpp() {
+void callback2_cpp(Rcpp::XPtr<int> x);
+RcppExport SEXP _jointprof_callback2_cpp(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    callback2_cpp();
+    Rcpp::traits::input_parameter< Rcpp::XPtr<int> >::type x(xSEXP);
+    callback2_cpp(x);
     return R_NilValue;
 END_RCPP
 }
@@ -68,8 +70,8 @@ END_RCPP
 RcppExport void R_unload_jointprof(void *);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_jointprof_callback1_cpp", (DL_FUNC) &_jointprof_callback1_cpp, 0},
-    {"_jointprof_callback2_cpp", (DL_FUNC) &_jointprof_callback2_cpp, 0},
+    {"_jointprof_callback1_cpp", (DL_FUNC) &_jointprof_callback1_cpp, 1},
+    {"_jointprof_callback2_cpp", (DL_FUNC) &_jointprof_callback2_cpp, 1},
     {"_jointprof_callback3_cpp", (DL_FUNC) &_jointprof_callback3_cpp, 0},
     {"_jointprof_init_profiler_impl", (DL_FUNC) &_jointprof_init_profiler_impl, 0},
     {"_jointprof_start_profiler_impl", (DL_FUNC) &_jointprof_start_profiler_impl, 2},

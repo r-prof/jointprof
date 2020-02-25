@@ -3,18 +3,24 @@ sleep <- function() {
   NULL
 }
 
-callback1_r <- function() {
+callback1_r <- function(x) {
   sleep()
 }
 
-callback2_r <- function() {
+callback2_r <- function(x) {
   sleep()
-  callback1_cpp()
+  callback1_cpp(x)
   sleep()
 }
 
-callback3_r <- function() {
+callback3_r <- function(x) {
   sleep()
-  callback2_cpp()
+  callback2_cpp(x)
+  sleep()
+}
+
+callback_r <- function() {
+  sleep()
+  callback3_cpp()
   sleep()
 }
