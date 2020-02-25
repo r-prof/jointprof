@@ -13,8 +13,8 @@
 #' comingle_pprof(replicate(1e2, sample.int(1e4)))
 comingle_pprof <- function(expr, pprof = tempfile(), ...) {
   rprof <- comingle_rprof(expr, ...)
+  on.exit(unlink(rprof))
   proffer::to_pprof(rprof, pprof = pprof)
-  pprof
 }
 
 #' @title Profile R code and record Rprof samples.
