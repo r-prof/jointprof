@@ -6,12 +6,13 @@
 \alias{jointprof-package}
 \title{jointprof: Joint Profiling of Native C/C++ and R Code}
 \description{
-Simultaneously collects profiling data at both the R and C/C++
-    levels (using 'Rprof' and Google's 'libprofiler' from 'gperftools') and
-    collates the results to present a unified view of the collected data.
-    Supports writing these combined profiles to R's usual 'Rprof.out' format (for
-    interoperability with existing tools) or interacting with the external
-    'pprof' program for its rich visualization tools.
+Simultaneously collects profiling data at both the
+    R and C/C++ levels (using 'Rprof' and Google's 'libprofiler' from
+    'gperftools') and collates the results to present a unified view of
+    the collected data.  Supports writing these combined profiles to R's
+    usual 'Rprof.out' format (for interoperability with existing tools) or
+    interacting with the external 'pprof' program for its rich
+    visualization tools.
 }
 \seealso{
 Useful links:

@@ -1,5 +1,5 @@
 #' @title Profile R and native code and record pprof samples.
-#' @export
+#' @noRd
 #' @description Run R code and record pprof samples
 #'   from both R's and the native tracebacks.
 #'   This function uses [start_profiler()] and [stop_profiler()]
@@ -18,7 +18,7 @@ comingle_pprof <- function(expr, pprof = tempfile(), ...) {
 }
 
 #' @title Profile R code and record Rprof samples.
-#' @export
+#' @noRd
 #' @description Run R code and record Rprof samples
 #'   from both R's and the native tracebacks.
 #'   This function uses [start_profiler()] and [stop_profiler()]
