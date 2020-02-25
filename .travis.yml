@@ -62,7 +62,7 @@ jobs:
         - librsvg2-dev # for rsvg
     env:
     - KIND=github
-    - BUILD_PKGDOWN=true
+    - BUILD_PKGDOWN=false
     before_install:
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )
