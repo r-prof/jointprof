@@ -1,3 +1,13 @@
+# jointprof 0.0.1.9001
+
+- New `joint_pprof()`.
+- New `comingle_pprof()` and `comingle_rprof()`, for use with proffer.
+- Revamp the `configure` script (#45, @atheriel).
+- Improve package metadata (DESCRIPTION/NAMESPACE/LICENSE) (#43).
+- Remove unused `write_flat_ds()` (#42).
+- Adds new error messages for possible pprof installation issues (#40).
+
+
 # jointprof 0.0.1.9000
 
 - Detailed installation instructions (#28).

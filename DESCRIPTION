@@ -1,7 +1,7 @@
 Package: jointprof
 Title: Joint Profiling of Native C/C++ and R Code
-Version: 0.0.1.9000
-Date: 2018-06-11
+Version: 0.0.1.9001
+Date: 2020-07-21
 Authors@R: 
     c(person(given = "Kirill",
              family = "M\u00fcller",
