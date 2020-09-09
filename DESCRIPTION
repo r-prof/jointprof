@@ -20,8 +20,8 @@ Description: Simultaneously collects profiling data at both the
     interacting with the external 'pprof' program for its rich
     visualization tools.
 License: GPL-3 + file LICENSE
-URL: https://github.com/r-prof/jointprof,
-    http://r-prof.github.io/jointprof
+URL: https://r-prof.github.io/jointprof/,
+    https://github.com/r-prof/jointprof,
 BugReports: https://github.com/r-prof/jointprof/issues
 Depends: 
     R (>= 3.1)
