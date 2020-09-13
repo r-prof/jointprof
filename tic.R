@@ -1,4 +1,7 @@
 if (Sys.getenv("BUILD_PKGDOWN") != "") {
+  get_stage("install") %>%
+    add_step(step_install_deps())
+
   get_stage("deploy") %>%
     add_step(step_build_pkgdown())
 
