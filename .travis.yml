@@ -39,6 +39,10 @@ jobs:
   - addons:
       apt:
         packages:
+        - libgoogle-perftools-dev
+        - libprotoc-dev
+        - libprotobuf-dev
+        - protobuf-compiler
         - graphviz # for call graph in vignette
         - librsvg2-dev # for rsvg
     env:
