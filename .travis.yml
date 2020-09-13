@@ -39,6 +39,13 @@ jobs:
   - addons:
       apt:
         packages:
+        - graphviz # for call graph in vignette
+        - librsvg2-dev # for rsvg
+    env:
+    - BUILD_PKGDOWN=true
+  - addons:
+      apt:
+        packages:
         - libgoogle-perftools-dev
         - libprotoc-dev
         - libprotobuf-dev
