@@ -48,6 +48,7 @@ jobs:
     env:
     - KIND=apt
     before_install:
+    - go version
     - go get github.com/google/pprof
     - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
@@ -63,6 +64,9 @@ jobs:
     env:
     - KIND=github
     before_install:
+    - go version
+    - go get github.com/google/pprof
+    - ln -sf ~/go/bin/pprof ~/bin/
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )
     - ( cd /tmp/gperftools && ./configure --prefix=${HOME} )
@@ -71,13 +75,14 @@ jobs:
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
     - cp .travis/Makevars ~/.R
-    - go get github.com/google/pprof
-    - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - os: osx
     env:
     - KIND=github
     before_install:
+    - go version
+    - go get github.com/google/pprof
+    - ln -sf ~/go/bin/pprof ~/bin/
     - brew install graphviz
     - ( cd /tmp && git clone --depth 1 https://github.com/krlmlr/gperftools.git -b f-export-stack )
     - ( cd /tmp/gperftools && ./autogen.sh  )
@@ -87,8 +92,6 @@ jobs:
     - ( cd /tmp/gperftools && make install )
     - mkdir -p ~/.R
     - cp .travis/Makevars ~/.R
-    - go get github.com/google/pprof
-    - ln -sf ~/go/bin/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 #  - os: osx
 #    env:
