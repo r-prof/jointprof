@@ -1,5 +1,3 @@
-do_package_checks()
-
 if (Sys.getenv("BUILD_PKGDOWN") != "") {
   get_stage("deploy") %>%
     add_step(step_build_pkgdown())
@@ -16,4 +14,6 @@ if (Sys.getenv("BUILD_PKGDOWN") != "") {
     get_stage("deploy") %>%
       add_step(step_push_deploy(path = "docs", branch = "gh-pages"))
   }
+} else {
+  do_package_checks()
 }
