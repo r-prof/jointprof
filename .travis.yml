@@ -44,7 +44,6 @@ jobs:
         - libprotoc-dev
         - libprotobuf-dev
         - protobuf-compiler
-        - golang-1.11
         - graphviz # for call graph in vignette
         - librsvg2-dev # for rsvg
     env:
