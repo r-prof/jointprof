@@ -65,6 +65,12 @@ jobs:
     # - /tmp/installer_linux
     # - source ~/.bash_profile
     - go version
+    - ls -l /usr/lib
+    - ls -l /usr/lib/go-*
+    - ls -l /usr/lib/go-1.11
+    - ls -l /usr/lib/go-1.11/pkg
+    - ls -l /usr/lib/go-1.11/pkg/tool
+    - ls -l /usr/lib/go-1.11/pkg/tool/linux_amd64
     - ln -sf /usr/lib/go-1.11/pkg/tool/linux_amd64/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - addons:
