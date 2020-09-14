@@ -48,6 +48,14 @@ jobs:
         - librsvg2-dev # for rsvg
     env:
     - BUILD_PKGDOWN=true
+    before_install:
+    - cd /tmp && wget -q https://storage.googleapis.com/golang/getgo/installer_linux
+    - chmod +x /tmp/installer_linux
+    - /tmp/installer_linux
+    - source ~/.bash_profile
+    - go version
+    - which pprof
+    - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - addons:
       apt:
         packages:
