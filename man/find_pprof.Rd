@@ -9,26 +9,11 @@ find_pprof()
 \description{
 \code{pprof} is a tool for visualization and analysis of profiling data,
 implemented in Go.
-The \code{find_pprof()} function looks for the \code{pprof} executable
-in the \code{bin} subdirectory of the \code{GOPATH}
-(by default \verb{~/go}, can be overridden by setting the \code{GOPATH}
-environment variable).
-It fails if no \code{pprof} executable can be found.
+This function is a wrapper around \code{\link[proffer:find_pprof]{proffer::find_pprof()}}
+for determining its location on your system.
 
 This function will be called by \code{\link[=start_profiler]{start_profiler()}} to ensure
 that profiling data can be processed by \code{\link[=stop_profiler]{stop_profiler()}}.
 A functioning installation of \code{pprof} is a prerequisite to use
 this package.
 }
-\section{Installation}{
-
-\enumerate{
-\item Install Go 1.7 or newer (if necessary).
-\item Install \code{pprof} into your \code{GOPATH}:\preformatted{go get github.com/google/pprof
-}
-}
-
-See also the instructions on \code{pprof}'s
-\href{https://github.com/google/pprof#building-pprof}{GitHub page}.
-}
-
