@@ -17,8 +17,8 @@ Simultaneously collects profiling data at both the
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/r-prof/jointprof}
-  \item \url{http://r-prof.github.io/jointprof}
+  \item \url{https://r-prof.github.io/jointprof/}
+  \item \url{https://github.com/r-prof/jointprof,}
   \item Report bugs at \url{https://github.com/r-prof/jointprof/issues}
 }
 
