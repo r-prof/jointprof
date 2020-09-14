@@ -60,9 +60,12 @@ jobs:
     env:
     - KIND=apt
     before_install:
+    # - cd /tmp && wget -q https://storage.googleapis.com/golang/getgo/installer_linux
+    # - chmod +x /tmp/installer_linux
+    # - /tmp/installer_linux
+    # - source ~/.bash_profile
     - go version
-    - go get github.com/google/pprof
-    - ln -sf ~/go/bin/pprof ~/bin/
+    - ln -sf /usr/lib/go-1.11/pkg/tool/linux_amd64/pprof ~/bin/
     - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
   - addons:
       apt:
