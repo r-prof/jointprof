@@ -42,6 +42,21 @@ jobs:
           git config --global user.email "${GITHUB_EVENT_NAME}@ghactions.local"
         shell: bash
 
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'req <- remotes::system_requirements("ubuntu", "20.04"); writeLines(req)')
+        shell: bash
+
+      - name: Install manual system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y libgoogle-perftools-dev libprotoc-dev libprotobuf-dev protobuf-compiler graphviz librsvg2-dev # for rsvg
+        shell: bash
+
       - name: Install dependencies
         run: |
           install.packages("remotes")
