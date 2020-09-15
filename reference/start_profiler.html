@@ -8,21 +8,29 @@
 
 <title>Start and stop profiling — start_profiler • jointprof</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Start and stop profiling — start_profiler" />
 
+<meta property="og:title" content="Start and stop profiling — start_profiler" />
 <meta property="og:description" content="start_profiler() initiates profiling. It is a replacement for Rprof()
 that will include native stack traces where available. Internally, Rprof()
 is used to capture R call stacks.
 stop_profiler() terminates profiling. The results are written to the
 Rprof()-compatible file given specified by the path argument." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,9 +59,10 @@ Rprof()-compatible file given specified by the path argument." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +76,7 @@ Rprof()-compatible file given specified by the path argument." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">jointprof</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9001</span>
       </span>
     </div>
 
@@ -75,7 +84,7 @@ Rprof()-compatible file given specified by the path argument." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,11 +113,10 @@ Rprof()-compatible file given specified by the path argument." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-prof/gprofiler">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-prof/jointprof/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -119,30 +127,29 @@ Rprof()-compatible file given specified by the path argument." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Start and stop profiling</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-prof/gprofiler/blob/master/R/profiler.R'><code>R/profiler.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/r-prof/jointprof/blob/master/R/profiler.R'><code>R/profiler.R</code></a></small>
     <div class="hidden name"><code>start_profiler.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p><code>start_profiler()</code> initiates profiling. It is a replacement for <code><a href='https://www.rdocumentation.org/packages/utils/topics/Rprof'>Rprof()</a></code>
-that will include native stack traces where available. Internally, <code><a href='https://www.rdocumentation.org/packages/utils/topics/Rprof'>Rprof()</a></code>
+    <p><code>start_profiler()</code> initiates profiling. It is a replacement for <code><a href='https://rdrr.io/r/utils/Rprof.html'>Rprof()</a></code>
+that will include native stack traces where available. Internally, <code><a href='https://rdrr.io/r/utils/Rprof.html'>Rprof()</a></code>
 is used to capture R call stacks.</p>
 <p><code>stop_profiler()</code> terminates profiling. The results are written to the
-<code><a href='https://www.rdocumentation.org/packages/utils/topics/Rprof'>Rprof()</a></code>-compatible file given specified by the <code>path</code> argument.</p>
-    
+<code><a href='https://rdrr.io/r/utils/Rprof.html'>Rprof()</a></code>-compatible file given specified by the <code>path</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>start_profiler</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"Rprof.out"</span>, <span class='no'>...</span>, <span class='kw'>numfiles</span> <span class='kw'>=</span> <span class='fl'>100L</span>, <span class='kw'>bufsize</span> <span class='kw'>=</span> <span class='fl'>10000L</span>)
+    <pre class="usage"><span class='fu'>start_profiler</span>(path = <span class='st'>"Rprof.out"</span>, <span class='kw'>...</span>, numfiles = <span class='fl'>100L</span>, bufsize = <span class='fl'>10000L</span>)
 
 <span class='fu'>stop_profiler</span>()</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,65 +163,60 @@ is used to capture R call stacks.</p>
     </tr>
     <tr>
       <th>numfiles, bufsize</th>
-      <td><p>Passed on to <code><a href='https://www.rdocumentation.org/packages/utils/topics/Rprof'>Rprof()</a></code> call.</p></td>
+      <td><p>Passed on to <code><a href='https://rdrr.io/r/utils/Rprof.html'>Rprof()</a></code> call.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>stop_profiler()</code> returns (invisibly) the profiling data like it would have
-been read by <code><a href='https://www.rdocumentation.org/packages/profile/topics/read_rprof'>profile::read_rprof()</a></code>, validated with <code><a href='https://www.rdocumentation.org/packages/profile/topics/validate_profile'>profile::validate_profile()</a></code>.</p>
-    
+been read by <code><a href='https://rdrr.io/pkg/profile/man/read_rprof.html'>profile::read_rprof()</a></code>, validated with <code><a href='https://rdrr.io/pkg/profile/man/validate_profile.html'>profile::validate_profile()</a></code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Profiling requires the <code>pprof</code> tool, which can be made available by
 installing the <span class="pkg">pprof</span> package (recommended) or by running
 <code>go get github.com/google/pprof</code> and adding <code>${GOPATH}/bin</code> to the <code>PATH</code>.</p>
 <p>Set the <code>keep.source</code> and <code>keep.source.pkgs</code> options to <code>TRUE</code> (via
-<code><a href='https://www.rdocumentation.org/packages/base/topics/options'>option()</a></code>) before installing packages from source or running code to obtain
+<code><a href='https://rdrr.io/r/base/options.html'>option()</a></code>) before installing packages from source or running code to obtain
 accurate locations in your stack traces. It is a good idea to set these
-options in your <a href='https://www.rdocumentation.org/packages/base/topics/Startup'>.Rprofile</a> file.</p>
+options in your <a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a> file.</p>
 <p>Use the <span class="pkg">profile</span> package to read the data or save the output in <code>pprof</code>
 format for further processing.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>start_profiler</span>(<span class='st'>"Rprof.out"</span>)
 <span class='co'># code to be profiled</span>
 <span class='fu'>stop_profiler</span>()
 
-<span class='kw pkg'>profile</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/profile/topics/read_rprof'>read_rprof</a></span>(<span class='st'>"Rprof.out"</span>)
-<span class='co'># }</span></pre>
+<span class='kw'>profile</span>::<span class='fu'><a href='https://rdrr.io/pkg/profile/man/read_rprof.html'>read_rprof</a></span>(<span class='st'>"Rprof.out"</span>)
+}
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
-  <p>Developed by Kirill Müller, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
+  <p>Developed by <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

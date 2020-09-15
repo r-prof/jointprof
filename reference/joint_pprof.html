@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>jointprof: Joint Profiling of Native C/C++ and R Code — jointprof-package • jointprof</title>
+<title>Profile an expression and show in pprof — joint_pprof • jointprof</title>
 
 
 <!-- jquery -->
@@ -39,14 +39,10 @@
 
 
 
-<meta property="og:title" content="jointprof: Joint Profiling of Native C/C++ and R Code — jointprof-package" />
-<meta property="og:description" content="Simultaneously collects profiling data at both the
-    R and C/C++ levels (using 'Rprof' and Google's 'libprofiler' from
-    'gperftools') and collates the results to present a unified view of
-    the collected data.  Supports writing these combined profiles to R's
-    usual 'Rprof.out' format (for interoperability with existing tools) or
-    interacting with the external 'pprof' program for its rich
-    visualization tools." />
+<meta property="og:title" content="Profile an expression and show in pprof — joint_pprof" />
+<meta property="og:description" content="Profiles an expression with start_profiler() and stop_profiler()
+and visualizes results with proffer::serve_pprof().
+Drop-in replacement for proffer::pprof() and profvis::profvis()." />
 
 
 
@@ -135,40 +131,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>jointprof: Joint Profiling of Native C/C++ and R Code</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-prof/jointprof/blob/master/R/gprofiler-package.R'><code>R/gprofiler-package.R</code></a></small>
-    <div class="hidden name"><code>jointprof-package.Rd</code></div>
+    <h1>Profile an expression and show in pprof</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-prof/jointprof/blob/master/R/jointprof.R'><code>R/jointprof.R</code></a></small>
+    <div class="hidden name"><code>joint_pprof.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Simultaneously collects profiling data at both the
-    R and C/C++ levels (using 'Rprof' and Google's 'libprofiler' from
-    'gperftools') and collates the results to present a unified view of
-    the collected data.  Supports writing these combined profiles to R's
-    usual 'Rprof.out' format (for interoperability with existing tools) or
-    interacting with the external 'pprof' program for its rich
-    visualization tools.</p>
+    <p>Profiles an expression with <code><a href='start_profiler.html'>start_profiler()</a></code> and <code><a href='start_profiler.html'>stop_profiler()</a></code>
+and visualizes results with <code><a href='https://rdrr.io/pkg/proffer/man/serve_pprof.html'>proffer::serve_pprof()</a></code>.
+Drop-in replacement for <code><a href='https://rdrr.io/pkg/proffer/man/pprof.html'>proffer::pprof()</a></code> and <code><a href='https://rdrr.io/pkg/profvis/man/profvis.html'>profvis::profvis()</a></code>.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>joint_pprof</span>(<span class='kw'>expr</span>, <span class='kw'>...</span>)</pre>
 
-
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p><a href='https://r-prof.github.io/jointprof/'>https://r-prof.github.io/jointprof/</a></p></li>
-<li><p><a href='https://github.com/r-prof/jointprof,'>https://github.com/r-prof/jointprof,</a></p></li>
-<li><p>Report bugs at <a href='https://github.com/r-prof/jointprof/issues'>https://github.com/r-prof/jointprof/issues</a></p></li>
-</ul>
-
-</div>
-    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
-
-    <p><strong>Maintainer</strong>: Kirill Müller <a href='mailto:krlmlr+r@mailbox.org'>krlmlr+r@mailbox.org</a></p>
-<p>Other contributors:</p><ul>
-<li><p>R Consortium [funder]</p></li>
-<li><p>Google Inc. (Code adapted from gperftools under its BSD 3-clause license.) [copyright holder]</p></li>
-</ul>
-
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>expr</th>
+      <td><p>Expression to profile.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Passed on to <code><a href='https://rdrr.io/pkg/proffer/man/serve_pprof.html'>proffer::serve_pprof()</a></code>.</p></td>
+    </tr>
+    </table>
 
 
   </div>
