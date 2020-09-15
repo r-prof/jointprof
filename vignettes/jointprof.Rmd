@@ -23,6 +23,8 @@ knit_dir <- withr::with_dir(
   dirname(knitr::current_input(dir = TRUE)),
   rprojroot::from_wd$make_fix_file()
 )
+
+eval <- FALSE
 ```
 
 The three rules of software optimization are:
@@ -103,7 +105,7 @@ summary$by.self
 
 This is a nice overview, but for `fun_cpp()` the run time is hidden in the entry for [`.Call()`](https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/CallExternal): calls into native code are opaque and cannot be resolved further. Enter joint profiling:
 
-```{r minimal-jointprof}
+```{r minimal-jointprof, eval = eval}
 library(jointprof)
 out_file <- tempfile("jointprof", fileext = ".out")
 start_profiler(out_file)
@@ -201,7 +203,7 @@ strtrim(readLines(out_file, n = 12), 90)
 
 Furthermore `stop_profiler()` returns an in-memory representation of the profiled data, invisibly. See [`?profiler::validate_profile`](https://r-prof.github.io/profile/reference/validate_profile.html) for a description of the data format.
 
-```{r show-profile-data}
+```{r show-profile-data, eval = eval}
 out_file <- tempfile("jointprof", fileext = ".out")
 start_profiler(out_file)
 for (i in 1:10) test(700)
@@ -216,7 +218,7 @@ profile_data$functions
 
 The profile data can be edited, and written to a file via [`write_rprof()`](https://r-prof.github.io/profile/reference/write_rprof.html) or (in [`pprof`](https://github.com/google/pprof)-compatible format) via [`profile::write_pprof()`](https://r-prof.github.io/profile/reference/write_pprof.html). The example below removes the first 15 entries from all samples, and writes the resulting profile data in `pprof` format:
 
-```{r tweak-profile-data}
+```{r tweak-profile-data, eval = eval}
 profile_data$samples$locations <- lapply(
   profile_data$samples$locations,
   head,
@@ -229,7 +231,7 @@ profile::write_pprof(profile_data, pprof_file)
 
 We then use `pprof` to visualize the call *graph*, using [`find_pprof()`](https://r-prof.github.io/jointprof/reference/find_pprof.html) to get the path to the `pprof` executable:
 
-```{r minimal-graph}
+```{r minimal-graph, eval = eval}
 dir.create(knit_dir("jointprof_fig"), recursive = TRUE, showWarnings = FALSE)
 svg_file <- knit_dir("jointprof_fig/minimal.svg")
 
