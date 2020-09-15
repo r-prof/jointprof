@@ -6,7 +6,7 @@ output: rmarkdown::html_vignette
 resource_files:
   - jointprof_fig/minimal.svg
 vignette: >
-  %\VignetteIndexEntry{Kirill Müller}
+  %\VignetteIndexEntry{Introduction to joint profiling of native and R code}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
