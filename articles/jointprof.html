@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +39,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/jointprof.html">Get started</a>
 </li>
@@ -70,8 +66,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/r-prof/jointprof/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/r-prof/jointprof/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,11 +85,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to joint profiling of native and R code</h1>
-                        <h4 class="author">Kirill Müller</h4>
+                        <h4 data-toc-skip class="author">Kirill Müller</h4>
             
-            <h4 class="date">2020-09-15</h4>
+            <h4 data-toc-skip class="date">2021-03-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/r-prof/jointprof/blob/master/vignettes/jointprof.Rmd"><code>vignettes/jointprof.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-prof/jointprof/blob/master/vignettes/jointprof.Rmd" class="external-link"><code>vignettes/jointprof.Rmd</code></a></small>
       <div class="hidden name"><code>jointprof.Rmd</code></div>
 
     </div>
@@ -106,19 +102,18 @@
 <li>Don’t do it yet.</li>
 <li>Profile before optimizing.</li>
 </ol>
-<p>A profiler is a tool that identifies which parts of your code take the most time. One way to do this is to run the code and halt execution every so often (by default 50 times per second), and record the <a href="https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sys.parent">call stack</a> on each occurrence. The combined samples will likely show in which part of your code the most time is spent.</p>
-<p>In R, a sampling profiler is available via <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof"><code>Rprof()</code></a>, but it provides detailed measurements only for R code. This vignette shows how to include detailed information on native code run times in the profile.</p>
+<p>A profiler is a tool that identifies which parts of your code take the most time. One way to do this is to run the code and halt execution every so often (by default 50 times per second), and record the <a href="https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/sys.parent" class="external-link">call stack</a> on each occurrence. The combined samples will likely show in which part of your code the most time is spent.</p>
+<p>In R, a sampling profiler is available via <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/Rprof" class="external-link"><code>Rprof()</code></a>, but it provides detailed measurements only for R code. This vignette shows how to include detailed information on native code run times in the profile.</p>
 <div id="prerequisite-code-to-profile" class="section level2">
 <h2 class="hasAnchor">
 <a href="#prerequisite-code-to-profile" class="anchor"></a>Prerequisite: Code to profile</h2>
-<p>For this vignette, we’ll be profiling R and C++ implementations of functions that computes the Fibonacci sequence using <a href="https://en.wikipedia.org/wiki/Dynamic_programming#In_computer_programming">dynamic programming</a>:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="kw">fib_r</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">x</span>) {
-  <span class="co">if</span> (<span class="kw">x</span> <span class="op">&lt;=</span> <span class="fl">2</span>) <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span>, <span class="kw">x</span>))
-  <span class="kw">fib</span> <span class="op">&lt;-</span> <span class="fu">fib_r</span>(<span class="kw">x</span> <span class="op">-</span> <span class="fl">1</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">fib</span>, <span class="kw">fib</span>[<span class="kw">x</span> <span class="op">-</span> <span class="fl">1</span>] <span class="op">+</span> <span class="kw">fib</span>[<span class="kw">x</span> <span class="op">-</span> <span class="fl">2</span>])
-}
-</pre></div>
+<p>For this vignette, we’ll be profiling R and C++ implementations of functions that computes the Fibonacci sequence using <a href="https://en.wikipedia.org/wiki/Dynamic_programming#In_computer_programming" class="external-link">dynamic programming</a>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">fib_r</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="va">x</span> <span class="op">&lt;=</span> <span class="fl">2</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">x</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">fib</span> <span class="op">&lt;-</span> <span class="fu">fib_r</span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">fib</span>, <span class="va">fib</span><span class="op">[</span><span class="va">x</span> <span class="op">-</span> <span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">fib</span><span class="op">[</span><span class="va">x</span> <span class="op">-</span> <span class="fl">2</span><span class="op">]</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span id="cb2-1"><a href="#cb2-1"></a><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co">// [[Rcpp::export]]</span></span>
@@ -134,52 +129,52 @@
 <span id="cb2-13"><a href="#cb2-13"></a>}</span></code></pre></div>
 <p>(A few tweaks are necessary to allow profiling the <em>Rcpp</em>-compiled function when run from the vignette. See the source for details.)</p>
 <p>The implementations are supposed to behave identically.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu">fib_r</span>(<span class="fl">10</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">fib_r</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
 <span class="co">#&gt;  [1]  1  1  2  3  5  8 13 21 34 55</span>
-<span class="fu">fib_cpp</span>(<span class="fl">10</span>)
-<span class="co">#&gt;  [1]  1  1  2  3  5  8 13 21 34 55</span>
-</pre></div>
+<span class="fu">fib_cpp</span><span class="op">(</span><span class="fl">10</span><span class="op">)</span>
+<span class="co">#&gt;  [1]  1  1  2  3  5  8 13 21 34 55</span></code></pre></div>
 <p>Our test function <code>test()</code> calls both functions and compares their output in a loop:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">test</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">i</span>) {
-  <span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq_len</a></span>(<span class="kw">i</span>)) {
-    <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span>(<span class="fu">fib_r</span>(<span class="kw">i</span>), <span class="fu">fib_cpp</span>(<span class="kw">i</span>)))
-  }
-}
-</pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">i</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu">fib_r</span><span class="op">(</span><span class="va">i</span><span class="op">)</span>, <span class="fu">fib_cpp</span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">}</span>
+<span class="op">}</span></code></pre></div>
 </div>
 <div id="a-minimal-example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-minimal-example" class="anchor"></a>A minimal example</h2>
-<p><code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code> creates a text file that contains the stack trace for each interruption. The <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof"><code>summaryRprof()</code></a> function converts this to a data frame with one row per function and the corresponding run time estimates (self: code in that function only, total: including all descendant functions):</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"jointprof"</span>, fileext = <span class="st">".out"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html">Rprof</a></span>(<span class="kw">out_file</span>, gc.profiling = <span class="fl">TRUE</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>) <span class="fu">test</span>(<span class="fl">800</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html">Rprof</a></span>(<span class="kw">NULL</span>)
+<p><code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code> creates a text file that contains the stack trace for each interruption. The <a href="https://www.rdocumentation.org/packages/utils/versions/3.4.3/topics/summaryRprof" class="external-link"><code>summaryRprof()</code></a> function converts this to a data frame with one row per function and the corresponding run time estimates (self: code in that function only, total: including all descendant functions):</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"jointprof"</span>, fileext <span class="op">=</span> <span class="st">".out"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="va">out_file</span>, gc.profiling <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="fu">test</span><span class="op">(</span><span class="fl">800</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span>
 
-<span class="kw">summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html">summaryRprof</a></span>(<span class="kw">out_file</span>)
-<span class="kw">summary</span><span class="op">$</span><span class="kw">by.self</span>
+<span class="va">summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html" class="external-link">summaryRprof</a></span><span class="op">(</span><span class="va">out_file</span><span class="op">)</span>
+<span class="va">summary</span><span class="op">$</span><span class="va">by.self</span>
 <span class="co">#&gt;             self.time self.pct total.time total.pct</span>
-<span class="co">#&gt; "fib_r"         11.06    69.91      12.16     76.86</span>
-<span class="co">#&gt; "fib_cpp"        3.00    18.96       3.58     22.63</span>
-<span class="co">#&gt; "&lt;GC&gt;"           1.68    10.62       1.68     10.62</span>
-<span class="co">#&gt; "stopifnot"      0.04     0.25      15.80     99.87</span>
-<span class="co">#&gt; "test"           0.02     0.13      15.82    100.00</span>
-<span class="co">#&gt; "...elt"         0.02     0.13      15.76     99.62</span>
-</pre></div>
-<p>This is a nice overview, but for <code>fun_cpp()</code> the run time is hidden in the entry for <a href="https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/CallExternal"><code>.Call()</code></a>: calls into native code are opaque and cannot be resolved further. Enter joint profiling:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://r-prof.github.io/jointprof">jointprof</a></span>)
-<span class="kw">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"jointprof"</span>, fileext = <span class="st">".out"</span>)
-<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span>(<span class="kw">out_file</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>) <span class="fu">test</span>(<span class="fl">700</span>)
-<span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span>()
+<span class="co">#&gt; "fib_r"          4.86    34.66      10.74     76.60</span>
+<span class="co">#&gt; "c"              4.74    33.81       5.30     37.80</span>
+<span class="co">#&gt; ".Call"          2.76    19.69       3.22     22.97</span>
+<span class="co">#&gt; "&lt;GC&gt;"           1.22     8.70       1.22      8.70</span>
+<span class="co">#&gt; "-"              0.24     1.71       0.26      1.85</span>
+<span class="co">#&gt; "&lt;="             0.08     0.57       0.08      0.57</span>
+<span class="co">#&gt; "+"              0.06     0.43       0.06      0.43</span>
+<span class="co">#&gt; "test"           0.02     0.14      14.02    100.00</span>
+<span class="co">#&gt; "stopifnot"      0.02     0.14      14.00     99.86</span>
+<span class="co">#&gt; "...elt"         0.02     0.14      13.98     99.71</span></code></pre></div>
+<p>This is a nice overview, but for <code>fun_cpp()</code> the run time is hidden in the entry for <a href="https://www.rdocumentation.org/packages/base/versions/3.4.3/topics/CallExternal" class="external-link"><code>.Call()</code></a>: calls into native code are opaque and cannot be resolved further. Enter joint profiling:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-prof.github.io/jointprof/" class="external-link">jointprof</a></span><span class="op">)</span>
+<span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"jointprof"</span>, fileext <span class="op">=</span> <span class="st">".out"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span><span class="op">(</span><span class="va">out_file</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="fu">test</span><span class="op">(</span><span class="fl">700</span><span class="op">)</span>
+<span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html">summaryRprof</a></span>(<span class="kw">out_file</span>)
-<span class="kw">summary</span><span class="op">$</span><span class="kw">by.self</span>
-</pre></div>
+<span class="va">summary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/summaryRprof.html" class="external-link">summaryRprof</a></span><span class="op">(</span><span class="va">out_file</span><span class="op">)</span>
+<span class="va">summary</span><span class="op">$</span><span class="va">by.self</span></code></pre></div>
 <p>The summary now also contains a breakdown for native functions below the R code that calls them.</p>
 </div>
 <div id="installation" class="section level2">
@@ -188,7 +183,7 @@
 <div id="ubuntu" class="section level3">
 <h3 class="hasAnchor">
 <a href="#ubuntu" class="anchor"></a>Ubuntu</h3>
-<p>Other Linux distributions may work if you install the right system dependencies (<a href="https://github.com/r-prof/jointprof/issues">let me know</a> which!).</p>
+<p>Other Linux distributions may work if you install the right system dependencies (<a href="https://github.com/r-prof/jointprof/issues" class="external-link">let me know</a> which!).</p>
 <ol style="list-style-type: decimal">
 <li>
 <p>Install system dependencies:</p>
@@ -204,10 +199,9 @@
 </li>
 <li>
 <p>Install the package:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="co"># install.packages("remotes")</span>
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"r-prof/jointprof"</span>)
-</pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-prof/jointprof"</span><span class="op">)</span></code></pre></div>
 </li>
 </ol>
 </div>
@@ -220,7 +214,7 @@
 <div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1"></a><span class="ex">brew</span> install graphviz</span></code></pre></div>
 </li>
 <li>
-<p>Install <code>gperftools</code> (currently from a branch, <a href="https://github.com/gperftools/gperftools/pull/1004">pull request</a> pending):</p>
+<p>Install <code>gperftools</code> (currently from a branch, <a href="https://github.com/gperftools/gperftools/pull/1004" class="external-link">pull request</a> pending):</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="fu">git</span> clone https://github.com/krlmlr/gperftools.git -b f-export-stack</span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="bu">cd</span> gperftools</span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="ex">./autogen.sh</span></span>
@@ -235,10 +229,9 @@
 </li>
 <li>
 <p>Install the package:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="co"># install.packages("remotes")</span>
-<span class="kw">remotes</span>::<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"r-prof/jointprof"</span>)
-</pre></div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-prof/jointprof"</span><span class="op">)</span></code></pre></div>
 </li>
 </ol>
 </div>
@@ -251,85 +244,80 @@
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<p>The <a href="https://r-prof.github.io/jointprof/reference/start_profiler.html"><code>start_profiler()</code> and <code>stop_profiler()</code></a> functions are replacements for <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code> and <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof(NULL)</a></code>, respectively. The generated output file is compatible with that generated by <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code>. This enables a variety of ways to analyze the results, see also the subsequent section.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="kw">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"jointprof"</span>, fileext = <span class="st">".out"</span>)
-<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span>(<span class="kw">out_file</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>) <span class="fu">test</span>(<span class="fl">700</span>)
-<span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span>()
+<p>The <a href="https://r-prof.github.io/jointprof/reference/start_profiler.html" class="external-link"><code>start_profiler()</code> and <code>stop_profiler()</code></a> functions are replacements for <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code> and <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof(NULL)</a></code>, respectively. The generated output file is compatible with that generated by <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code>. This enables a variety of ways to analyze the results, see also the subsequent section.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"jointprof"</span>, fileext <span class="op">=</span> <span class="st">".out"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span><span class="op">(</span><span class="va">out_file</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="fu">test</span><span class="op">(</span><span class="fl">700</span><span class="op">)</span>
+<span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/strtrim.html">strtrim</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span>(<span class="kw">out_file</span>, n = <span class="fl">12</span>), <span class="fl">90</span>)
-</pre></div>
-<p>Furthermore <code><a href="../reference/start_profiler.html">stop_profiler()</a></code> returns an in-memory representation of the profiled data, invisibly. See <a href="https://r-prof.github.io/profile/reference/validate_profile.html"><code>?profiler::validate_profile</code></a> for a description of the data format.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="kw">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"jointprof"</span>, fileext = <span class="st">".out"</span>)
-<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span>(<span class="kw">out_file</span>)
-<span class="co">for</span> (<span class="kw">i</span> <span class="co">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>) <span class="fu">test</span>(<span class="fl">700</span>)
-<span class="kw">profile_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span>()
+<span class="fu"><a href="https://rdrr.io/r/base/strtrim.html" class="external-link">strtrim</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">out_file</span>, n <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>, <span class="fl">90</span><span class="op">)</span></code></pre></div>
+<p>Furthermore <code><a href="../reference/start_profiler.html">stop_profiler()</a></code> returns an in-memory representation of the profiled data, invisibly. See <a href="https://r-prof.github.io/profile/reference/validate_profile.html" class="external-link"><code>?profiler::validate_profile</code></a> for a description of the data format.</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">out_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"jointprof"</span>, fileext <span class="op">=</span> <span class="st">".out"</span><span class="op">)</span>
+<span class="fu"><a href="../reference/start_profiler.html">start_profiler</a></span><span class="op">(</span><span class="va">out_file</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span> <span class="fu">test</span><span class="op">(</span><span class="fl">700</span><span class="op">)</span>
+<span class="va">profile_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/start_profiler.html">stop_profiler</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="kw">profile_data</span>
+<span class="va">profile_data</span>
 
-<span class="kw">profile_data</span><span class="op">$</span><span class="kw">samples</span>
-<span class="kw">profile_data</span><span class="op">$</span><span class="kw">locations</span>
-<span class="kw">profile_data</span><span class="op">$</span><span class="kw">functions</span>
-</pre></div>
-<p>The profile data can be edited, and written to a file via <a href="https://r-prof.github.io/profile/reference/write_rprof.html"><code>write_rprof()</code></a> or (in <a href="https://github.com/google/pprof"><code>pprof</code></a>-compatible format) via <a href="https://r-prof.github.io/profile/reference/write_pprof.html"><code>profile::write_pprof()</code></a>. The example below removes the first 15 entries from all samples, and writes the resulting profile data in <code>pprof</code> format:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="kw">profile_data</span><span class="op">$</span><span class="kw">samples</span><span class="op">$</span><span class="kw">locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(
-  <span class="kw">profile_data</span><span class="op">$</span><span class="kw">samples</span><span class="op">$</span><span class="kw">locations</span>,
-  <span class="kw">head</span>,
+<span class="va">profile_data</span><span class="op">$</span><span class="va">samples</span>
+<span class="va">profile_data</span><span class="op">$</span><span class="va">locations</span>
+<span class="va">profile_data</span><span class="op">$</span><span class="va">functions</span></code></pre></div>
+<p>The profile data can be edited, and written to a file via <a href="https://r-prof.github.io/profile/reference/write_rprof.html" class="external-link"><code>write_rprof()</code></a> or (in <a href="https://github.com/google/pprof" class="external-link"><code>pprof</code></a>-compatible format) via <a href="https://r-prof.github.io/profile/reference/write_pprof.html" class="external-link"><code>profile::write_pprof()</code></a>. The example below removes the first 15 entries from all samples, and writes the resulting profile data in <code>pprof</code> format:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">profile_data</span><span class="op">$</span><span class="va">samples</span><span class="op">$</span><span class="va">locations</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>
+  <span class="va">profile_data</span><span class="op">$</span><span class="va">samples</span><span class="op">$</span><span class="va">locations</span>,
+  <span class="va">head</span>,
   <span class="op">-</span><span class="fl">15</span>
-)
+<span class="op">)</span>
 
-<span class="kw">pprof_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"jointprof"</span>, fileext = <span class="st">".pb.gz"</span>)
-<span class="kw">profile</span>::<span class="fu"><a href="https://rdrr.io/pkg/profile/man/read_rprof.html">write_pprof</a></span>(<span class="kw">profile_data</span>, <span class="kw">pprof_file</span>)
-</pre></div>
-<p>We then use <code>pprof</code> to visualize the call <em>graph</em>, using <a href="https://r-prof.github.io/jointprof/reference/find_pprof.html"><code>find_pprof()</code></a> to get the path to the <code>pprof</code> executable:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span>(<span class="fu">knit_dir</span>(<span class="st">"jointprof_fig"</span>), recursive = <span class="fl">TRUE</span>, showWarnings = <span class="fl">FALSE</span>)
-<span class="kw">svg_file</span> <span class="op">&lt;-</span> <span class="fu">knit_dir</span>(<span class="st">"jointprof_fig/minimal.svg"</span>)
+<span class="va">pprof_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"jointprof"</span>, fileext <span class="op">=</span> <span class="st">".pb.gz"</span><span class="op">)</span>
+<span class="fu">profile</span><span class="fu">::</span><span class="fu"><a href="https://r-prof.github.io/profile/reference/read_rprof.html" class="external-link">write_pprof</a></span><span class="op">(</span><span class="va">profile_data</span>, <span class="va">pprof_file</span><span class="op">)</span></code></pre></div>
+<p>We then use <code>pprof</code> to visualize the call <em>graph</em>, using <a href="https://r-prof.github.io/jointprof/reference/find_pprof.html" class="external-link"><code>find_pprof()</code></a> to get the path to the <code>pprof</code> executable:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="fu">knit_dir</span><span class="op">(</span><span class="st">"jointprof_fig"</span><span class="op">)</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">svg_file</span> <span class="op">&lt;-</span> <span class="fu">knit_dir</span><span class="op">(</span><span class="st">"jointprof_fig/minimal.svg"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/system2.html">system2</a></span>(
-  <span class="fu"><a href="../reference/find_pprof.html">find_pprof</a></span>(),
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/find_pprof.html">find_pprof</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
     <span class="st">"-svg"</span>,
     <span class="st">"-nodefraction 0.01"</span>,
     <span class="st">"-output"</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html">shQuote</a></span>(<span class="kw">svg_file</span>),
-    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html">shQuote</a></span>(<span class="kw">pprof_file</span>)
-  )
-)
+    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="va">svg_file</span><span class="op">)</span>,
+    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="va">pprof_file</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">png_file</span> <span class="op">&lt;-</span> <span class="fu">knit_dir</span>(<span class="st">"jointprof_fig/minimal.png"</span>)
-<span class="kw">rsvg</span>::<span class="fu"><a href="https://rdrr.io/pkg/rsvg/man/rsvg.html">rsvg_png</a></span>(<span class="kw">svg_file</span>, <span class="kw">png_file</span>, width = <span class="fl">680</span>)
-</pre></div>
+<span class="va">png_file</span> <span class="op">&lt;-</span> <span class="fu">knit_dir</span><span class="op">(</span><span class="st">"jointprof_fig/minimal.png"</span><span class="op">)</span>
+<span class="fu">rsvg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/rsvg/man/rsvg.html" class="external-link">rsvg_png</a></span><span class="op">(</span><span class="va">svg_file</span>, <span class="va">png_file</span>, width <span class="op">=</span> <span class="fl">680</span><span class="op">)</span></code></pre></div>
 <p><a href="jointprof_fig/minimal.svg"><img src="jointprof_fig/minimal.png" alt="Call graph (click to show image)"></a></p>
 <p>The call graph shows a unified view of run time costs for both R and native code. (Click on the image to see the SVG version.)</p>
 <p>For interactive exploration of a call graph, try the built-in web browser view:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/system2.html">system2</a></span>(
-  <span class="fu"><a href="../reference/find_pprof.html">find_pprof</a></span>(),
-  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system2.html" class="external-link">system2</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/find_pprof.html">find_pprof</a></span><span class="op">(</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
     <span class="st">"-http"</span>,
     <span class="st">"localhost:8080"</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html">shQuote</a></span>(<span class="kw">pprof_file</span>)
-  )
-)
-</pre></div>
+    <span class="fu"><a href="https://rdrr.io/r/base/shQuote.html" class="external-link">shQuote</a></span><span class="op">(</span><span class="va">pprof_file</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">)</span></code></pre></div>
 </div>
 <div id="other-packages-for-analyzing-profiler-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-packages-for-analyzing-profiler-data" class="anchor"></a>Other packages for analyzing profiler data</h2>
 <p>I’m aware of the following R packages that process profiler data, ordered by date of first CRAN release:</p>
 <ul>
-<li><p><a href="https://cran.r-project.org/web/packages/proftools/index.html"><em>proftools</em></a>: Mature, the paper’s includes facilities for summarizing results at the function, call, and source line level; for filtering to narrow the focus to functions of primary interest; and for visualizing profiling data. Also offers an export to <a href="http://valgrind.org/docs/manual/cl-manual.html">callgrind</a> format.</p></li>
-<li><p><a href="https://rstudio.github.io/profvis/"><em>profvis</em></a>: Interactive exploration of the flame graph and call tree in a web browser.</p></li>
-<li><p><a href="https://github.com/artemklevtsov/prof.tree#proftree"><em>prof.tree</em></a>: Shows a call tree on the console. A similar project, <a href="https://github.com/brodieG/treeprof"><em>treeprof</em></a>, never made it to CRAN.</p></li>
+<li><p><a href="https://cran.r-project.org/web/packages/proftools/index.html" class="external-link"><em>proftools</em></a>: Mature, the paper’s includes facilities for summarizing results at the function, call, and source line level; for filtering to narrow the focus to functions of primary interest; and for visualizing profiling data. Also offers an export to <a href="http://valgrind.org/docs/manual/cl-manual.html" class="external-link">callgrind</a> format.</p></li>
+<li><p><a href="https://rstudio.github.io/profvis/" class="external-link"><em>profvis</em></a>: Interactive exploration of the flame graph and call tree in a web browser.</p></li>
+<li><p><a href="https://github.com/artemklevtsov/prof.tree#proftree" class="external-link"><em>prof.tree</em></a>: Shows a call tree on the console. A similar project, <a href="https://github.com/brodieG/treeprof" class="external-link"><em>treeprof</em></a>, never made it to CRAN.</p></li>
 </ul>
 <p>I’d also like to mention two other tools outside the R ecosystem:</p>
 <ul>
-<li><p><a href="https://github.com/google/pprof"><code>pprof</code></a>: A new tool written in Go, supports varios output formats (including callgrind) and also interactive exploration of the flame graph and call graph in a web browser.</p></li>
-<li><p><a href="https://kcachegrind.github.io/html/Home.html">KCacheGrind</a>: KDE-based interactive exploration, expects callgrind input.</p></li>
+<li><p><a href="https://github.com/google/pprof" class="external-link"><code>pprof</code></a>: A new tool written in Go, supports varios output formats (including callgrind) and also interactive exploration of the flame graph and call graph in a web browser.</p></li>
+<li><p><a href="https://kcachegrind.github.io/html/Home.html" class="external-link">KCacheGrind</a>: KDE-based interactive exploration, expects callgrind input.</p></li>
 </ul>
 </div>
 <div id="caveats" class="section level2">
@@ -339,7 +327,7 @@
 <ul>
 <li>Nested calls back into R code are not fully supported yet. In situations where native code evaluates R expressions which then invoke native code again, the recorded stack trace will look wrong.</li>
 </ul>
-<p>If your R code calls into native code, or if you want to try <code>pprof</code> with R profiling results, give the <em>jointprof</em> package a try! If you discover problems or have comments, <a href="https://github.com/r-prof/jointprof/issues">file an issue</a>. I’d be especially grateful for help with other Linux distributions or OS X.</p>
+<p>If your R code calls into native code, or if you want to try <code>pprof</code> with R profiling results, give the <em>jointprof</em> package a try! If you discover problems or have comments, <a href="https://github.com/r-prof/jointprof/issues" class="external-link">file an issue</a>. I’d be especially grateful for help with other Linux distributions or OS X.</p>
 </div>
   </div>
 
@@ -354,11 +342,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.r-consortium.org">R Consortium</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link external-link">R Consortium</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -366,6 +356,8 @@
 
   
 
+
+  
 
   </body>
 </html>

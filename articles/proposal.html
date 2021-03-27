@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -37,12 +39,6 @@
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/jointprof.html">Get started</a>
 </li>
@@ -70,8 +66,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/r-prof/jointprof/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/r-prof/jointprof/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,11 +85,11 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Proposal: Joint profiling of native and R code</h1>
-                        <h4 class="author">Kirill Müller</h4>
+                        <h4 data-toc-skip class="author">Kirill Müller</h4>
             
-            <h4 class="date">2020-09-15</h4>
+            <h4 data-toc-skip class="date">2021-03-27</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/r-prof/jointprof/blob/master/vignettes/proposal.Rmd"><code>vignettes/proposal.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-prof/jointprof/blob/master/vignettes/proposal.Rmd" class="external-link"><code>vignettes/proposal.Rmd</code></a></small>
       <div class="hidden name"><code>proposal.Rmd</code></div>
 
     </div>
@@ -103,7 +99,7 @@
 <div id="the-problem" class="section level1">
 <h1 class="hasAnchor">
 <a href="#the-problem" class="anchor"></a>The problem</h1>
-<p>The <a href="http://www.moscowcoffeereview.com/programming/the-3-rules-of-optimization/">three rules of software optimization</a> are:</p>
+<p>The <a href="http://www.moscowcoffeereview.com/programming/the-3-rules-of-optimization/" class="external-link">three rules of software optimization</a> are:</p>
 <ol style="list-style-type: decimal">
 <li>Don’t.</li>
 <li>Don’t do it yet.</li>
@@ -113,9 +109,9 @@
 <div id="why-is-it-a-problem" class="section level2">
 <h2 class="hasAnchor">
 <a href="#why-is-it-a-problem" class="anchor"></a>Why is it a problem?</h2>
-<p>R has excellent facilities for profiling R code: the main entry point is the <a href="https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof"><code>Rprof()</code></a> function that starts an execution mode where the R call stack is sampled periodically, optionally at source line level, and written to a file. Memory usage can also be collected. The results of a profiling run can be analyzed with <code><a href="https://rdrr.io/r/utils/summaryRprof.html">summaryRprof()</a></code>, or visualized using the <code>profvis</code>, <code>aprof</code>, or <code>GUIProfiler</code> packages.</p>
-<p>With <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code>, the execution time of native code is only available as a bulk, without detailed source information. Conversely, when using a native code profiler such as <a href="https://gperftools.github.io/gperftools/cpuprofile.html"><code>gperftools</code></a> or <a href="http://valgrind.org/docs/manual/cl-manual.html"><code>callgrind</code></a>, the resulting profile does not contain any link to the original R source code. The same applies to memory usage information.</p>
-<p>This project aims at bridging this gap with a drop-in replacement to <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code> that records call stacks and memory usage information at both R and native levels, and later commingles them to present a unified view to the user. This drop-in replacement can be designed with support for multiple processes or threads in mind, another shortcoming of the current implementation of R’s profiler.</p>
+<p>R has excellent facilities for profiling R code: the main entry point is the <a href="https://www.rdocumentation.org/packages/utils/versions/3.3.2/topics/Rprof" class="external-link"><code>Rprof()</code></a> function that starts an execution mode where the R call stack is sampled periodically, optionally at source line level, and written to a file. Memory usage can also be collected. The results of a profiling run can be analyzed with <code><a href="https://rdrr.io/r/utils/summaryRprof.html" class="external-link">summaryRprof()</a></code>, or visualized using the <code>profvis</code>, <code>aprof</code>, or <code>GUIProfiler</code> packages.</p>
+<p>With <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code>, the execution time of native code is only available as a bulk, without detailed source information. Conversely, when using a native code profiler such as <a href="https://gperftools.github.io/gperftools/cpuprofile.html" class="external-link"><code>gperftools</code></a> or <a href="http://valgrind.org/docs/manual/cl-manual.html" class="external-link"><code>callgrind</code></a>, the resulting profile does not contain any link to the original R source code. The same applies to memory usage information.</p>
+<p>This project aims at bridging this gap with a drop-in replacement to <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code> that records call stacks and memory usage information at both R and native levels, and later commingles them to present a unified view to the user. This drop-in replacement can be designed with support for multiple processes or threads in mind, another shortcoming of the current implementation of R’s profiler.</p>
 </div>
 <div id="who-does-it-affect" class="section level2">
 <h2 class="hasAnchor">
@@ -152,7 +148,7 @@
 </ul>
 </li>
 </ol>
-<p>Calls to native code from R packages are widespread: More than 500 CRAN packages consist mostly of C code, according to a <a href="https://github.com/search?q=org%3Acran+language%3Ac&amp;ref=searchresults&amp;type=Repositories&amp;utf8=%E2%9C%93">GitHub search</a>. The <a href="https://cran.r-project.org/package=Rcpp"><code>Rcpp</code> package</a>, which makes it trivial to embed C++ code in a package, is currently used by over 900 CRAN packages. Furthermore, it is very easy to create a one-off C++ function for use in an analysis script with the help of <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html">Rcpp::cppFunction()</a></code>.</p>
+<p>Calls to native code from R packages are widespread: More than 500 CRAN packages consist mostly of C code, according to a <a href="https://github.com/search?q=org%3Acran+language%3Ac&amp;ref=searchresults&amp;type=Repositories&amp;utf8=%E2%9C%93" class="external-link">GitHub search</a>. The <a href="https://cran.r-project.org/package=Rcpp" class="external-link"><code>Rcpp</code> package</a>, which makes it trivial to embed C++ code in a package, is currently used by over 900 CRAN packages. Furthermore, it is very easy to create a one-off C++ function for use in an analysis script with the help of <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html" class="external-link">Rcpp::cppFunction()</a></code>.</p>
 </div>
 <div id="what-will-solving-the-problem-enable" class="section level2">
 <h2 class="hasAnchor">
@@ -169,11 +165,11 @@
 <li>Locate native calls (if available) in the R stack traces.</li>
 <li>Replace these by the relevant parts of the native stack traces.</li>
 </ol>
-<p>The <code>jointprof</code> package, available on GitHub at <a href="https://github.com/r-prof/jointprof" class="uri">https://github.com/r-prof/jointprof</a>, is a working proof of concept (currently only 64-bit Ubuntu Linux) for the seemingly tricky first step.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> No change to base R is necessary to achieve this. As a result, a data frame of samples is returned where each row contains both R and native stack traces (separately in two columns).</p>
-<p>The native stack traces are currently generated using the <code>gperftools</code> library because it was easiest to get started with. The ultimate choice of native profiler will depend on other factors, such as platform interoperability (in particular Windows compatibility) and ease of integration. Regardless of this choice, the joint R/native profiler will create an <code>.Rprof</code> file compatible with those created by <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code>, so that existing tools in the R ecosystem can be used to further analyze and visualize profiling results. For interoperability, the <code>proftools</code> package already offers a way to convert an <code>.Rprof</code> file to the format created by <code>callgrind</code> and understood by a number of tools outside the R ecosystem.</p>
-<p>The project includes the development of three R packages, see also the <code>jointprof</code> <a href="https://github.com/r-prof/jointprof/issues">issue tracker</a> on GitHub:</p>
+<p>The <code>jointprof</code> package, available on GitHub at <a href="https://github.com/r-prof/jointprof" class="external-link uri">https://github.com/r-prof/jointprof</a>, is a working proof of concept (currently only 64-bit Ubuntu Linux) for the seemingly tricky first step.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> No change to base R is necessary to achieve this. As a result, a data frame of samples is returned where each row contains both R and native stack traces (separately in two columns).</p>
+<p>The native stack traces are currently generated using the <code>gperftools</code> library because it was easiest to get started with. The ultimate choice of native profiler will depend on other factors, such as platform interoperability (in particular Windows compatibility) and ease of integration. Regardless of this choice, the joint R/native profiler will create an <code>.Rprof</code> file compatible with those created by <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code>, so that existing tools in the R ecosystem can be used to further analyze and visualize profiling results. For interoperability, the <code>proftools</code> package already offers a way to convert an <code>.Rprof</code> file to the format created by <code>callgrind</code> and understood by a number of tools outside the R ecosystem.</p>
+<p>The project includes the development of three R packages, see also the <code>jointprof</code> <a href="https://github.com/r-prof/jointprof/issues" class="external-link">issue tracker</a> on GitHub:</p>
 <ol style="list-style-type: decimal">
-<li>A profiler package with the <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code> drop-in replacement, based on the technique demonstrated in <code>jointprof</code>.
+<li>A profiler package with the <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code> drop-in replacement, based on the technique demonstrated in <code>jointprof</code>.
 <ul>
 <li>Read the output of the native profiler (<code>*.prof</code> files for <code>gperftools</code>).</li>
 <li>Merge R and native call stacks.</li>
@@ -183,7 +179,7 @@
 <li>A wrapper package around the native profiling library to simplify installation on Windows (and perhaps other OS-es).</li>
 <li>A helper I/O package for reading, manipulating, and writing R profiler data.</li>
 </ol>
-<p>Splitting the work in smaller packages helps code reuse and allows better testing of the individual components. In particular, the I/O package can then be used by other packages or code without having to include a potentially heavy dependency. The code and intermediate format currently used by the <code>profvis</code> package can be used as a starting point, its maintainer Winston Chang has indicated <a href="https://github.com/rstudio/profvis/issues/74#issuecomment-264495380">consent</a>.</p>
+<p>Splitting the work in smaller packages helps code reuse and allows better testing of the individual components. In particular, the I/O package can then be used by other packages or code without having to include a potentially heavy dependency. The code and intermediate format currently used by the <code>profvis</code> package can be used as a starting point, its maintainer Winston Chang has indicated <a href="https://github.com/rstudio/profvis/issues/74#issuecomment-264495380" class="external-link">consent</a>.</p>
 <p>Best practices, such as version control, continuous integration, and clean code, will be used throughout the project to ensure quality and maintainability.</p>
 <div id="timeline" class="section level2">
 <h2 class="hasAnchor">
@@ -243,7 +239,7 @@
 <ol style="list-style-type: decimal">
 <li>Roundtrips from R to native code and then back to R currently are not recorded correctly by the native profiler. Additional investigation is necessary, it may be necessary to use specific compiler switches or even a specific compiler, or to patch the profiler library. In the worst case the profiler will assign all time spent in the native code to the R code that contains the native call.</li>
 <li>It is unclear if <code>gperftools</code> or other sampling profilers can be used successfully on non-Linux operating systems, in particular on Windows. Reasonable efforts will be made to establish cross-platform compatibility, however in the worst case support for particular platforms may be restricted, and users will be instructed to use virtualization solutions.</li>
-<li>Some modes of operation, such as profiling of ad-hoc native functions created by <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html">Rcpp::cppFunction()</a></code>, may not be fully supported.</li>
+<li>Some modes of operation, such as profiling of ad-hoc native functions created by <code><a href="https://rdrr.io/pkg/Rcpp/man/cppFunction.html" class="external-link">Rcpp::cppFunction()</a></code>, may not be fully supported.</li>
 <li>Integrated memory profiling is a desirable extra, but may not be achievable as part of the project.</li>
 </ol>
 <p>I expect to finish the “Improving DBI” project, funded by the ISC, by end of April. This project, if awarded, can then start right after that. I have submitted another proposal to the ISC, “Establishing DBI”. Should both projects be accepted, I still expect to adhere to the estimated completion times.</p>
@@ -276,7 +272,7 @@
 <hr>
 <ol>
 <li id="fn1"><p>For example, with a performance regression in a development version of <code>RSQLite</code>, the R profiling results seemed inconclusive, because the extra run time was being spent during the evaluation of a promise. The C++ profiling results have indicated that time was spent evaluating R code, but of course not which particular R code. With unified profiling data, the problem would have been spotted much easier.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p>Technically, it works by calling <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code>, which installs a <code>SIGPROF</code> signal handler, and then replacing this handler by one that captures the native stack trace (using the <code>gperftools</code> library) and then records the R stack trace (by invoking the handler originally installed by <code><a href="https://rdrr.io/r/utils/Rprof.html">Rprof()</a></code>).<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Technically, it works by calling <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code>, which installs a <code>SIGPROF</code> signal handler, and then replacing this handler by one that captures the native stack trace (using the <code>gperftools</code> library) and then records the R stack trace (by invoking the handler originally installed by <code><a href="https://rdrr.io/r/utils/Rprof.html" class="external-link">Rprof()</a></code>).<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -292,11 +288,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by <a href="http://krlmlr.info">Kirill Müller</a>, <a href="https://www.r-consortium.org">R Consortium</a>.</p>
+  <p></p>
+<p>Developed by <a href="https://krlmlr.info" class="external-link external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link external-link">R Consortium</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>
@@ -304,6 +302,8 @@
 
   
 
+
+  
 
   </body>
 </html>

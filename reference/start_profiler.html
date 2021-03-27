@@ -49,6 +49,8 @@ Rprof()-compatible file given specified by the path argument." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -60,9 +62,18 @@ Rprof()-compatible file given specified by the path argument." />
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -83,12 +94,6 @@ Rprof()-compatible file given specified by the path argument." />
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/jointprof.html">Get started</a>
 </li>
 <li>
@@ -116,7 +121,7 @@ Rprof()-compatible file given specified by the path argument." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-prof/jointprof/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -146,9 +151,9 @@ is used to capture R call stacks.</p>
 <code><a href='https://rdrr.io/r/utils/Rprof.html'>Rprof()</a></code>-compatible file given specified by the <code>path</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>start_profiler</span>(path = <span class='st'>"Rprof.out"</span>, <span class='kw'>...</span>, numfiles = <span class='fl'>100L</span>, bufsize = <span class='fl'>10000L</span>)
+    <pre class="usage"><span class='fu'>start_profiler</span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"Rprof.out"</span>, <span class='va'>...</span>, numfiles <span class='op'>=</span> <span class='fl'>100L</span>, bufsize <span class='op'>=</span> <span class='fl'>10000L</span><span class='op'>)</span>
 
-<span class='fu'>stop_profiler</span>()</pre>
+<span class='fu'>stop_profiler</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,7 +175,7 @@ is used to capture R call stacks.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>stop_profiler()</code> returns (invisibly) the profiling data like it would have
-been read by <code><a href='https://rdrr.io/pkg/profile/man/read_rprof.html'>profile::read_rprof()</a></code>, validated with <code><a href='https://rdrr.io/pkg/profile/man/validate_profile.html'>profile::validate_profile()</a></code>.</p>
+been read by <code><a href='https://r-prof.github.io/profile/reference/read_rprof.html'>profile::read_rprof()</a></code>, validated with <code><a href='https://r-prof.github.io/profile/reference/validate_profile.html'>profile::validate_profile()</a></code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Profiling requires the <code>pprof</code> tool, which can be made available by
@@ -184,13 +189,13 @@ options in your <a href='https://rdrr.io/r/base/Startup.html'>.Rprofile</a> file
 format for further processing.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>start_profiler</span>(<span class='st'>"Rprof.out"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>start_profiler</span><span class='op'>(</span><span class='st'>"Rprof.out"</span><span class='op'>)</span>
 <span class='co'># code to be profiled</span>
-<span class='fu'>stop_profiler</span>()
+<span class='fu'>stop_profiler</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='kw'>profile</span>::<span class='fu'><a href='https://rdrr.io/pkg/profile/man/read_rprof.html'>read_rprof</a></span>(<span class='st'>"Rprof.out"</span>)
-}
+<span class='fu'>profile</span><span class='fu'>::</span><span class='fu'><a href='https://r-prof.github.io/profile/reference/read_rprof.html'>read_rprof</a></span><span class='op'>(</span><span class='st'>"Rprof.out"</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -203,11 +208,11 @@ format for further processing.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
+  <p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link">R Consortium</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -215,6 +220,8 @@ format for further processing.</p>
 
   
 
+
+  
 
   </body>
 </html>
