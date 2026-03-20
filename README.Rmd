@@ -126,4 +126,4 @@ system2(
 
 This project is being realized with financial support from the
 
-<img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="400">
+![](https://web.archive.org/web/201701315117/.../RConsortium_Horizontal_pantone.png)
