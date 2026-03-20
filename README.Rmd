@@ -127,3 +127,27 @@ system2(
 This project is being realized with financial support from the
 
 <img src="https://www.r-consortium.org/wp-content/uploads/sites/13/2016/09/RConsortium_Horizontal_Pantone.png" width="400">
+
+
+## Reading and Writing SQLite BLOBs
+SQLite supports storing binary data(BLOBS), such as images or files.
+
+## writing a BLOB
+you can write binary data into a Sqlite database as follows:
+
+con <- dbConnect(RSQLite::SQLite(), "my_database.db")
+
+## Example: write raw data
+data <- chaToRaw("Hello World")
+
+dbExecute(con, "CREATE TABLE test (id INTEGER data BLOB)")
+dbExecute(con, "INSERT INTO test (id, data) Values(?, ?)" , params = list(1, data))
+
+## Readig a BLOB
+
+you can read the stored binary data using:
+
+result <- dbGetQuery(con, "SELECT data FROM test WHERE id = 1")
+raw_data <- result$data[[1]] rawToChar(raw_data)
+dbDisconnect(con)
+
